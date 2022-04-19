@@ -9,11 +9,24 @@ public class Server {
 
     public static final int PORT = 80;
 
+    private String header = "", body = "", footer = "";
+
     public static void main(String[] args) throws Exception {
         Server s = new Server();
-        s.server.start();
+        ///TODO: Add elements to the site by calling methods on s
+        s.addBody("Hello world!");
 
+        s.server.start();
     }
+
+    /**
+     * Adds the input html code to the end of the website's body.
+     * @param html The code to add
+     */
+    public void addBody(String html) {
+        body += html;
+    }
+
 
     HttpServer server;
 
@@ -22,9 +35,16 @@ public class Server {
 
         server.createContext("/", (HttpExchange t) -> {
             String response =
-                    "<!doctype html>"+
-                            "van morrison was here </br>"+
-                            "Oh and hello, world";
+                "<!doctype html>"+
+                "<header>" +
+                    header +
+                "</header>" +
+                "<body>" +
+                    body +
+                "</body>" +
+                "<footer>" +
+                    footer +
+                "</header>";
             byte[] bytes = response.getBytes();
             t.sendResponseHeaders(200, bytes.length);
             OutputStream os = t.getResponseBody();
