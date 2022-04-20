@@ -38,4 +38,12 @@ public class CSVReader {
 
         return items;
     }
+
+    private static Item createItem(String[] metadata){
+        String artNr = metadata[0];
+        String name = metadata[1];
+        int price = Integer.parseInt(metadata[2]);
+
+        return new Item(artNr,name,price);
+    }
 }
