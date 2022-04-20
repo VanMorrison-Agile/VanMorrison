@@ -1,19 +1,19 @@
 public class Item {
-    private int artNumber;
+    private String artNumber;
     private String name;
     private int price;
 
-    public Item (int artNumber, String name, int price){
+    public Item (String artNumber, String name, int price){
         this.artNumber = artNumber;
         this.name = name;
         this.price = price;
     }
 
-    public int getArtNumber(){
+    public String getArtNumber(){
         return artNumber;
     }
 
-    public void setArtnumber(int artNumber){
+    public void setArtnumber(String artNumber){
         this.artNumber = artNumber;
     }
 
