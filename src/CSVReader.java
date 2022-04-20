@@ -15,13 +15,14 @@ public class CSVReader {
         this.fileName = fileName;
         readItemsFromCSV(fileName);
     }*/
+    List<Item> items;
 
-    public static void main(String... args){
-        List<Item> items = readItemsFromCSV("src/resources/exampleList.csv");
+    public CSVReader(){
+        items = readItemsFromCSV("src/resources/exampleList.csv");
+    }
 
-        for(Item i : items){
-            System.out.println(i);
-        }
+    public List<Item> getItemList(){
+        return items;
     }
 
     private static List<Item> readItemsFromCSV(String fileName){

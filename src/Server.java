@@ -11,10 +11,14 @@ public class Server {
 
     private String header = "", body = "", footer = "";
 
+    CSVReader csv = new CSVReader();
+
     public static void main(String[] args) throws Exception {
         Server s = new Server();
+
         ///TODO: Add elements to the site by calling methods on s
-        s.addBody("Hello world!");
+        s.addBody("Hello world!"
+                );
 
         s.server.start();
     }
@@ -27,6 +31,13 @@ public class Server {
         body += html;
     }
 
+    public String generateList(){
+        String s = "<br />";
+        for(Item i : csv.getItemList()){
+            s += i.toString() + "<br />";
+        }
+        return s;
+    }
 
     HttpServer server;
 
@@ -40,7 +51,8 @@ public class Server {
                     header +
                 "</header>" +
                 "<body>" +
-                    body +
+                body +
+                        generateList() +
                 "</body>" +
                 "<footer>" +
                     footer +
