@@ -18,6 +18,10 @@ public class CSVReader {
 
     public static void main(String... args){
         List<Item> items = readItemsFromCSV("resources/exampleList.csv");
+
+        for(Item i : items){
+            System.out.println(i);
+        }
     }
 
     private static List<Item> readItemsFromCSV(String fileName){

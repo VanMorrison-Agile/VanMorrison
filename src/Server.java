@@ -44,7 +44,7 @@ public class Server {
                 "</body>" +
                 "<footer>" +
                     footer +
-                "</header>";
+                "</footer></html>";
             byte[] bytes = response.getBytes();
             t.sendResponseHeaders(200, bytes.length);
             OutputStream os = t.getResponseBody();
