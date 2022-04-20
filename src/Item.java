@@ -1,9 +1,9 @@
 public class Item {
     private String artNumber;
     private String name;
-    private int price;
+    private String price;
 
-    public Item (String artNumber, String name, int price){
+    public Item (String artNumber, String name, String price){
         this.artNumber = artNumber;
         this.name = name;
         this.price = price;
@@ -25,11 +25,11 @@ public class Item {
         this.name = name;
     }
 
-    public int getPrice(){
+    public String getPrice(){
         return price;
     }
 
-    public void setPrice(int price){
+    public void setPrice(String price){
         this.price = price;
     }
 

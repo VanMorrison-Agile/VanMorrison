@@ -17,7 +17,7 @@ public class CSVReader {
     }*/
 
     public static void main(String... args){
-        List<Item> items = readItemsFromCSV("resources/exampleList.csv");
+        List<Item> items = readItemsFromCSV("src/resources/exampleList.csv");
 
         for(Item i : items){
             System.out.println(i);
@@ -28,7 +28,7 @@ public class CSVReader {
         List<Item> items = new ArrayList<Item>();
         Path pathToFile = Paths.get(fileName);
 
-        try(BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII)){
+        try(BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)){
             String line = br.readLine();
 
             while(line != null){
@@ -50,7 +50,7 @@ public class CSVReader {
     private static Item createItem(String[] metadata){
         String artNr = metadata[0];
         String name = metadata[1];
-        int price = Integer.parseInt(metadata[2]);
+        String price = metadata[2];
 
         return new Item(artNr,name,price);
     }
