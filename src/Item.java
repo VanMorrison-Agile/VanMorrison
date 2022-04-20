@@ -34,7 +34,7 @@ public class Item {
     }
 
     public String toString(){
-        return "Item [article number = " + artNumber + "name = " + name + "price = " + price + "]";
+        return "Item [article number = " + artNumber + ", name = " + name + ", price = " + price + "]";
     }
 
 }
