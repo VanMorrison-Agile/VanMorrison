@@ -10,10 +10,14 @@ import java.util.List;
 
 public class CSVReader {
 
-    String fileName;
+    /*String fileName;
     public CSVReader(String fileName){
         this.fileName = fileName;
         readItemsFromCSV(fileName);
+    }*/
+
+    public static void main(String... args){
+        List<Item> items = readItemsFromCSV("resources/exampleList.csv");
     }
 
     private static List<Item> readItemsFromCSV(String fileName){
