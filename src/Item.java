@@ -17,7 +17,7 @@ public class Item {
         this.artNumber = artNumber;
     }
 
-    public String GetName(){
+    public String getName(){
         return name;
     }
 

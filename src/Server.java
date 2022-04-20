@@ -32,10 +32,27 @@ public class Server {
     }
 
     public String generateList(){
-        String s = "<br />";
-        for(Item i : csv.getItemList()){
-            s += i.toString() + "<br />";
-        }
+        String s = "<br />" +
+                "<table>" +
+                "<tr>" +
+                   generateTableHead() +
+                "</tr>" +
+                generateTableRows() +
+                "</table>";
+        return s;
+    }
+
+    public String generateTableRows(){
+        String s = "";
+            for(int i = 1; i < csv.getItemList().size(); i++){
+                s += "<tr><td>" + csv.getItemList().get(i).getArtNumber() + "</td><td>" + csv.getItemList().get(i).getName() + "</td><td>" + csv.getItemList().get(i).getPrice() + "</td></tr>";
+            }
+        return s;
+    }
+
+    public String generateTableHead(){
+        String s = "<th>";
+        s += csv.getItemList().get(0).getArtNumber() + "</th><th>" + csv.getItemList().get(0).getName() + "</th><th>" + csv.getItemList().get(0).getPrice() + "</th>";
         return s;
     }
 
