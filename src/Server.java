@@ -57,6 +57,10 @@ public class Server {
         });
     }
 
+    /**
+     * Compiles a form for creating/updating product lists for the current providers or a new one.
+     * @return A complete html form represented as a string
+     */
     public String addProviderForm(){
         StringBuilder aa = new StringBuilder();
         try {
