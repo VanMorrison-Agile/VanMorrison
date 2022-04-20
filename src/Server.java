@@ -1,6 +1,8 @@
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 
@@ -15,6 +17,8 @@ public class Server {
         Server s = new Server();
         ///TODO: Add elements to the site by calling methods on s
         s.addBody("Hello world!");
+
+        s.addBody(s.addProviderForm());
 
         s.server.start();
     }
@@ -51,6 +55,35 @@ public class Server {
             os.write(bytes);
             os.close();
         });
+    }
+
+    public String addProviderForm(){
+        StringBuilder aa = new StringBuilder();
+        try {
+            FileReader reader = new FileReader("src/form.html");
+            while (reader.ready()) aa.append((char)reader.read());
+        } catch (Exception e) {System.out.println(e);}
+        String readData = aa.toString();
+
+        new File("provider/").list();
+
+
+        aa = new StringBuilder();
+        File folder = new File("provider");
+        File[] listOfFiles = folder.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                String companyName = listOfFiles[i].getName();
+                if (companyName.contains(".")){
+                    companyName = companyName.substring(0, companyName.lastIndexOf('.'));
+                }
+
+                aa.append("<option value=" + companyName + ">" + companyName + "</option>");
+            }
+        }
+
+        return readData.replace("#OPTIONS#", aa.toString());
     }
 }
 
