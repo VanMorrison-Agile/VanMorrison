@@ -1,13 +1,18 @@
 package VanMorrison;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
-public class pdfExport {
+public class PdfExport {
 
-    public static void main(String[] args) throws IOException {
+    public static byte [] getPdf() throws IOException {
 
         try (PDDocument doc = new PDDocument()) {
 
@@ -22,32 +27,28 @@ public class pdfExport {
                 cont.setLeading(14.5f);
 
                 cont.newLineAtOffset(25, 700);
-                String line1 = "World War II (often abbreviated to WWII or WW2), "
-                        + "also known as the Second World War,";
+                String line1 = "Häcken är ett bra lag.";
                 cont.showText(line1);
 
                 cont.newLine();
 
-                String line2 = "was a global war that lasted from 1939 to 1945, "
-                        + "although related conflicts began earlier.";
+                String line2 = "Men HBK är bättre sämre!";
                 cont.showText(line2);
-                cont.newLine();
-
-                String line3 = "It involved the vast majority of the world's "
-                        + "countries—including all of the great powers—";
-                cont.showText(line3);
-                cont.newLine();
-
-            
-                String line4 = "eventually forming two opposing military "
-                        + "alliances: the Allies and the Axis.";
-                cont.showText(line4);
                 cont.newLine();
 
                 cont.endText();
             }
 
-            doc.save("src/main/resources/wwii.pdf");
-        }
+            // Saves pdf to an outputstream, which fills a byte array. Then returns byte array.
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            doc.save(byteArrayOutputStream);
+            doc.close();
+            byte [] bytearray = new byte [(int) byteArrayOutputStream.size()];
+            InputStream inputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+            BufferedInputStream bis = new BufferedInputStream(inputStream);
+            bis.read(bytearray, 0, bytearray.length);
+
+            return bytearray;
+        } catch (IOException e) {System.out.println(e); return null;}
     }
 }

@@ -4,9 +4,6 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 
@@ -63,17 +60,13 @@ public class Server {
             Headers h = t.getResponseHeaders();
             h.add("Content-Type", "application/pdf");
 
-            // Get pdf for download
-            File file = new File ("src/main/resources/wwii.pdf");
-            byte [] bytearray  = new byte [(int)file.length()];
-            FileInputStream fis = new FileInputStream(file);
-            BufferedInputStream bis = new BufferedInputStream(fis);
-            bis.read(bytearray, 0, bytearray.length);
+            //Get byte array containing pdf
+            byte [] docBytes = PdfExport.getPdf();
 
             // Send the response.
-            t.sendResponseHeaders(200, file.length());
+            t.sendResponseHeaders(200, docBytes.length);
             OutputStream os = t.getResponseBody();
-            os.write(bytearray,0,bytearray.length);
+            os.write(docBytes,0, docBytes.length);
             os.close();
         });
     }
