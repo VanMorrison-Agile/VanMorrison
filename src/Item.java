@@ -1,20 +1,20 @@
 public class Item {
-    private String artNumber;
+    private String artNr;
     private String name;
     private String price;
 
-    public Item (String artNumber, String name, String price){
-        this.artNumber = artNumber;
+    public Item (String artNr, String name, String price){
+        this.artNr = artNr;
         this.name = name;
         this.price = price;
     }
 
-    public String getArtNumber(){
-        return artNumber;
+    public String getArtNr(){
+        return artNr;
     }
 
-    public void setArtnumber(String artNumber){
-        this.artNumber = artNumber;
+    public void setArtNr(String artNr){
+        this.artNr = artNr;
     }
 
     public String getName(){
@@ -34,7 +34,7 @@ public class Item {
     }
 
     public String toString(){
-        return "Item [article number = " + artNumber + ", name = " + name + ", price = " + price + "]";
+        return "Item [article number = " + artNr + ", name = " + name + ", price = " + price + "]";
     }
 
 }
