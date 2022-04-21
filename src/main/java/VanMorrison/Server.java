@@ -1,12 +1,15 @@
 package VanMorrison;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 
-//Test Anton
 public class Server {
 
     public static final int PORT = 80;
@@ -15,8 +18,9 @@ public class Server {
 
     public static void main(String[] args) throws Exception {
         Server s = new Server();
-        ///TODO: Add elements to the site by calling methods on s
         s.addBody("Hello world!");
+        s.addBody("<Br />");
+        s.addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
 
         s.server.start();
     }
@@ -51,6 +55,25 @@ public class Server {
             t.sendResponseHeaders(200, bytes.length);
             OutputStream os = t.getResponseBody();
             os.write(bytes);
+            os.close();
+        });
+        
+        server.createContext("/pdf", (HttpExchange t) -> {
+            // Add the required response header for a PDF file
+            Headers h = t.getResponseHeaders();
+            h.add("Content-Type", "application/pdf");
+
+            // Get pdf for download
+            File file = new File ("src/main/resources/wwii.pdf");
+            byte [] bytearray  = new byte [(int)file.length()];
+            FileInputStream fis = new FileInputStream(file);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            bis.read(bytearray, 0, bytearray.length);
+
+            // Send the response.
+            t.sendResponseHeaders(200, file.length());
+            OutputStream os = t.getResponseBody();
+            os.write(bytearray,0,bytearray.length);
             os.close();
         });
     }
