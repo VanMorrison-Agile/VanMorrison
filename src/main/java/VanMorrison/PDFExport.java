@@ -10,7 +10,7 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
-public class PdfExport {
+public class PDFExport {
 
     public static byte [] getPdf() throws IOException {
 

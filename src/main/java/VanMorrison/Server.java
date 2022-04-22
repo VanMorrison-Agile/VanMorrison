@@ -61,7 +61,7 @@ public class Server {
             h.add("Content-Type", "application/pdf");
 
             //Get byte array containing pdf
-            byte [] docBytes = PdfExport.getPdf();
+            byte [] docBytes = PDFExport.getPdf();
 
             // Send the response.
             t.sendResponseHeaders(200, docBytes.length);
