@@ -2,9 +2,7 @@ import Data.Parameter;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.util.Map;
 
@@ -66,10 +64,26 @@ public class Server {
             byte[] csvData = params.get("uploadedFile").getData();
             String prov = params.get("provider").getDataAsString();
 
-            /*
-            if (prov != "new") {
+            if (prov.equals("new")) {
+                prov = params.get("uploadedFile").getFileName();
+                if (prov.lastIndexOf(".") != -1)
+                    prov = prov.substring(0,prov.lastIndexOf("."));
+            }
 
-            }*/
+            String tempString = "provider/" + prov + ".csv";
+            File file = new File(tempString);
+            file.delete();
+            file.createNewFile();
+            try {
+
+                FileOutputStream writer = new FileOutputStream(file);
+                writer.write(csvData);
+                writer.close();
+
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
+
 
             byte[] bytes = response.getBytes();
             t.sendResponseHeaders(200, bytes.length);
