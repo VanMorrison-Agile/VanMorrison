@@ -18,9 +18,7 @@ public class htmlUtility {
     public static Map<String, Parameter> getParameters(InputStream requestStream){
         try {
             Path tempPlaceToStoreData = Files.createTempFile(null, null);
-            System.out.println("EE " + requestStream.available());
             Files.copy(requestStream, tempPlaceToStoreData, StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("GOT: " + Files.readAllBytes(tempPlaceToStoreData).length + "\nDATA: " + new String(Files.readAllBytes(tempPlaceToStoreData)));
             MimeMultipart formData = new MimeMultipart(new FileDataSource(tempPlaceToStoreData.toFile()));
 
             int count = formData.getCount();
@@ -33,10 +31,11 @@ public class htmlUtility {
                 ContentDisposition disposition =
                         new ContentDisposition(((MimePart)part).getHeader("Content-Disposition", (String)null));
 
-                System.out.println("DIS \n" + part.getDisposition());
-                System.out.println("FILE " + part.getFileName());
                 String name = disposition.getParameter("name");
+                System.out.println("NAME " + name);
+                System.out.println("WANTED SIZE " + part.getInputStream().available());
                 byte[] partData = part.getInputStream().readAllBytes();
+                System.out.println("READ SIZE " + partData.length);
                 Parameter parameterEntry = new Parameter(formData.getBodyPart(i), partData);
                 parts.put(name, parameterEntry);
 

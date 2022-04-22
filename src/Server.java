@@ -1,3 +1,4 @@
+import Data.Parameter;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
@@ -5,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.util.Map;
 
 //Test Anton
 public class Server {
@@ -55,6 +57,36 @@ public class Server {
             os.write(bytes);
             os.close();
         });
+
+        server.createContext("/addProvider", (HttpExchange t) -> {
+            String response = readHTML("src/addProvider.html");
+            Map<String, Parameter> params = htmlUtility.getParameters(t.getRequestBody());
+
+            //DO BUSINESS LOGIC
+            byte[] csvData = params.get("uploadedFile").getData();
+            String prov = params.get("provider").getDataAsString();
+
+            /*
+            if (prov != "new") {
+
+            }*/
+
+            byte[] bytes = response.getBytes();
+            t.sendResponseHeaders(200, bytes.length);
+            OutputStream os = t.getResponseBody();
+            os.write(bytes);
+            os.close();
+        });
+    }
+
+
+    public String readHTML(String filename){
+        StringBuilder html = new StringBuilder();
+        try {
+            FileReader reader = new FileReader(filename);
+            while (reader.ready()) html.append((char)reader.read());
+        } catch (Exception e) {System.out.println(e);}
+        return html.toString();
     }
 
     /**
@@ -62,17 +94,9 @@ public class Server {
      * @return A complete html form represented as a string
      */
     public String addProviderForm(){
+        String readData = readHTML("src/form.html");
+
         StringBuilder aa = new StringBuilder();
-        try {
-            FileReader reader = new FileReader("src/form.html");
-            while (reader.ready()) aa.append((char)reader.read());
-        } catch (Exception e) {System.out.println(e);}
-        String readData = aa.toString();
-
-        new File("provider/").list();
-
-
-        aa = new StringBuilder();
         File folder = new File("provider");
         File[] listOfFiles = folder.listFiles();
 
