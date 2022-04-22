@@ -1,6 +1,9 @@
 package Data;
 
 import javax.mail.BodyPart;
+import javax.mail.MessagingException;
+import javax.mail.internet.ContentDisposition;
+import javax.mail.internet.MimePart;
 
 public class Parameter{
     BodyPart body;
@@ -16,6 +19,15 @@ public class Parameter{
     }
 
     public String getDataAsString(){ return new String(data); }
+
+    public String getFileName(){
+        try {
+            return body.getFileName();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return "READ FILENAME ERROR";
+        }
+    }
 
     public BodyPart getBody(){
         return body;
