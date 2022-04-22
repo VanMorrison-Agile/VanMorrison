@@ -30,7 +30,7 @@ public class Server {
     public void addBody(String html) {
         body += html;
     }
-    public void addStyle(){ style += csv.getStyle(); }
+    private void addStyle(){ style += csv.getStyle(); }
 
     HttpServer server;
 
@@ -46,7 +46,7 @@ public class Server {
                 "</header>" +
                 "<body>" +
                     body +
-                        csv.printToString() +
+                    csv.printToString() +
                 "</body>" +
                 "<footer>" +
                     footer +
