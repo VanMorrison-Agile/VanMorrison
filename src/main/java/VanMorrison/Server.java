@@ -11,10 +11,13 @@ public class Server {
 
     public static final int PORT = 80;
 
-    private String header = "", body = "", footer = "";
+    private String header = "",style ="", body = "", footer = "";
+
+    CSVReader csv = new CSVReader();
 
     public static void main(String[] args) throws Exception {
         Server s = new Server();
+        s.addStyle();
         s.addBody("Hello world!");
         s.addBody("<Br />");
         s.addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
@@ -29,7 +32,7 @@ public class Server {
     public void addBody(String html) {
         body += html;
     }
-
+    private void addStyle(){ style += csv.getStyle(); }
 
     HttpServer server;
 
@@ -40,14 +43,16 @@ public class Server {
             String response =
                 "<!doctype html>"+
                 "<header>" +
+                    style +
                     header +
                 "</header>" +
                 "<body>" +
                     body +
+                    csv.printToString() +
                 "</body>" +
                 "<footer>" +
                     footer +
-                "</header>";
+                "</footer></html>";
             byte[] bytes = response.getBytes();
             t.sendResponseHeaders(200, bytes.length);
             OutputStream os = t.getResponseBody();
