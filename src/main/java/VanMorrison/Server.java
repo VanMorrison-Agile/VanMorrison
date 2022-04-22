@@ -41,7 +41,10 @@ public class Server {
 
         server.createContext("/", (HttpExchange t) -> {
             String response =
-                "<!doctype html>"+
+                "<!doctype html>" +
+                        "<head>\n" +
+                        "<meta charset=\"UTF-8\">\n" +
+                        "</head>"+
                 "<header>" +
                     style +
                     header +
