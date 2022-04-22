@@ -13,25 +13,16 @@ public class Item {
         return artNumber;
     }
 
-    public void setArtnumber(String artNumber){
-        this.artNumber = artNumber;
-    }
 
     public String getName(){
         return name;
     }
 
-    public void setName(String name){
-        this.name = name;
-    }
 
     public String getPrice(){
         return price;
     }
 
-    public void setPrice(String price){
-        this.price = price;
-    }
 
     public String toString(){
         return "Item [article number = " + artNumber + ", name = " + name + ", price = " + price + "]";

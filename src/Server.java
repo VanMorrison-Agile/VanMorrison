@@ -9,7 +9,7 @@ public class Server {
 
     public static final int PORT = 80;
 
-    private String header = "", body = "", footer = "";
+    private String header = "",style ="", body = "", footer = "";
 
     CSVReader csv = new CSVReader();
 
@@ -17,8 +17,8 @@ public class Server {
         Server s = new Server();
 
         ///TODO: Add elements to the site by calling methods on s
-        s.addBody("Hello world!"
-                );
+        s.addStyle();
+        s.addBody("Hello world!");
 
         s.server.start();
     }
@@ -30,31 +30,7 @@ public class Server {
     public void addBody(String html) {
         body += html;
     }
-
-    public String generateList(){
-        String s = "<br />" +
-                "<table>" +
-                "<tr>" +
-                   generateTableHead() +
-                "</tr>" +
-                generateTableRows() +
-                "</table>";
-        return s;
-    }
-
-    public String generateTableRows(){
-        String s = "";
-            for(int i = 1; i < csv.getItemList().size(); i++){
-                s += "<tr><td>" + csv.getItemList().get(i).getArtNumber() + "</td><td>" + csv.getItemList().get(i).getName() + "</td><td>" + csv.getItemList().get(i).getPrice() + "</td></tr>";
-            }
-        return s;
-    }
-
-    public String generateTableHead(){
-        String s = "<th>";
-        s += csv.getItemList().get(0).getArtNumber() + "</th><th>" + csv.getItemList().get(0).getName() + "</th><th>" + csv.getItemList().get(0).getPrice() + "</th>";
-        return s;
-    }
+    public void addStyle(){ style += csv.getStyle(); }
 
     HttpServer server;
 
@@ -65,11 +41,12 @@ public class Server {
             String response =
                 "<!doctype html>"+
                 "<header>" +
+                    style +
                     header +
                 "</header>" +
                 "<body>" +
-                body +
-                        generateList() +
+                    body +
+                        csv.printToString() +
                 "</body>" +
                 "<footer>" +
                     footer +
