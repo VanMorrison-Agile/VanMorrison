@@ -17,6 +17,7 @@ public class Server {
 
     public static void main(String[] args) throws Exception {
         Server s = new Server();
+        s.addStyle();
         s.addBody("Hello world!");
         s.addBody("<Br />");
         s.addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");

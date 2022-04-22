@@ -1,3 +1,4 @@
+package VanMorrison;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -18,7 +19,7 @@ public class CSVReader {
     List<Item> items;
 
     public CSVReader(){
-        items = readItemsFromCSV("src/resources/exampleList.csv");
+        items = readItemsFromCSV("src/main/resources/exampleList.csv");
     }
 
     public List<Item> getItemList(){
