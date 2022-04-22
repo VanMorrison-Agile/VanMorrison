@@ -75,14 +75,14 @@ public class CSVReader {
     private String generateTableRows(){
         String s = "";
         for(int i = 1; i < getItemList().size(); i++){
-            s += "<tr><td>" + getItemList().get(i).getArtNumber() + "</td><td>" + getItemList().get(i).getName() + "</td><td>" + getItemList().get(i).getPrice() + "</td></tr>";
+            s += "<tr><td>" + getItemList().get(i).getArtNr() + "</td><td>" + getItemList().get(i).getName() + "</td><td>" + getItemList().get(i).getPrice() + "</td></tr>";
         }
         return s;
     }
 
     private String generateTableHead(){
         String s = "<th>";
-        s += getItemList().get(0).getArtNumber() + "</th><th>" + getItemList().get(0).getName() + "</th><th>" + getItemList().get(0).getPrice() + "</th>";
+        s += getItemList().get(0).getArtNr() + "</th><th>" + getItemList().get(0).getName() + "</th><th>" + getItemList().get(0).getPrice() + "</th>";
         return s;
     }
 
