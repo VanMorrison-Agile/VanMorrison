@@ -1,4 +1,6 @@
-import Data.Parameter;
+package VanMorrison;
+
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
@@ -6,12 +8,13 @@ import java.io.*;
 import java.net.InetSocketAddress;
 import java.util.Map;
 
-//Test Anton
 public class Server {
 
     public static final int PORT = 80;
 
-    private String header = "", body = "", footer = "";
+    private String header = "",style ="", body = "", footer = "";
+
+    CSVReader csv = new CSVReader();
 
     private static Server s;
 
@@ -29,6 +32,7 @@ public class Server {
         body += html;
     }
 
+    private void addStyle(){ style += csv.getStyle(); }
 
     HttpServer server;
 
@@ -37,16 +41,21 @@ public class Server {
 
         server.createContext("/", (HttpExchange t) -> {
             String response =
-                "<!doctype html>"+
+                "<!doctype html>" +
+                        "<head>\n" +
+                        "<meta charset=\"UTF-8\">\n" +
+                        "</head>"+
                 "<header>" +
+                    style +
                     header +
                 "</header>" +
                 "<body>" +
                     body +
+                    csv.printToString() +
                 "</body>" +
                 "<footer>" +
                     footer +
-                "</header>";
+                "</footer></html>";
             byte[] bytes = response.getBytes();
             t.sendResponseHeaders(200, bytes.length);
             OutputStream os = t.getResponseBody();
@@ -95,6 +104,21 @@ public class Server {
                 e.printStackTrace();
             }
         });
+        
+        server.createContext("/pdf", (HttpExchange t) -> {
+            // Add the required response header for a PDF file
+            Headers h = t.getResponseHeaders();
+            h.add("Content-Type", "application/pdf");
+
+            //Get byte array containing pdf
+            byte [] docBytes = PDFExport.getPdf();
+
+            // Send the response.
+            t.sendResponseHeaders(200, docBytes.length);
+            OutputStream os = t.getResponseBody();
+            os.write(docBytes,0, docBytes.length);
+            os.close();
+        });
     }
 
 
@@ -125,7 +149,7 @@ public class Server {
                     companyName = companyName.substring(0, companyName.lastIndexOf('.'));
                 }
 
-                aa.append("<option value=" + companyName + ">" + companyName + "</option>");
+                aa.append("<option value=\"" + companyName + "\">" + companyName + "</option>");
             }
         }
 
@@ -136,10 +160,13 @@ public class Server {
         ///TODO: Add elements to the site by calling methods on s
 
         s.body = "";
-
+        s.header = "<meta charset=\"UTF-16\">";
+        s.addStyle();
         s.addBody("Hello world!");
-
         s.addBody(s.addProviderForm());
+        s.addBody("<Br />");
+        s.addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
+
     }
 }
 
