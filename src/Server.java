@@ -58,7 +58,7 @@ public class Server {
 
         server.createContext("/addProvider", (HttpExchange t) -> {
             String response = readHTML("src/addProvider.html");
-            Map<String, Parameter> params = htmlUtility.getParameters(t.getRequestBody());
+            Map<String, Parameter> params = htmlUtility.getMimeParameters(t.getRequestBody());
 
             //DO BUSINESS LOGIC
             byte[] csvData = params.get("uploadedFile").getData();
