@@ -13,13 +13,11 @@ public class Server {
 
     private String header = "", body = "", footer = "";
 
+    private static Server s;
+
     public static void main(String[] args) throws Exception {
-        Server s = new Server();
-        ///TODO: Add elements to the site by calling methods on s
-        s.addBody("Hello world!");
-
-        s.addBody(s.addProviderForm());
-
+        s = new Server();
+        generateMain();
         s.server.start();
     }
 
@@ -54,6 +52,7 @@ public class Server {
             OutputStream os = t.getResponseBody();
             os.write(bytes);
             os.close();
+            generateMain();
         });
 
         server.createContext("/addProvider", (HttpExchange t) -> {
@@ -90,6 +89,11 @@ public class Server {
             OutputStream os = t.getResponseBody();
             os.write(bytes);
             os.close();
+            try {
+                generateMain();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -126,6 +130,16 @@ public class Server {
         }
 
         return readData.replace("#OPTIONS#", aa.toString());
+    }
+
+    public static void generateMain() {
+        ///TODO: Add elements to the site by calling methods on s
+
+        s.body = "";
+
+        s.addBody("Hello world!");
+
+        s.addBody(s.addProviderForm());
     }
 }
 
