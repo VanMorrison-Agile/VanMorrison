@@ -8,11 +8,13 @@ import java.io.*;
 import java.net.InetSocketAddress;
 import java.util.Map;
 
+import Data.Parameter;
+
 public class Server {
 
     public static final int PORT = 80;
 
-    private String header = "",style ="", body = "", footer = "";
+    private String header = "",style ="", body = "", footer = "", script = "";
 
     CSVReader csv = new CSVReader();
 
@@ -20,7 +22,7 @@ public class Server {
 
     public static void main(String[] args) throws Exception {
         s = new Server();
-        generateMain();
+        s.generateMain();
         s.server.start();
     }
 
@@ -51,11 +53,14 @@ public class Server {
                 "</header>" +
                 "<body>" +
                     body +
-                    csv.printToString() +
                 "</body>" +
                 "<footer>" +
                     footer +
-                "</footer></html>";
+                "</footer>" +
+                        "<script>" +
+                        script +
+                        "</script>" +
+                        "</html>";
             byte[] bytes = response.getBytes();
             t.sendResponseHeaders(200, bytes.length);
             OutputStream os = t.getResponseBody();
@@ -66,7 +71,7 @@ public class Server {
 
         server.createContext("/addProvider", (HttpExchange t) -> {
             String response = readHTML("src/addProvider.html");
-            Map<String, Parameter> params = htmlUtility.getMimeParameters(t.getRequestBody());
+            Map<String, Data.Parameter> params = HTMLUtility.getMimeParameters(t.getRequestBody());
 
             //DO BUSINESS LOGIC
             byte[] csvData = params.get("uploadedFile").getData();
@@ -156,16 +161,18 @@ public class Server {
         return readData.replace("#OPTIONS#", aa.toString());
     }
 
-    public static void generateMain() {
+    public void generateMain() {
         ///TODO: Add elements to the site by calling methods on s
 
-        s.body = "";
-        s.header = "<meta charset=\"UTF-16\">";
-        s.addStyle();
-        s.addBody("Hello world!");
-        s.addBody(s.addProviderForm());
-        s.addBody("<Br />");
-        s.addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
+        body = "";
+        header = "<meta charset=\"UTF-16\">";
+        addStyle();
+        addBody("Hello world!");
+        addBody(addProviderForm());
+        addBody("<Br />");
+        addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
+
+        addBody(csv.printToString() +);
 
     }
 }
