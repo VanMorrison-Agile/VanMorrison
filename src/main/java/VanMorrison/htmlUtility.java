@@ -1,7 +1,5 @@
 package VanMorrison;
 
-import Data.Parameter;
-
 import javax.activation.FileDataSource;
 import javax.mail.BodyPart;
 import javax.mail.internet.*;
