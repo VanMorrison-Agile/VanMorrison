@@ -34,6 +34,10 @@ public class Server {
         body += html;
     }
 
+    public void addScript(String javascript) {
+        script += javascript;
+    }
+
     private void addStyle(){ style += csv.getStyle(); }
 
     HttpServer server;
@@ -172,7 +176,13 @@ public class Server {
         addBody("<Br />");
         addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
 
-        addBody(csv.printToString() +);
+        addBody(csv.printToString());
+
+        addScript(
+                "function addItem(id) {\n" +
+                        "  alert('Replace this alert with adding item ' + id);\n" +
+                        "}"
+        );
 
     }
 }
