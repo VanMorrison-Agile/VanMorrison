@@ -65,6 +65,46 @@ public class Server {
             generateMain();
         });
 
+        server.createContext("/viewProvider", (HttpExchange t) -> {
+            String response = readHTML("src/viewProvider.html");
+
+            String[] pathnames;
+
+            File folder = new File("provider");
+
+            // Populates the array with names of files and directories
+            pathnames = folder.list();
+
+            // For each pathname in the pathnames array
+            for (String pathname : pathnames) {
+                // Print the names of files and directories
+                System.out.println(pathname);
+            }
+
+            byte[] bytes = response.getBytes();
+            t.sendResponseHeaders(200, bytes.length);
+            OutputStream os = t.getResponseBody();
+            os.write(bytes);
+            os.close();
+
+        });
+
+        server.createContext("/products", (HttpExchange t) -> {
+            //String response = readHTML("src/viewProvider.html");
+
+            String response = t.getRequestURI().toString();
+            response = response.substring(10);
+
+
+
+            byte[] bytes = response.getBytes();
+            t.sendResponseHeaders(200, bytes.length);
+            OutputStream os = t.getResponseBody();
+            os.write(bytes);
+            os.close();
+
+        });
+
         server.createContext("/addProvider", (HttpExchange t) -> {
             String response = readHTML("src/addProvider.html");
             Map<String, Parameter> params = htmlUtility.getMimeParameters(t.getRequestBody());
