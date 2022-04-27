@@ -66,11 +66,14 @@ public class Server {
         });
 
         server.createContext("/viewProvider", (HttpExchange t) -> {
-            String response = readHTML("src/viewProvider.html");
+            //String response = readHTML("src/viewProvider.html");
+            HtmlParser h = new HtmlParser("src/viewProvider.html");
+            StringBuilder htmlProviders = new StringBuilder();
 
             String[] pathnames;
 
             File folder = new File("provider");
+            File[] listOfFiles = folder.listFiles();
 
             // Populates the array with names of files and directories
             pathnames = folder.list();
@@ -78,8 +81,11 @@ public class Server {
             // For each pathname in the pathnames array
             for (String pathname : pathnames) {
                 // Print the names of files and directories
-                System.out.println(pathname);
+                htmlProviders.append("<li><a href=\"/products/ikea\">"+pathname+"</a></li>");
             }
+
+            h.set("lis", htmlProviders.toString());
+            String response = h.getString();
 
             byte[] bytes = response.getBytes();
             t.sendResponseHeaders(200, bytes.length);
@@ -91,6 +97,13 @@ public class Server {
 
         server.createContext("/products", (HttpExchange t) -> {
             //String response = readHTML("src/viewProvider.html");
+//            System.out.println("test");
+//            HtmlParser h = new HtmlParser("src/viewProvider.html");
+//            h.set("hej", "inte hej");
+//            h.set("main", "main2");
+//            h.set("vad är den", "här");
+//
+//            System.out.println(h.getString());
 
             String response = t.getRequestURI().toString();
             response = response.substring(10);
