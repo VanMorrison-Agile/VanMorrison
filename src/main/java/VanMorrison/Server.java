@@ -3,9 +3,14 @@ package VanMorrison;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import org.apache.pdfbox.pdmodel.interactive.form.FieldUtils;
 
 import java.io.*;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 
@@ -82,7 +87,8 @@ public class Server {
             for (String pathname : pathnames) {
                 // Print the names of files and directories
                 pathname = pathname.substring(0,pathname.lastIndexOf("."));
-                htmlProviders.append("<li><a href=\"/products/ikea\">"+pathname+"</a></li>");
+                htmlProviders.append("<li><a href=\"/products/"+pathname+"\">"+pathname+"</a></li>");
+
             }
 
             h.set("lis", htmlProviders.toString());
@@ -174,7 +180,63 @@ public class Server {
             os.write(docBytes,0, docBytes.length);
             os.close();
         });
+
+
+
+        server.createContext("/styles", (HttpExchange t) -> {
+            // Add the required response header for a PDF file
+            String path = "src/styles/viewProvider.css";
+
+            File file = new File(path);
+            System.out.println(file.canRead());
+            if(!file.exists()){
+
+                Headers h = t.getResponseHeaders();
+                h.add("Content-Type", "text/css");
+
+//                Path p = Paths.get(path);
+
+                try{
+
+                    FileInputStream fl = new FileInputStream(file);
+
+                    // Now creating byte array of same length as file
+                    byte[] bytes = new byte[(int)file.length()];
+
+                    // Reading file content to byte array
+                    // using standard read() method
+                    fl.read(bytes);
+
+                    // lastly closing an instance of file input stream
+                    // to avoid memory leakage
+                    fl.close();
+
+
+                    //System.out.println(file.getAbsolutePath());
+                    //byte[] bytes = Files.readAllBytes(file.toPath());
+                    t.sendResponseHeaders(404, bytes.length);
+                    OutputStream os = t.getResponseBody();
+                    os.write(bytes);
+                    os.close();
+                }catch (Exception e){
+                    System.out.println(e);
+                }
+                //System.out.println(bytes.length);
+
+            }else{
+                System.out.println("finns inte!!!");
+                String message = "File was not found";
+                byte[] messageBytes = message.getBytes();
+                t.sendResponseHeaders(404, messageBytes.length);
+                OutputStream os = t.getResponseBody();
+                os.write(messageBytes);
+                os.close();
+            }
+        });
     }
+
+
+
 
 
     public String readHTML(String filename){
