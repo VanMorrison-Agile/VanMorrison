@@ -29,6 +29,14 @@ public class Parameter{
     public String getDataAsString(){ return new String(data); }
 
     /**
+     * @return The data as strings separated by (,)
+     */
+    public String[] getDataAsStringArray(){
+        String stringData = new String(data);
+        return stringData.split(",");
+    }
+
+    /**
      * Only works if the parameter contains filename data
      * @return The file name of a "file" type parameter
      */

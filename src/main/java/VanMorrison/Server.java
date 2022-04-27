@@ -178,6 +178,7 @@ public class Server {
 
         addBody(csv.printToString());
 
+        addBody(readHTML("src/html/cartSubmitForm.html"));
 
         String cartItemsContent = "";
         for (Item item:
@@ -212,6 +213,25 @@ public class Server {
             function removeItem(id) {
                 cartItems[id]--;
                 updateItem(id);
+            }
+            
+            function addItemsToCartForm(){
+                var form = document.getElementById("sendOrderForm");
+                for(const [artNr, count] of Object.entries(cartItems)){
+                    if (count != 0){
+                        var itemInput = document.createElement("input");
+                        itemInput.setAttribute("name", "itemNr[]");
+                        itemInput.setAttribute("type", "hidden");
+                        itemInput.setAttribute("value", artNr);
+                        form.appendChild(itemInput);
+                        
+                        itemInput = document.createElement("input");
+                        itemInput.setAttribute("name", "itemCount[]");
+                        itemInput.setAttribute("type", "hidden");
+                        itemInput.setAttribute("value", count);
+                        form.appendChild(itemInput);
+                    }
+                }
             }
             """
         );
