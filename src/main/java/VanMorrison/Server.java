@@ -81,6 +81,7 @@ public class Server {
             // For each pathname in the pathnames array
             for (String pathname : pathnames) {
                 // Print the names of files and directories
+                pathname = pathname.substring(0,pathname.lastIndexOf("."));
                 htmlProviders.append("<li><a href=\"/products/ikea\">"+pathname+"</a></li>");
             }
 
