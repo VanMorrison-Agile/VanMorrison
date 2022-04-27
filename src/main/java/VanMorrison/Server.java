@@ -178,10 +178,42 @@ public class Server {
 
         addBody(csv.printToString());
 
+
+        String cartItemsContent = "";
+        for (Item item:
+             csv.items) {
+            cartItemsContent += item.getArtNr() + ": 0,"; //I think js is alright with a trailing comma
+        }
         addScript(
-                "function addItem(id) {\n" +
-                        "  alert('Replace this alert with adding item ' + id);\n" +
-                        "}"
+    """
+            var cartItems = {
+            """
+                + cartItemsContent +
+            """
+            };
+            
+            
+            
+            function updateItem(id) {
+                document.getElementById('cart' + id + 'Number').innerHTML = cartItems[id];
+                var cartItemDisplay = document.getElementById('cart' + id);
+                if (carItems[id] < 1) {
+                    cartItemDisplay.style.display="none";
+                } else {
+                    cartItemDisplay.style.display="block"
+                }
+            }
+            
+            function addItem(id) {
+                cartItems[id]++;
+                updateItem(id);
+            }
+            
+            function removeItem(id) {
+                cartItems[id]--;
+                updateItem(id);
+            }
+            """
         );
 
     }
