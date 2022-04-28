@@ -45,11 +45,10 @@ public class HtmlParser {
 
     public String getString(){
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < htmlParts.length-1; i++){
-            sb.append(htmlParts[i]);
-            sb.append(keys.get(matches.get(i)));
+        for(int i = 0; i < Math.max(htmlParts.length, matches.size()); i++){
+            if(i < htmlParts.length) sb.append(htmlParts[i]);
+            if(i < matches.size()) sb.append(keys.get(matches.get(i)));
         }
-        sb.append(htmlParts[htmlParts.length-1]);
         return sb.toString();
     }
 
@@ -61,4 +60,6 @@ public class HtmlParser {
         } catch (Exception e) {System.out.println(e);}
         return html.toString();
     }
+
+
 }
