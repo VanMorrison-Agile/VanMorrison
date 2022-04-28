@@ -93,6 +93,13 @@ public class PDFExport {
                     throw new IllegalArgumentException("One price value is in wrong format");
                 }
 
+                // Add last row for the total sum of prices
+                Row<PDPage> totalPriceRow = table.createRow(20);
+                Cell<PDPage> cell = totalPriceRow.createCell(67, "Total summa exkl. moms:");
+                cell.setFontSize(15);
+                cell = totalPriceRow.createCell(33, totalPrice.toString());
+                cell.setFontSize(15);
+
                 table.draw();
             }
 
