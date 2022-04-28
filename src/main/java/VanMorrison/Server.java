@@ -184,54 +184,34 @@ public class Server {
 
 
         server.createContext("/styles", (HttpExchange t) -> {
-            // Add the required response header for a PDF file
-            String path = "src/styles/viewProvider.css";
 
-            File file = new File(path);
-            System.out.println(file.canRead());
-            if(!file.exists()){
+            //generate path to file from URI
+            String file = t.getRequestURI().toString().substring(8);
+            String path = "src/styles/"+file;
 
-                Headers h = t.getResponseHeaders();
-                h.add("Content-Type", "text/css");
-
-//                Path p = Paths.get(path);
-
-                try{
-
-                    FileInputStream fl = new FileInputStream(file);
-
-                    // Now creating byte array of same length as file
-                    byte[] bytes = new byte[(int)file.length()];
-
-                    // Reading file content to byte array
-                    // using standard read() method
-                    fl.read(bytes);
-
-                    // lastly closing an instance of file input stream
-                    // to avoid memory leakage
-                    fl.close();
-
-
-                    //System.out.println(file.getAbsolutePath());
-                    //byte[] bytes = Files.readAllBytes(file.toPath());
-                    t.sendResponseHeaders(404, bytes.length);
-                    OutputStream os = t.getResponseBody();
-                    os.write(bytes);
-                    os.close();
-                }catch (Exception e){
-                    System.out.println(e);
-                }
-                //System.out.println(bytes.length);
-
-            }else{
-                System.out.println("finns inte!!!");
-                String message = "File was not found";
-                byte[] messageBytes = message.getBytes();
-                t.sendResponseHeaders(404, messageBytes.length);
+            //Reads css file to string
+            StringBuilder html = new StringBuilder();
+            try {
+                FileReader reader = new FileReader(path);
+                while (reader.ready()) html.append((char)reader.read());
+            } catch (Exception e) {
+                String msg = "File cannot be found";
+                byte[] msgBytes = msg.getBytes();
+                System.out.println(e);
+                t.sendResponseHeaders(404, msgBytes.length);
                 OutputStream os = t.getResponseBody();
-                os.write(messageBytes);
+                os.write(msgBytes);
                 os.close();
+                return;
             }
+            String response =  html.toString();
+
+            //Sends file to client
+            byte[] bytes = response.getBytes();
+            t.sendResponseHeaders(200, bytes.length);
+            OutputStream os = t.getResponseBody();
+            os.write(bytes);
+            os.close();
         });
     }
 

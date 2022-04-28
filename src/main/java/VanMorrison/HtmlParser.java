@@ -25,7 +25,6 @@ public class HtmlParser {
     }
 
     private void parse(){
-        System.out.println("matches:");
         htmlParts = rawHtml.split(matchReg);
 
         Pattern pat = Pattern.compile(matchReg);
