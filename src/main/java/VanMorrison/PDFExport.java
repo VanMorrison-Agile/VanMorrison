@@ -4,17 +4,21 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.awt.Color;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import be.quodlibet.boxable.BaseTable;
 import be.quodlibet.boxable.Cell;
 import be.quodlibet.boxable.Row;
+import be.quodlibet.boxable.line.LineStyle;
 
 public class PDFExport {
 
@@ -45,37 +49,46 @@ public class PDFExport {
         cell.setFontSize(15);
     }
 
-    public static byte [] getPdf() throws IOException {
+    public static byte [] getPdf(List<Item> items) throws IOException {
 
-        try (PDDocument doc = new PDDocument()) {
+        try (PDDocument document = new PDDocument()) {
 
-            PDPage myPage = new PDPage();
-            doc.addPage(myPage);
+            // Create a document and add a page to it (A4 for printing)
+            PDPage page = new PDPage(PDRectangle.A4);
+            document.addPage(page);
 
-            try (PDPageContentStream cont = new PDPageContentStream(doc, myPage)) {
+            try (PDPageContentStream cos = new PDPageContentStream(document, page)) {
 
-                cont.beginText();
+                float margin = 50;
+                // starting y position is whole page height subtracted by top and bottom margin
+                float yStartNewPage = page.getMediaBox().getHeight() - (2 * margin);
+                // we want table across whole page width (subtracted by left and right margin ofcourse)
+                float tableWidth = page.getMediaBox().getWidth() - (2 * margin);
 
-                cont.setFont(PDType1Font.TIMES_ROMAN, 12);
-                cont.setLeading(14.5f);
+                boolean drawContent = true;
 
-                cont.newLineAtOffset(25, 700);
-                String line1 = "Häcken är ett bra lag.";
-                cont.showText(line1);
+                float bottomMargin = 70;
+                // y position is your coordinate of top left corner of the table
+                float yPosition = yStartNewPage;
 
-                cont.newLine();
+                BaseTable table = new BaseTable(yPosition, yStartNewPage,
+                    bottomMargin, tableWidth, margin, document, page, true, drawContent);
 
-                String line2 = "Men HBK är bättre sämre!";
-                cont.showText(line2);
-                cont.newLine();
+                // Row for the headers
+                Row<PDPage> headerRow = table.createRow(30);
+                List<String> headers = new ArrayList<String>();
+                headers.addAll(Arrays.asList("Vara", "Artikelnummer", "Antal"));
 
-                cont.endText();
+                addHeaderRow(headerRow, headers);
+                table.addHeaderRow(headerRow);
+
+                table.draw();
             }
 
             // Saves pdf to an outputstream, which fills a byte array. Then returns byte array.
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            doc.save(byteArrayOutputStream);
-            doc.close();
+            document.save(byteArrayOutputStream);
+            document.close();
             byte [] bytearray = new byte [(int) byteArrayOutputStream.size()];
             InputStream inputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
             BufferedInputStream bis = new BufferedInputStream(inputStream);
