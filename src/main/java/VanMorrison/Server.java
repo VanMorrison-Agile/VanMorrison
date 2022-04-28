@@ -186,7 +186,7 @@ public class Server {
                 csv.items) {
             cartDisplay += "<div id='cart" + item.getArtNr() + "' style ='display:none;'>";
             cartDisplay += item.getName();
-            cartDisplay += "<p id='cart" + item.getArtNr() + "Number'>0</p>";
+            cartDisplay += "<p id='cart" + item.getArtNr() + "Number'></p>";
             cartDisplay += "</div>";
         }
 
@@ -196,7 +196,7 @@ public class Server {
         String cartItemsContent = "";
         for (Item item:
              csv.items) {
-            cartItemsContent += item.getArtNr() + ": 0,"; //I think js is alright with a trailing comma
+            cartItemsContent += item.getArtNr() + ":0 ,"; //I think js is alright with a trailing comma
         }
         addScript(
     """
@@ -212,7 +212,7 @@ public class Server {
                 console.log(id);
                 console.log('cart' + id + 'Number');
                 document.getElementById('cart' + id + 'Number').innerHTML = cartItems[id];
-                console.log('cart' + id);
+                console.log('cart' + id + 'Number');
                 var cartItemDisplay = document.getElementById('cart' + id);
                 if (cartItems[id] < 1) {
                     cartItemDisplay.style.display="none";
@@ -232,6 +232,12 @@ public class Server {
                 updateItem(id);
             }
             
+            function removeAll(id){
+                cartItems[id] == 0;
+                updateItem(id);
+            }
+
+
             function addItemsToCartForm(){
                 var form = document.getElementById("sendOrderForm");
                 for(const [artNr, count] of Object.entries(cartItems)){
