@@ -1,4 +1,4 @@
-package Data;
+package VanMorrison;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.ContentDisposition;

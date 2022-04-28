@@ -1,4 +1,5 @@
-import Data.Parameter;
+package VanMorrison;
+// import Parameter;
 
 import javax.activation.FileDataSource;
 import javax.mail.BodyPart;
