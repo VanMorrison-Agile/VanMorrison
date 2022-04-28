@@ -12,6 +12,7 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
+import be.quodlibet.boxable.BaseTable;
 import be.quodlibet.boxable.Cell;
 import be.quodlibet.boxable.Row;
 
@@ -31,6 +32,17 @@ public class PDFExport {
             cell.setFont(PDType1Font.HELVETICA_BOLD);
             cell.setFontSize(15);
         }
+    }
+
+    // Function adding 3 cells/columns to provided row with values of provided item 
+    private static void addItemRow(BaseTable table, Item item) {
+        Row<PDPage> row = table.createRow(20);
+        Cell<PDPage> cell = row.createCell(34, item.getName());
+        cell.setFontSize(15);
+        cell = row.createCell(33, item.getArtNr());
+        cell.setFontSize(15);
+        cell = row.createCell(33, item.getPrice());
+        cell.setFontSize(15);
     }
 
     public static byte [] getPdf() throws IOException {
