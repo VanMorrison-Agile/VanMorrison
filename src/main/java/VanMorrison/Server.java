@@ -117,6 +117,10 @@ public class Server {
             csv = new CSVReader("provider/" + response.substring(10) + ".csv");
 
             response =
+                    "<head>\n" +
+                    "<meta charset=\"UTF-8\">\n" +
+                    "<link rel=\"stylesheet\" href=\"/styles/viewProvider.css\">" +
+                    "</head>"+
                     "<header>" +
                     response.substring(10) +
                     "</header>" +
