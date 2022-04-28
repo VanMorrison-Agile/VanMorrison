@@ -165,6 +165,7 @@ public class Server {
         return readData.replace("#OPTIONS#", aa.toString());
     }
 
+
     public void generateMain() {
         ///TODO: Add elements to the site by calling methods on s
 
@@ -186,7 +187,7 @@ public class Server {
                 csv.items) {
             cartDisplay += "<div id='cart" + item.getArtNr() + "' style ='display:none;'>";
             cartDisplay += item.getName();
-            cartDisplay += "<p id='cart" + item.getArtNr() + "Number'></p>";
+            cartDisplay += "<p id='cart"+ item.getArtNr()+ "Number'> </p>";
             cartDisplay += "</div>";
         }
 
@@ -196,8 +197,11 @@ public class Server {
         String cartItemsContent = "";
         for (Item item:
              csv.items) {
-            cartItemsContent += item.getArtNr() + ":0 ,"; //I think js is alright with a trailing comma
+            cartItemsContent += item.getArtNr() + " : 0 , "; //I think js is alright with a trailing comma
         }
+        cartItemsContent = cartItemsContent.substring(0, cartItemsContent.length() - 2); // trying to remove the comma but dosent help sadly
+        
+        
         addScript(
     """
             var cartItems = {
@@ -208,11 +212,9 @@ public class Server {
             
             
             
-            function updateItem(id) {
-                console.log(id);
-                console.log('cart' + id + 'Number');
+            
+            function updateItem(id) {   
                 document.getElementById('cart' + id + 'Number').innerHTML = cartItems[id];
-                console.log('cart' + id + 'Number');
                 var cartItemDisplay = document.getElementById('cart' + id);
                 if (cartItems[id] < 1) {
                     cartItemDisplay.style.display="none";
@@ -221,9 +223,13 @@ public class Server {
                 }
             }
             
-            function addItem(id) {
-                cartItems[id]++;
+            function addToCart(id){
                 updateItem(id);
+            }
+
+            function addItem(id) {
+                cartItems[id] ++;
+                
                 console.log(cartItems);
             }
             
