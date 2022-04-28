@@ -4,13 +4,34 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+import java.awt.Color;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
+import be.quodlibet.boxable.Cell;
+import be.quodlibet.boxable.Row;
+
 public class PDFExport {
+
+    // Function adding 3 cells/columns to provided row with provided names  
+    private static void addHeaderRow(Row row, List<String> names) {
+        int size = names.size();
+        
+        for (int i = 0; i < size; i++) {
+            int width;
+            //Different width for first column because of the division by 3
+            if (i == 0) {width = 34;}
+            else {width = 33;};
+            Cell<PDPage> cell = row.createCell(width, names.get(i));
+            cell.setFillColor(new Color(164, 152, 138));
+            cell.setFont(PDType1Font.HELVETICA_BOLD);
+            cell.setFontSize(15);
+        }
+    }
 
     public static byte [] getPdf() throws IOException {
 
