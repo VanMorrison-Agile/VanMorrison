@@ -82,6 +82,17 @@ public class PDFExport {
                 addHeaderRow(headerRow, headers);
                 table.addHeaderRow(headerRow);
 
+                // Add all products/items  from provided list
+                items.forEach((item) -> addItemRow(table, item));
+                Integer totalPrice = 0;
+                try {
+                    totalPrice = items.stream()
+                        .mapToInt(item -> Integer.parseInt(item.getPrice()))
+                            .sum();
+                } catch (Exception e) {
+                    throw new IllegalArgumentException("One price value is in wrong format");
+                }
+
                 table.draw();
             }
 
