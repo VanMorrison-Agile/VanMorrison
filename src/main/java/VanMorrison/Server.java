@@ -180,6 +180,19 @@ public class Server {
 
         addBody(readHTML("src/html/cartSubmitForm.html"));
 
+        String cartDisplay = "<div>";
+
+        for (Item item:
+                csv.items) {
+            cartDisplay += "<div id='cart" + item.getArtNr() + "' style ='display:none;'>";
+            cartDisplay += item.getName();
+            cartDisplay += "<p id='cart" + item.getArtNr() + "Number'>0</p>";
+            cartDisplay += "</div>";
+        }
+
+        cartDisplay += "</div>";
+        addBody(cartDisplay);
+
         String cartItemsContent = "";
         for (Item item:
              csv.items) {
@@ -196,9 +209,12 @@ public class Server {
             
             
             function updateItem(id) {
+                console.log(id);
+                console.log('cart' + id + 'Number');
                 document.getElementById('cart' + id + 'Number').innerHTML = cartItems[id];
+                console.log('cart' + id);
                 var cartItemDisplay = document.getElementById('cart' + id);
-                if (carItems[id] < 1) {
+                if (cartItems[id] < 1) {
                     cartItemDisplay.style.display="none";
                 } else {
                     cartItemDisplay.style.display="block"
@@ -208,6 +224,7 @@ public class Server {
             function addItem(id) {
                 cartItems[id]++;
                 updateItem(id);
+                console.log(cartItems);
             }
             
             function removeItem(id) {
