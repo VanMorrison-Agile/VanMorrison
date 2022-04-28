@@ -20,7 +20,7 @@ public class Server {
 
     private String header = "",style ="", body = "", footer = "";
 
-    CSVReader csv = new CSVReader();
+    CSVReader csv = new CSVReader("src/main/resources/exampleList.csv");
 
     private static Server s;
 
@@ -78,7 +78,7 @@ public class Server {
             String[] pathnames;
 
             File folder = new File("provider");
-            File[] listOfFiles = folder.listFiles();
+            //File[] listOfFiles = folder.listFiles();
 
             // Populates the array with names of files and directories
             pathnames = folder.list();
@@ -113,9 +113,16 @@ public class Server {
 //            System.out.println(h.getString());
 
             String response = t.getRequestURI().toString();
-            response = response.substring(10);
 
+            csv = new CSVReader("provider/" + response.substring(10) + ".csv");
 
+            response =
+                    "<header>" +
+                    response.substring(10) +
+                    "</header>" +
+                    "<body>" +
+                    csv.printToString() +
+                    "</body>";
 
             byte[] bytes = response.getBytes();
             t.sendResponseHeaders(200, bytes.length);
