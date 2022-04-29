@@ -234,7 +234,8 @@ public class Server {
             }
             
             function removeItem(id) {
-                cartItems[id]--;
+                if(cartItems[id] > 0)
+                    cartItems[id]--;
                 updateItem(id);
             }
             
