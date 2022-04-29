@@ -3,12 +3,18 @@ package VanMorrison;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import org.apache.pdfbox.pdmodel.interactive.form.FieldUtils;
 
 import java.io.*;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 
 public class Server {
 
@@ -16,7 +22,7 @@ public class Server {
 
     private String header = "",style ="", body = "", footer = "";
 
-    CSVReader csv = new CSVReader();
+    CSVReader csv = new CSVReader("src/main/resources/exampleList.csv");
 
     private static Server s;
 
@@ -66,9 +72,75 @@ public class Server {
             generateMain();
         });
 
+        server.createContext("/viewProvider", (HttpExchange t) -> {
+            //String response = readHTML("src/viewProvider.html");
+            HtmlParser h = new HtmlParser("src/viewProvider.html");
+            StringBuilder htmlProviders = new StringBuilder();
+
+            String[] pathnames;
+
+            File folder = new File("provider");
+            //File[] listOfFiles = folder.listFiles();
+
+            // Populates the array with names of files and directories
+            pathnames = folder.list();
+
+            // For each pathname in the pathnames array
+            for (String pathname : pathnames) {
+                // Print the names of files and directories
+                pathname = pathname.substring(0,pathname.lastIndexOf("."));
+                htmlProviders.append("<li><a href=\"/products/"+pathname+"\">"+pathname+"</a></li>");
+
+            }
+
+            h.set("lis", htmlProviders.toString());
+            String response = h.getString();
+
+            byte[] bytes = response.getBytes();
+            t.sendResponseHeaders(200, bytes.length);
+            OutputStream os = t.getResponseBody();
+            os.write(bytes);
+            os.close();
+
+        });
+
+        server.createContext("/products", (HttpExchange t) -> {
+            //String response = readHTML("src/viewProvider.html");
+//            System.out.println("test");
+//            HtmlParser h = new HtmlParser("src/viewProvider.html");
+//            h.set("hej", "inte hej");
+//            h.set("main", "main2");
+//            h.set("vad är den", "här");
+//
+//            System.out.println(h.getString());
+
+            String response = t.getRequestURI().toString();
+
+            csv = new CSVReader("provider/" + response.substring(10) + ".csv");
+
+            response =
+                    "<head>\n" +
+                    "<meta charset=\"UTF-8\">\n" +
+                    "<link rel=\"stylesheet\" href=\"/styles/viewProvider.css\">" +
+                    "</head>"+
+                    "<header>" +
+                    response.substring(10) +
+                    "</header>" +
+                    "<body>" +
+                    csv.printToString() +
+                    "</body>";
+
+            byte[] bytes = response.getBytes();
+            t.sendResponseHeaders(200, bytes.length);
+            OutputStream os = t.getResponseBody();
+            os.write(bytes);
+            os.close();
+
+        });
+
         server.createContext("/addProvider", (HttpExchange t) -> {
             String response = readHTML("src/addProvider.html");
-            Map<String, Parameter> params = htmlUtility.getMimeParameters(t.getRequestBody());
+            Map<String, Parameter> params = HTMLUtility.getMimeParameters(t.getRequestBody());
 
             //DO BUSINESS LOGIC
             byte[] csvData = params.get("uploadedFile").getData();
@@ -128,7 +200,43 @@ public class Server {
             os.write(docBytes,0, docBytes.length);
             os.close();
         });
+
+
+
+        server.createContext("/styles", (HttpExchange t) -> {
+
+            //generate path to file from URI
+            String file = t.getRequestURI().toString().substring(8);
+            String path = "src/styles/"+file;
+
+            //Reads css file to string
+            StringBuilder html = new StringBuilder();
+            try {
+                FileReader reader = new FileReader(path);
+                while (reader.ready()) html.append((char)reader.read());
+            } catch (Exception e) {
+                String msg = "File cannot be found";
+                byte[] msgBytes = msg.getBytes();
+                System.out.println(e);
+                t.sendResponseHeaders(404, msgBytes.length);
+                OutputStream os = t.getResponseBody();
+                os.write(msgBytes);
+                os.close();
+                return;
+            }
+            String response =  html.toString();
+
+            //Sends file to client
+            byte[] bytes = response.getBytes();
+            t.sendResponseHeaders(200, bytes.length);
+            OutputStream os = t.getResponseBody();
+            os.write(bytes);
+            os.close();
+        });
     }
+
+
+
 
 
     public String readHTML(String filename){
