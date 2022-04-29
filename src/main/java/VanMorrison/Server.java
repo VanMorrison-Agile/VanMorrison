@@ -11,6 +11,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -138,7 +140,7 @@ public class Server {
 
         server.createContext("/addProvider", (HttpExchange t) -> {
             String response = readHTML("src/addProvider.html");
-            Map<String, Parameter> params = htmlUtility.getMimeParameters(t.getRequestBody());
+            Map<String, Parameter> params = HTMLUtility.getMimeParameters(t.getRequestBody());
 
             //DO BUSINESS LOGIC
             byte[] csvData = params.get("uploadedFile").getData();
@@ -182,8 +184,15 @@ public class Server {
             Headers h = t.getResponseHeaders();
             h.add("Content-Type", "application/pdf");
 
+            // Example list of items, supposed to come from "cart". Used for pdf generator
+            Item item1 = new Item("1", "Bemil", "500");
+            Item item2 = new Item("2", "Emil", "5000");
+            List<Item> items = new ArrayList<Item>();
+            items.add(item1);
+            items.add(item2);
+
             //Get byte array containing pdf
-            byte [] docBytes = PDFExport.getPdf();
+            byte [] docBytes = PDFExport.getPdf(items);
 
             // Send the response.
             t.sendResponseHeaders(200, docBytes.length);
