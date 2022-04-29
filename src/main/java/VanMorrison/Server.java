@@ -199,7 +199,7 @@ public class Server {
              csv.items) {
             cartItemsContent += item.getArtNr() + " : 0 , "; //I think js is alright with a trailing comma
         }
-        cartItemsContent = cartItemsContent.substring(0, cartItemsContent.length() - 2); // trying to remove the comma but dosent help sadly
+        
         
         
         addScript(
@@ -216,7 +216,7 @@ public class Server {
             function updateItem(id) {   
                 document.getElementById('cart' + id + 'Number').innerHTML = cartItems[id];
                 var cartItemDisplay = document.getElementById('cart' + id);
-                if (cartItems[id] < 1) {
+                if (cartItems[id] == 0) {
                     cartItemDisplay.style.display="none";
                 } else {
                     cartItemDisplay.style.display="block"
@@ -224,13 +224,13 @@ public class Server {
             }
             
             function addToCart(id){
+                cartItems[id] = 1;
                 updateItem(id);
             }
 
             function addItem(id) {
                 cartItems[id] ++;
-                
-                console.log(cartItems);
+                updateItem(id);
             }
             
             function removeItem(id) {
@@ -239,7 +239,7 @@ public class Server {
             }
             
             function removeAll(id){
-                cartItems[id] == 0;
+                cartItems[id] = 0;
                 updateItem(id);
             }
 
