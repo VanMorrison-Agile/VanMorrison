@@ -11,7 +11,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 
-public class htmlUtility {
+public class HTMLUtility {
 
     /**
      * @param requestStream The stream containing a MIME MultiPart form.
