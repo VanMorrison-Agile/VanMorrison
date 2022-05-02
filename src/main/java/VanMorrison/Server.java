@@ -138,10 +138,21 @@ public class Server {
                     "<body>" +
                     csv.printToString() +
                     generateCartDisplay() +
+                    readHTML("src/html/cartSubmitForm.html") +
                     "</body>" +
                     "<script>" +
                     "var provider = '" + provider + "';" +
                     generateCartScript() + 
+                    """
+                        var form = document.getElementById("sendOrderForm");
+
+                        var providerInput = document.createElement('input');
+                        providerInput.setAttribute('name', 'provider');
+                        providerInput.setAttribute('type', 'hidden');
+                        providerInput.setAttribute('value', '""" + provider + """
+                            ');
+                                form.appendChild(providerInput);
+                    """ +
                     "</script>";
 
                     
@@ -356,6 +367,7 @@ public class Server {
 
             function addItemsToCartForm(){
                 var form = document.getElementById("sendOrderForm");
+                
                 for(const [artNr, count] of Object.entries(cartItems)){
                     if (count != 0){
                         var itemInput = document.createElement("input");
@@ -387,8 +399,6 @@ public class Server {
         addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
 
         addBody(csv.printToString());
-
-        addBody(readHTML("src/html/cartSubmitForm.html"));
 
 
         
