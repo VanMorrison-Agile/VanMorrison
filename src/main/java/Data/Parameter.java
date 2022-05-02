@@ -1,4 +1,4 @@
-package VanMorrison;
+package Data;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.ContentDisposition;
@@ -27,6 +27,14 @@ public class Parameter{
      * @return The parameter's data as a string.
      */
     public String getDataAsString(){ return new String(data); }
+
+    /**
+     * @return The data as strings separated by (,)
+     */
+    public String[] getDataAsStringArray(){
+        String stringData = new String(data);
+        return stringData.split(",");
+    }
 
     /**
      * Only works if the parameter contains filename data

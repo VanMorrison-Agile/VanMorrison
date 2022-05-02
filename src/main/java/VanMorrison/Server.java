@@ -15,12 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import Data.Parameter;
 
 public class Server {
 
     public static final int PORT = 80;
 
-    private String header = "",style ="", body = "", footer = "";
+    private String header = "",style ="", body = "", footer = "", script = "";
 
     CSVReader csv = new CSVReader("src/main/resources/exampleList.csv");
 
@@ -28,7 +29,7 @@ public class Server {
 
     public static void main(String[] args) throws Exception {
         s = new Server();
-        generateMain();
+        s.generateMain();
         s.server.start();
     }
 
@@ -38,6 +39,10 @@ public class Server {
      */
     public void addBody(String html) {
         body += html;
+    }
+
+    public void addScript(String javascript) {
+        script += javascript;
     }
 
     private void addStyle(){ style += csv.getStyle(); }
@@ -59,11 +64,14 @@ public class Server {
                 "</header>" +
                 "<body>" +
                     body +
-                    csv.printToString() +
                 "</body>" +
                 "<footer>" +
                     footer +
-                "</footer></html>";
+                "</footer>" +
+                        "<script>" +
+                        script +
+                        "</script>" +
+                        "</html>";
             byte[] bytes = response.getBytes();
             t.sendResponseHeaders(200, bytes.length);
             OutputStream os = t.getResponseBody();
@@ -273,16 +281,106 @@ public class Server {
         return readData.replace("#OPTIONS#", aa.toString());
     }
 
-    public static void generateMain() {
+
+    public void generateMain() {
         ///TODO: Add elements to the site by calling methods on s
 
-        s.body = "";
-        s.header = "<meta charset=\"UTF-16\">";
-        s.addStyle();
-        s.addBody("Hello world!");
-        s.addBody(s.addProviderForm());
-        s.addBody("<Br />");
-        s.addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
+        body = "";
+        header = "<meta charset=\"UTF-16\">";
+        addStyle();
+        addBody("Hello world!");
+        addBody(addProviderForm());
+        addBody("<Br />");
+        addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
+
+        addBody(csv.printToString());
+
+        addBody(readHTML("src/html/cartSubmitForm.html"));
+
+        String cartDisplay = "<div>";
+
+        for (Item item:
+                csv.items) {
+            cartDisplay += "<div id='cart" + item.getArtNr() + "' style ='display:none;'>";
+            cartDisplay += item.getName();
+            cartDisplay += "<p id='cart"+ item.getArtNr()+ "Number'> </p>";
+            cartDisplay += "</div>";
+        }
+
+        cartDisplay += "</div>";
+        addBody(cartDisplay);
+
+        String cartItemsContent = "";
+        for (Item item:
+             csv.items) {
+            cartItemsContent += item.getArtNr() + " : 0 , "; //I think js is alright with a trailing comma
+        }
+        
+        
+        
+        addScript(
+    """
+            var cartItems = {
+            """
+                + cartItemsContent +
+            """
+            };
+            
+            
+            
+            
+            function updateItem(id) {   
+                document.getElementById('cart' + id + 'Number').innerHTML = cartItems[id];
+                var cartItemDisplay = document.getElementById('cart' + id);
+                if (cartItems[id] == 0) {
+                    cartItemDisplay.style.display="none";
+                } else {
+                    cartItemDisplay.style.display="block"
+                }
+            }
+            
+            function addToCart(id){
+                cartItems[id] = 1;
+                updateItem(id);
+            }
+
+            function addItem(id) {
+                cartItems[id] ++;
+                updateItem(id);
+            }
+            
+            function removeItem(id) {
+                if(cartItems[id] > 0)
+                    cartItems[id]--;
+                updateItem(id);
+            }
+            
+            function removeAll(id){
+                cartItems[id] = 0;
+                updateItem(id);
+            }
+
+
+            function addItemsToCartForm(){
+                var form = document.getElementById("sendOrderForm");
+                for(const [artNr, count] of Object.entries(cartItems)){
+                    if (count != 0){
+                        var itemInput = document.createElement("input");
+                        itemInput.setAttribute("name", "itemNr[]");
+                        itemInput.setAttribute("type", "hidden");
+                        itemInput.setAttribute("value", artNr);
+                        form.appendChild(itemInput);
+                        
+                        itemInput = document.createElement("input");
+                        itemInput.setAttribute("name", "itemCount[]");
+                        itemInput.setAttribute("type", "hidden");
+                        itemInput.setAttribute("value", count);
+                        form.appendChild(itemInput);
+                    }
+                }
+            }
+            """
+        );
 
     }
 }

@@ -1,5 +1,6 @@
 package VanMorrison;
-// import Parameter;
+
+import Data.Parameter;
 
 import javax.activation.FileDataSource;
 import javax.mail.BodyPart;
@@ -8,6 +9,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +37,13 @@ public class HTMLUtility {
 
                 String name = disposition.getParameter("name");
                 byte[] partData = part.getInputStream().readAllBytes();
+
+                if (name.endsWith("[]")){
+                    name = name.substring(0, name.length() - 2);
+                    if (parts.containsKey(name)){
+                        partData = combineData(parts.get(name).getData(), ",", partData);
+                    }
+                }
                 Parameter parameterEntry = new Parameter((MimePart)part, partData);
                 parts.put(name, parameterEntry);
             }
@@ -48,5 +57,16 @@ public class HTMLUtility {
         }
     }
 
+    private static byte[] combineData(byte[] first, String delimiter, byte[] second){
+        byte[] delimiterData = delimiter.getBytes();
+        int totalLength = first.length + second.length + delimiterData.length;
 
+        byte[] total = Arrays.copyOf(first, totalLength);
+        int writtenBytes = first.length;
+        System.arraycopy(delimiterData, 0, total, first.length, delimiterData.length);
+        writtenBytes += delimiterData.length;
+        System.arraycopy(second, 0, total, writtenBytes, second.length);
+
+        return  total;
+    }
 }
