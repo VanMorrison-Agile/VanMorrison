@@ -18,8 +18,8 @@ public class CSVReader {
     }*/
     List<Item> items;
 
-    public CSVReader(){
-        items = readItemsFromCSV("src/main/resources/exampleList.csv");
+    public CSVReader(String fileName){
+        items = readItemsFromCSV(fileName);
     }
 
     public List<Item> getItemList(){
