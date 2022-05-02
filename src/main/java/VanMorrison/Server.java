@@ -124,7 +124,8 @@ public class Server {
 
             String response = t.getRequestURI().toString();
 
-            csv = new CSVReader("provider/" + response.substring(10) + ".csv");
+            String provider = response.substring(10);
+            csv = new CSVReader("provider/" + provider + ".csv");
 
             response =
                     "<head>\n" +
@@ -136,8 +137,14 @@ public class Server {
                     "</header>" +
                     "<body>" +
                     csv.printToString() +
-                    "</body>";
+                    generateCartDisplay() +
+                    "</body>" +
+                    "<script>" +
+                    "var provider = '" + provider + "';" +
+                    generateCartScript() + 
+                    "</script>";
 
+                    
             byte[] bytes = response.getBytes();
             t.sendResponseHeaders(200, bytes.length);
             OutputStream os = t.getResponseBody();
@@ -282,21 +289,7 @@ public class Server {
     }
 
 
-    public void generateMain() {
-        ///TODO: Add elements to the site by calling methods on s
-
-        body = "";
-        header = "<meta charset=\"UTF-16\">";
-        addStyle();
-        addBody("Hello world!");
-        addBody(addProviderForm());
-        addBody("<Br />");
-        addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
-
-        addBody(csv.printToString());
-
-        addBody(readHTML("src/html/cartSubmitForm.html"));
-
+    public String generateCartDisplay() {
         String cartDisplay = "<div>";
 
         for (Item item:
@@ -308,18 +301,18 @@ public class Server {
         }
 
         cartDisplay += "</div>";
-        addBody(cartDisplay);
 
+        return cartDisplay;
+    }
+
+    public String generateCartScript() {
         String cartItemsContent = "";
         for (Item item:
              csv.items) {
             cartItemsContent += item.getArtNr() + " : 0 , "; //I think js is alright with a trailing comma
         }
         
-        
-        
-        addScript(
-    """
+        return """
             var cartItems = {
             """
                 + cartItemsContent +
@@ -379,8 +372,26 @@ public class Server {
                     }
                 }
             }
-            """
-        );
+            """;
+    }
+
+    public void generateMain() {
+        ///TODO: Add elements to the site by calling methods on s
+
+        body = "";
+        header = "<meta charset=\"UTF-16\">";
+        addStyle();
+        addBody("Hello world!");
+        addBody(addProviderForm());
+        addBody("<Br />");
+        addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
+
+        addBody(csv.printToString());
+
+        addBody(readHTML("src/html/cartSubmitForm.html"));
+
+
+        
 
     }
 }
