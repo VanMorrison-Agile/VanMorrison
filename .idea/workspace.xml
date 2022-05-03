@@ -22,11 +22,16 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad56987e-5068-499c-8f17-d361f4ac1c2d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Data/Parameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Data/Parameter.java" afterDir="false" />
+    <list default="true" id="ad56987e-5068-499c-8f17-d361f4ac1c2d" name="Changes" comment="Added createItem method">
+      <changelist_data name="williamProgrammerar &lt;william@johnston.se&gt;," email="" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/VanMorrison/Search.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/VanMorrison/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/VanMorrison/Server.java" afterDir="false" />
     </list>
     <list id="6a0cf783-fdb8-47c8-b885-3244ffbdfa4b" name="Changes by axelr" comment="" />
+    <list id="ee71c8e7-847c-464a-ba1d-820b4aa7a888" name="Changes by willi" comment="Changes by willi">
+      <change beforePath="$PROJECT_DIR$/src/main/java/VanMorrison/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/VanMorrison/Server.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,6 +60,16 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/main/java/VanMorrison/Server.java">
+      <ranges>
+        <range start1="16" end1="16" start2="16" end2="17" changelist="ee71c8e7-847c-464a-ba1d-820b4aa7a888" />
+        <range start1="245" end1="247" start2="246" end2="246" changelist="ad56987e-5068-499c-8f17-d361f4ac1c2d" />
+        <range start1="283" end1="283" start2="282" end2="291" changelist="ee71c8e7-847c-464a-ba1d-820b4aa7a888" />
+        <range start1="286" end1="287" start2="294" end2="295" changelist="ee71c8e7-847c-464a-ba1d-820b4aa7a888" />
+      </ranges>
+    </file>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -75,6 +90,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
