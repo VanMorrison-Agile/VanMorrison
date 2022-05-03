@@ -149,10 +149,8 @@ public class Server {
                         var providerInput = document.createElement('input');
                         providerInput.setAttribute('name', 'provider');
                         providerInput.setAttribute('type', 'hidden');
-                        providerInput.setAttribute('value', '""" + provider + """
-                            ');
-                                form.appendChild(providerInput);
-                    """ +
+                        providerInput.setAttribute('value', '""" + provider + "');" +
+                        "form.appendChild(providerInput);" +
                     "</script>";
 
                     
@@ -205,17 +203,44 @@ public class Server {
             }
         });
         
-        server.createContext("/pdf", (HttpExchange t) -> {
+        server.createContext("/getpdf", (HttpExchange t) -> {
             // Add the required response header for a PDF file
             Headers h = t.getResponseHeaders();
             h.add("Content-Type", "application/pdf");
 
-            // Example list of items, supposed to come from "cart". Used for pdf generator
-            Item item1 = new Item("1", "Bemil", "500");
-            Item item2 = new Item("2", "Emil", "5000");
+            Map<String, Parameter> params = HTMLUtility.getMimeParameters(t.getRequestBody());
+
+
+            String[] itemNr = params.get("itemNr").getDataAsStringArray();
+            String[] itemCount = params.get("itemCount").getDataAsStringArray();
+
+
+            CSVReader csvReader = new CSVReader("provider/" + params.get("provider").getDataAsString() + ".csv");
+
+
+            List<Item> sortiment = csvReader.getItemList();
+
             List<Item> items = new ArrayList<Item>();
-            items.add(item1);
-            items.add(item2);
+            for (int i = 0; i < itemNr.length; i++) {
+
+                Item currentItem = null;
+                for (Item item : sortiment) {
+                    if (item.getArtNr().equals(itemNr[i])) {
+                        currentItem = item;
+                        break;
+                    }
+                }
+                
+                if (currentItem == null){
+                    System.out.println("Invalid item: " + itemNr[i]);
+                    items.add(new Item(itemNr[i], "Error: PDF generation aborted due to invalid item:", "0"));
+                    break;
+                }
+
+                for (int j = 0; j < Integer.parseInt(itemCount[i]); j++) {
+                    items.add(currentItem);
+                }
+            }
 
             //Get byte array containing pdf
             byte [] docBytes = PDFExport.getPdf(items);
