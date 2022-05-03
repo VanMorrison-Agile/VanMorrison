@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import Data.Parameter;
 
@@ -284,8 +285,6 @@ public class Server {
 
 
 
-
-
     public String readHTML(String filename){
         StringBuilder html = new StringBuilder();
         try {
@@ -320,6 +319,15 @@ public class Server {
         return readData.replace("#OPTIONS#", aa.toString());
     }
 
+    private void searchTest() {
+        Scanner myObj = new Scanner(System.in);
+        CSVReader csvReader = new CSVReader("provider/IkeaTest.csv");
+        Search search = new Search(csv.getItemList());
+        List<Item> searchResult = new ArrayList<>(Search.search(myObj.nextLine()));
+        for (Item item : searchResult) {
+            System.out.println(item.getName());
+        }
+    }
 
 
     public String generateCartDisplay() {
@@ -435,6 +443,7 @@ public class Server {
 
          addBody(readHTML("src/personalInformation.html"));
         
+         addBody(readHTML("src/html/cartSubmitForm.html"));
 
     }
 }
