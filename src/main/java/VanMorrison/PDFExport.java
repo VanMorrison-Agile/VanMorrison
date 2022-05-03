@@ -52,7 +52,6 @@ public class PDFExport {
     public static byte [] getPdf(List<Item> items) throws IOException {
 
         try (PDDocument document = new PDDocument()) {
-
             // Create a document and add a page to it (A4 for printing)
             PDPage page = new PDPage(PDRectangle.A4);
             document.addPage(page);
@@ -81,18 +80,19 @@ public class PDFExport {
 
                 addHeaderRow(headerRow, headers);
                 table.addHeaderRow(headerRow);
-
                 // Add all products/items  from provided list
                 items.forEach((item) -> addItemRow(table, item));
                 Integer totalPrice = 0;
                 try {
                     totalPrice = items.stream()
-                        .mapToInt(item -> Integer.parseInt(item.getPrice()))
+                        .mapToInt(item -> Integer.parseInt(item.getPrice().replace(" ", ""))) //Some numbnut has caused the price strings to have extra spaces in them. This solution is ugly but it will never harm anyone so whatever
                             .sum();
                 } catch (Exception e) {
+                    System.out.println("Oh no, a price value is invalid! Throwing an exception, let's hope it doesn't disappear :thinking:");
+                    System.out.print("In all seriousness, I have no idea where this exception ends up, so I'm just gonna print the error here: " + e.getMessage());
                     throw new IllegalArgumentException("One price value is in wrong format");
                 }
-
+                
                 // Add last row for the total sum of prices
                 Row<PDPage> totalPriceRow = table.createRow(20);
                 Cell<PDPage> cell = totalPriceRow.createCell(67, "Total summa exkl. moms:");
@@ -111,6 +111,7 @@ public class PDFExport {
             InputStream inputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
             BufferedInputStream bis = new BufferedInputStream(inputStream);
             bis.read(bytearray, 0, bytearray.length);
+
 
             return bytearray;
         } catch (IOException e) {System.out.println(e); return null;}
