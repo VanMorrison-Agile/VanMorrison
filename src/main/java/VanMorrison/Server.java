@@ -82,7 +82,19 @@ public class Server {
             generateMain();
         });
 
-        server.createContext("/", (HttpExchange t) -> {
+        server.createContext("/search", (HttpExchange t) -> {
+            HtmlParser html = new HtmlParser("src/searchForm.html");
+            byte[] bytes = html.getString().getBytes();
+            t.sendResponseHeaders(200, bytes.length);
+            OutputStream os = t.getResponseBody();
+            os.write(bytes);
+            os.close();
+            generateMain();
+        });
+
+
+        server.createContext("/viewProvider", (HttpExchange t) -> {
+            //String response = readHTML("src/viewProvider.html");
             HtmlParser h = new HtmlParser("src/viewProvider.html");
             StringBuilder htmlProviders = new StringBuilder();
 
