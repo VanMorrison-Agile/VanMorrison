@@ -81,24 +81,19 @@ public class Server {
         });
 
         server.createContext("/", (HttpExchange t) -> {
-            //String response = readHTML("src/viewProvider.html");
             HtmlParser h = new HtmlParser("src/viewProvider.html");
             StringBuilder htmlProviders = new StringBuilder();
 
-            String[] pathnames;
+            // Populates an array with names of files and directories in provider directory
+            String[] pathNames = new File("provider").list();
 
-            File folder = new File("provider");
-            //File[] listOfFiles = folder.listFiles();
-
-            // Populates the array with names of files and directories
-            pathnames = folder.list();
-
-            // For each pathname in the pathnames array
-            for (String pathname : pathnames) {
-                // Print the names of files and directories
-                pathname = pathname.substring(0,pathname.lastIndexOf("."));
-                htmlProviders.append("<li><a href=\"/products/"+pathname+"\">"+pathname+"</a></li>");
-
+            // For each pathname in the pathNames array
+            for (String pathName : pathNames) {
+                // Remove suffix if it exists
+                if (pathName.lastIndexOf(".") != -1) pathName = pathName.substring(0, pathName.lastIndexOf("."));
+                // Add a list item for provider
+                String listItem = "<li><a href=\"/products/%PROVIDER%\">%PROVIDER%</a></li>";
+                htmlProviders.append(listItem.replaceAll("%PROVIDER%", pathName));
             }
 
             h.set("lis", htmlProviders.toString());
