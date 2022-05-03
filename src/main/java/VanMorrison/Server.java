@@ -98,7 +98,6 @@ public class Server {
                 // Print the names of files and directories
                 pathname = pathname.substring(0,pathname.lastIndexOf("."));
                 htmlProviders.append("<li><a href=\"/products/"+pathname+"\">"+pathname+"</a></li>");
-
             }
 
             h.set("lis", htmlProviders.toString());
@@ -241,16 +240,6 @@ public class Server {
             os.write(bytes);
             os.close();
         });
-
-        server.createContext("/personalInformation", (HttpExchange t) -> {
-            String response = readHTML("src/personalInformation.html");
-            Map<String, Parameter> params = HTMLUtility.getMimeParameters(t.getRequestBody());
-            try {
-                generateMain();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
     }
 
 
@@ -306,6 +295,8 @@ public class Server {
         addBody(csv.printToString());
 
         addBody(readHTML("src/html/cartSubmitForm.html"));
+
+        addBody(readHTML("src/personalInformation.html"));
 
         String cartDisplay = "<div>";
 
@@ -389,6 +380,21 @@ public class Server {
                     }
                 }
             }
+
+            function handleSubmit(event) {
+                event.preventDefault();
+
+                const data = new FormData(event.target);
+
+                const value = Object.fromEntries(data.entries());
+            
+                value.topics = data.getAll("types");
+
+                console.log({ value });
+            }
+
+            const form = document.querySelector("form");
+            form.addEventListener("submit", handleSubmit);
             """
         );
 

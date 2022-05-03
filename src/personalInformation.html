@@ -6,8 +6,36 @@
 
 </head>
 <body>
-    <h1>Välj leverantör</h1>
-    <input type="text" id="fname" name="fname"><br><br>
+       
+    <form>
+        <label for="name">Namn</label>
+        <input type="text" name="name" id="name" />
+
+        <label for="Unit">Enhet</label>
+        <input type="text" name="name" id="Unit" />
+
+        <label for="Deliveryadress">Leveransadress</label>
+        <input type="text" name="Deliveryadress" id="Deliveryadress" />
+
+        <label for="Phone">Telefonnumer</label>
+        <input type="text" name="Phone" id="Phone" />
+
+        <label for="VerificationNumber">VerifikationsKod</label>
+        <input type="text" name="VerificationNumber" id="VerificationNumber" />
+        
+        <label for="Responsibility">Ansvar</label>
+        <input type="email" name="Responsibility" id="Responsibility" />
+
+        <p>
+
+        <input type="checkbox" name="types" id="Direktupphandling" />
+        <label for="html">Direktupphandling</label>
+
+        <input type="checkbox" name="types" id="ämtköp" />
+        <label for="css">Hämtköp</label>
+        </p>
+        <button type="submit">Submit</button>
+    </form>
 
 </body>
 </html>
