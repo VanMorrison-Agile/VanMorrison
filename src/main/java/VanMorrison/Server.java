@@ -383,18 +383,13 @@ public class Server {
 
             function handleSubmit(event) {
                 event.preventDefault();
-
                 const data = new FormData(event.target);
-
                 const value = Object.fromEntries(data.entries());
-            
-                value.topics = data.getAll("types");
-
                 console.log({ value });
             }
 
-            const form = document.querySelector("form");
-            form.addEventListener("submit", handleSubmit);
+            const form2 = document.getElementById("form2");
+            form2.addEventListener("submit", handleSubmit);
             """
         );
 

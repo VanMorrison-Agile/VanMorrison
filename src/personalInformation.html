@@ -7,12 +7,12 @@
 </head>
 <body>
        
-    <form>
+    <form id="form2">
         <label for="name">Namn</label>
         <input type="text" name="name" id="name" />
 
         <label for="Unit">Enhet</label>
-        <input type="text" name="name" id="Unit" />
+        <input type="text" name="Unit" id="Unit" />
 
         <label for="Deliveryadress">Leveransadress</label>
         <input type="text" name="Deliveryadress" id="Deliveryadress" />
@@ -24,15 +24,16 @@
         <input type="text" name="VerificationNumber" id="VerificationNumber" />
         
         <label for="Responsibility">Ansvar</label>
-        <input type="email" name="Responsibility" id="Responsibility" />
+        <input type="text" name="Responsibility" id="Responsibility" />
 
         <p>
 
-        <input type="checkbox" name="types" id="Direktupphandling" />
-        <label for="html">Direktupphandling</label>
+        <input id="Direktupphandling" name="inköpsform" type="radio" value="Direktupphandling" />
+        <label class="inline" for="Direktupphandling">Direktupphandling</label>
 
-        <input type="checkbox" name="types" id="ämtköp" />
-        <label for="css">Hämtköp</label>
+        <input id="Hämtköp" name="inköprsform" type="radio" value="Hämtköp" />
+        <label class="inline" for="Hämtköp">Hämtköp</label>
+
         </p>
         <button type="submit">Submit</button>
     </form>
