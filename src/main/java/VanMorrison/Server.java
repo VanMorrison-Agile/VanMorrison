@@ -241,6 +241,16 @@ public class Server {
             os.write(bytes);
             os.close();
         });
+
+        server.createContext("/personalInformation", (HttpExchange t) -> {
+            String response = readHTML("src/personalInformation.html");
+            Map<String, Parameter> params = HTMLUtility.getMimeParameters(t.getRequestBody());
+            try {
+                generateMain();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 
