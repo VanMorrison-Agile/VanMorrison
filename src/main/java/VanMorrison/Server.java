@@ -52,7 +52,7 @@ public class Server {
     public Server() throws Exception {
         this.server = HttpServer.create(new InetSocketAddress(PORT), 0);
 
-        server.createContext("/", (HttpExchange t) -> {
+        server.createContext("/oldMain", (HttpExchange t) -> {
             String response =
                 "<!doctype html>" +
                         "<head>\n" +
@@ -80,7 +80,7 @@ public class Server {
             generateMain();
         });
 
-        server.createContext("/viewProvider", (HttpExchange t) -> {
+        server.createContext("/", (HttpExchange t) -> {
             //String response = readHTML("src/viewProvider.html");
             HtmlParser h = new HtmlParser("src/viewProvider.html");
             StringBuilder htmlProviders = new StringBuilder();
