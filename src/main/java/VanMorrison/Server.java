@@ -6,6 +6,7 @@ import com.sun.net.httpserver.HttpServer;
 import org.apache.pdfbox.pdmodel.interactive.form.FieldUtils;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -221,6 +222,7 @@ public class Server {
             List<Item> sortiment = csvReader.getItemList();
 
             List<Item> items = new ArrayList<Item>();
+            List<Integer> amounts = new ArrayList<Integer>();
             for (int i = 0; i < itemNr.length; i++) {
 
                 Item currentItem = null;
@@ -237,13 +239,12 @@ public class Server {
                     break;
                 }
 
-                for (int j = 0; j < Integer.parseInt(itemCount[i]); j++) {
-                    items.add(currentItem);
-                }
+                items.add(currentItem);
+                amounts.add(Integer.parseInt(itemCount[i]));
             }
 
             //Get byte array containing pdf
-            byte [] docBytes = PDFExport.getPdf(items);
+            byte [] docBytes = PDFExport.getPdf(items, amounts);
 
             // Send the response.
             t.sendResponseHeaders(200, docBytes.length);

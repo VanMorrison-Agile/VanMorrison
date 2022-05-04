@@ -39,17 +39,17 @@ public class PDFExport {
     }
 
     // Function adding 3 cells/columns to provided row with values of provided item 
-    private static void addItemRow(BaseTable table, Item item) {
+    private static void addItemRow(BaseTable table, Item item, Integer amount) {
         Row<PDPage> row = table.createRow(20);
         Cell<PDPage> cell = row.createCell(34, item.getName());
         cell.setFontSize(15);
         cell = row.createCell(33, item.getArtNr());
         cell.setFontSize(15);
-        cell = row.createCell(33, item.getPrice());
+        cell = row.createCell(33, amount.toString());
         cell.setFontSize(15);
     }
 
-    public static byte [] getPdf(List<Item> items) throws IOException {
+    public static byte [] getPdf(List<Item> items, List<Integer> amounts) throws IOException {
 
         try (PDDocument document = new PDDocument()) {
             // Create a document and add a page to it (A4 for printing)
@@ -81,12 +81,14 @@ public class PDFExport {
                 addHeaderRow(headerRow, headers);
                 table.addHeaderRow(headerRow);
                 // Add all products/items  from provided list
-                items.forEach((item) -> addItemRow(table, item));
+                for (int i = 0; i < items.size(); i++) {
+                    addItemRow(table, items.get(i), amounts.get(i));
+                }
                 Integer totalPrice = 0;
                 try {
-                    totalPrice = items.stream()
-                        .mapToInt(item -> Integer.parseInt(item.getPrice().replace(" ", ""))) //Some numbnut has caused the price strings to have extra spaces in them. This solution is ugly but it will never harm anyone so whatever
-                            .sum();
+                    for (int i = 0; i < items.size(); i++) {
+                        totalPrice += Integer.parseInt(items.get(i).getPrice().replace(" ", "")) * amounts.get(i);
+                    }
                 } catch (Exception e) {
                     System.out.println("Oh no, a price value is invalid! Throwing an exception, let's hope it doesn't disappear :thinking:");
                     System.out.print("In all seriousness, I have no idea where this exception ends up, so I'm just gonna print the error here: " + e.getMessage());
@@ -101,6 +103,8 @@ public class PDFExport {
                 cell.setFontSize(15);
 
                 table.draw();
+            } catch (Exception e) {
+                throw e;
             }
 
             // Saves pdf to an outputstream, which fills a byte array. Then returns byte array.
@@ -114,6 +118,6 @@ public class PDFExport {
 
 
             return bytearray;
-        } catch (IOException e) {System.out.println(e); return null;}
+        } catch (Exception e) {System.out.println(e); return null;}
     }
 }
