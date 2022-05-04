@@ -362,19 +362,8 @@ public class Server {
         return result;
     }
 
-    private void searchTest() {
-        Scanner myObj = new Scanner(System.in);
-        CSVReader csvReader = new CSVReader("provider/IkeaTest.csv");
-        Search search = new Search(csv.getItemList());
-        List<Item> searchResult = new ArrayList<>(Search.search(myObj.nextLine()));
-        for (Item item : searchResult) {
-            System.out.println(item.getName());
-        }
-    }
-
     public void generateMain() {
         ///TODO: Add elements to the site by calling methods on s
-        //searchTest();
         body = "";
         header = "<meta charset=\"UTF-16\">";
         addStyle();
