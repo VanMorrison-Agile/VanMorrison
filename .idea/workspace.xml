@@ -24,7 +24,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ad56987e-5068-499c-8f17-d361f4ac1c2d" name="Changes" comment="Added createItem method">
       <changelist_data name="williamProgrammerar &lt;william@johnston.se&gt;," email="" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/javascripts/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/javascripts/test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/VanMorrison/CSVReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/VanMorrison/CSVReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/VanMorrison/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/VanMorrison/Server.java" afterDir="false" />
