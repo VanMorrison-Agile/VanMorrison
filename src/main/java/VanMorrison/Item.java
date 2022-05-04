@@ -1,5 +1,5 @@
 package VanMorrison;
-public class Item {
+public class Item implements Comparable<Item> {
     private String artNr;
     private String name;
     private String price;
@@ -29,5 +29,9 @@ public class Item {
         return "Item [article number = " + artNr + ", name = " + name + ", price = " + price + "]";
     }
 
+    @Override
+    public int compareTo(Item o) {
+        return this.getName().compareTo(o.getName());
+    }
 }
 
