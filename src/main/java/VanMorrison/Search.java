@@ -2,6 +2,7 @@ package VanMorrison;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class Search {
 
@@ -9,10 +10,6 @@ public class Search {
 
     public Search(List<Item> items){
         this.items = items;
-    }
-
-    public Search(){
-
     }
 
     /**
@@ -25,7 +22,7 @@ public class Search {
 
         //If the items' article number or name matches the search term: Add it to the list which contains the matching items.
         for (Item item : items) {
-            if(item.getArtNr().contains(term) || item.getName().contains(term)){
+            if(item.getArtNr().contains(term) || Pattern.compile(Pattern.quote(term), Pattern.CASE_INSENSITIVE).matcher(item.getName()).find()){
                 matches.add(item);
             }
         }
