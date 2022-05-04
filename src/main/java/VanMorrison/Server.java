@@ -267,23 +267,29 @@ public class Server {
             Map<String,String> queries = queryToMap(queryParams);
             System.out.println(queries.get("provider") + " och " + queries.get("query"));
 
-            CSVReader csvTest = new CSVReader("provider/"+ queries.get("provider") + ".csv");
-            Search search = new Search(csvTest.getItemList());
+            try {
+                CSVReader csvTest = new CSVReader("provider/"+ queries.get("provider") + ".csv");
+                Search search = new Search(csvTest.getItems());
 
-            List<Item> items = search.search(queries.get("query"));
+                List<Item> items = search.search(queries.get("query"));
 
-            CSVReader reader = new CSVReader(items);
-            String res = reader.printToString();
+                CSVReader reader = new CSVReader(items);
+                String res = reader.printToString();
 //            String res = "";
 //            for (Item item: items) {
 //                res += item.toString() + "\n";
 //            }
 
-            byte[] bytes = res.getBytes();
-            t.sendResponseHeaders(200, bytes.length);
-            OutputStream os = t.getResponseBody();
-            os.write(bytes);
-            os.close();
+                byte[] bytes = res.getBytes();
+                t.sendResponseHeaders(200, bytes.length);
+                OutputStream os = t.getResponseBody();
+                os.write(bytes);
+                os.close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
 
         });
 
