@@ -11,10 +11,6 @@ public class Search {
         this.items = items;
     }
 
-    public Search(){
-
-    }
-
     /**
      * A function to search a list of items with a string.
      * @param term The term for which we are searching.
