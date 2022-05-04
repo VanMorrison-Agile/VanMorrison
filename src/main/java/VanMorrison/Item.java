@@ -29,9 +29,13 @@ public class Item implements Comparable<Item> {
         return "Item [article number = " + artNr + ", name = " + name + ", price = " + price + "]";
     }
 
+    /**
+     * Compares the name of two items in case-insensitive alphabetical order
+     * @param o item that will be compared with
+     */
     @Override
     public int compareTo(Item o) {
-        return this.getName().compareTo(o.getName());
+        return this.getName().compareToIgnoreCase(o.getName());
     }
 }
 
