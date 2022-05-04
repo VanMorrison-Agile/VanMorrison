@@ -232,10 +232,12 @@ public class Server {
 
             List<Item> items = search.search(queries.get("query"));
 
-            String res = "";
-            for (Item item: items) {
-                res += item.toString() + "\n";
-            }
+            CSVReader reader = new CSVReader(items);
+            String res = reader.printToString();
+//            String res = "";
+//            for (Item item: items) {
+//                res += item.toString() + "\n";
+//            }
 
             byte[] bytes = res.getBytes();
             t.sendResponseHeaders(200, bytes.length);
@@ -244,6 +246,8 @@ public class Server {
             os.close();
 
         });
+
+
 
 
 

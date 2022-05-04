@@ -22,6 +22,13 @@ public class CSVReader {
         items = readItemsFromCSV(fileName);
     }
 
+    public CSVReader(List<Item> items){
+
+        this.items = items;
+        //String[] meta = new String[]{"artNr","Namn","Pris"};
+        //this.items.add(0, createItem(new String[]{"artNr","Namn","Pris"}));
+    }
+
     public List<Item> getItemList(){
         return items;
     }
