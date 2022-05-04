@@ -11,10 +11,13 @@ import java.util.List;
 public class SearchTest {
     @Test
     public void searchTest() {
-        CSVReader csvReader = new CSVReader("provider/IkeaTest.csv");
+        CSVReader csvReader = new CSVReader("provider/exampleList.csv");
         List<Item> csvContent = csvReader.getItemList();
         Search search = new Search(csvContent);
-        List<Item> searchResult = new ArrayList<>(search.search("st"));
-        assertEquals(searchResult.size(), 1);
+        List<Item> searchResult = new ArrayList<>(search.search("St"));
+        for (Item item : searchResult) {
+            System.out.println(item.getName());
+        }
+        assertEquals(searchResult.size(), 3);
     }
 }
