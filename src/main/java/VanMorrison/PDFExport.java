@@ -18,35 +18,24 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import be.quodlibet.boxable.BaseTable;
 import be.quodlibet.boxable.Cell;
 import be.quodlibet.boxable.Row;
-import be.quodlibet.boxable.line.LineStyle;
 
 public class PDFExport {
 
-    // Function adding 3 cells/columns to provided row with provided names  
-    private static void addHeaderRow(Row row, List<String> names) {
+    // Function adding evenly split cells/columns to provided row with provided names  
+    private static void addRow(Boolean isHeader, BaseTable table, List<String> names) {
+        Row<PDPage> row = table.createRow(20);
         int size = names.size();
         
         for (int i = 0; i < size; i++) {
-            int width;
-            //Different width for first column because of the division by 3
-            if (i == 0) {width = 34;}
-            else {width = 33;};
-            Cell<PDPage> cell = row.createCell(width, names.get(i));
-            cell.setFillColor(new Color(164, 152, 138));
-            cell.setFont(PDType1Font.HELVETICA_BOLD);
+            Cell<PDPage> cell = row.createCell((100f/size), names.get(i));
+            if (isHeader) {
+                cell.setFillColor(new Color(164, 152, 138));
+                cell.setFont(PDType1Font.HELVETICA_BOLD);
+                table.addHeaderRow(row);
+            };
             cell.setFontSize(15);
         }
-    }
 
-    // Function adding 3 cells/columns to provided row with values of provided item 
-    private static void addItemRow(BaseTable table, Item item) {
-        Row<PDPage> row = table.createRow(20);
-        Cell<PDPage> cell = row.createCell(34, item.getName());
-        cell.setFontSize(15);
-        cell = row.createCell(33, item.getArtNr());
-        cell.setFontSize(15);
-        cell = row.createCell(33, item.getPrice());
-        cell.setFontSize(15);
     }
 
     public static byte [] getPdf(List<Item> items) throws IOException {
@@ -54,16 +43,17 @@ public class PDFExport {
         try (PDDocument document = new PDDocument()) {
 
             // Create a document and add a page to it (A4 for printing)
-            PDPage page = new PDPage(PDRectangle.A4);
-            document.addPage(page);
+            PDPage productPage = new PDPage(PDRectangle.A4);
+            document.addPage(productPage);
 
-            try (PDPageContentStream cos = new PDPageContentStream(document, page)) {
+            // For product page
+            try (PDPageContentStream cos = new PDPageContentStream(document, productPage)) {
 
                 float margin = 50;
                 // starting y position is whole page height subtracted by top and bottom margin
-                float yStartNewPage = page.getMediaBox().getHeight() - (2 * margin);
+                float yStartNewPage = productPage.getMediaBox().getHeight() - (2 * margin);
                 // we want table across whole page width (subtracted by left and right margin ofcourse)
-                float tableWidth = page.getMediaBox().getWidth() - (2 * margin);
+                float tableWidth = productPage.getMediaBox().getWidth() - (2 * margin);
 
                 boolean drawContent = true;
 
@@ -72,18 +62,17 @@ public class PDFExport {
                 float yPosition = yStartNewPage;
 
                 BaseTable table = new BaseTable(yPosition, yStartNewPage,
-                    bottomMargin, tableWidth, margin, document, page, true, drawContent);
+                    bottomMargin, tableWidth, margin, document, productPage, true, drawContent);
 
                 // Row for the headers
-                Row<PDPage> headerRow = table.createRow(30);
                 List<String> headers = new ArrayList<String>();
                 headers.addAll(Arrays.asList("Vara", "Artikelnummer", "Antal"));
 
-                addHeaderRow(headerRow, headers);
-                table.addHeaderRow(headerRow);
+                addRow(true, table, headers);
 
                 // Add all products/items  from provided list
-                items.forEach((item) -> addItemRow(table, item));
+                items.forEach((item) -> addRow(false, table, item.getValues()));
+
                 Integer totalPrice = 0;
                 try {
                     totalPrice = items.stream()
@@ -95,9 +84,9 @@ public class PDFExport {
 
                 // Add last row for the total sum of prices
                 Row<PDPage> totalPriceRow = table.createRow(20);
-                Cell<PDPage> cell = totalPriceRow.createCell(67, "Total summa exkl. moms:");
+                Cell<PDPage> cell = totalPriceRow.createCell(100/1.5f, "Total summa exkl. moms:");
                 cell.setFontSize(15);
-                cell = totalPriceRow.createCell(33, totalPrice.toString());
+                cell = totalPriceRow.createCell(100f/3, totalPrice.toString());
                 cell.setFontSize(15);
 
                 table.draw();

@@ -1,4 +1,8 @@
 package VanMorrison;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Item {
     private String artNr;
     private String name;
@@ -22,6 +26,15 @@ public class Item {
 
     public String getPrice(){
         return price;
+    }
+
+    // Returns list of all values
+    public List<String> getValues(){
+        List<String> values = new ArrayList<String>();
+        values.add(name);
+        values.add(artNr);
+        values.add(price);
+        return values;
     }
 
 
