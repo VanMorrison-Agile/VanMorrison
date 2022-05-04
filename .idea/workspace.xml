@@ -24,14 +24,16 @@
   <component name="ChangeListManager">
     <list default="true" id="ad56987e-5068-499c-8f17-d361f4ac1c2d" name="Changes" comment="Added createItem method">
       <changelist_data name="williamProgrammerar &lt;william@johnston.se&gt;," email="" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/VanMorrison/Search.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/javascripts/test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/VanMorrison/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/VanMorrison/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/searchForm.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/searchForm.html" afterDir="false" />
+    </list>
+    <list id="bfecd945-32dc-490d-9841-b842c88815d3" name="Changes by andre" comment="">
       <change beforePath="$PROJECT_DIR$/src/main/java/VanMorrison/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/VanMorrison/Server.java" afterDir="false" />
     </list>
     <list id="6a0cf783-fdb8-47c8-b885-3244ffbdfa4b" name="Changes by axelr" comment="" />
-    <list id="ee71c8e7-847c-464a-ba1d-820b4aa7a888" name="Changes by willi" comment="Changes by willi">
-      <change beforePath="$PROJECT_DIR$/src/main/java/VanMorrison/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/VanMorrison/Server.java" afterDir="false" />
-    </list>
+    <list id="ee71c8e7-847c-464a-ba1d-820b4aa7a888" name="Changes by willi" comment="Changes by willi" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -63,10 +65,13 @@
   <component name="LineStatusTrackerManager">
     <file path="$PROJECT_DIR$/src/main/java/VanMorrison/Server.java">
       <ranges>
-        <range start1="16" end1="16" start2="16" end2="17" changelist="ee71c8e7-847c-464a-ba1d-820b4aa7a888" />
-        <range start1="245" end1="247" start2="246" end2="246" changelist="ad56987e-5068-499c-8f17-d361f4ac1c2d" />
-        <range start1="283" end1="283" start2="282" end2="291" changelist="ee71c8e7-847c-464a-ba1d-820b4aa7a888" />
-        <range start1="286" end1="287" start2="294" end2="295" changelist="ee71c8e7-847c-464a-ba1d-820b4aa7a888" />
+        <range start1="11" end1="11" start2="11" end2="12" changelist="ad56987e-5068-499c-8f17-d361f4ac1c2d" />
+        <range start1="13" end1="17" start2="14" end2="15" changelist="ad56987e-5068-499c-8f17-d361f4ac1c2d" />
+        <range start1="83" end1="84" start2="81" end2="82" changelist="ad56987e-5068-499c-8f17-d361f4ac1c2d" />
+        <range start1="222" end1="222" start2="220" end2="246" changelist="ad56987e-5068-499c-8f17-d361f4ac1c2d" />
+        <range start1="255" end1="255" start2="279" end2="310" changelist="ad56987e-5068-499c-8f17-d361f4ac1c2d" />
+        <range start1="292" end1="292" start2="347" end2="363" changelist="bfecd945-32dc-490d-9841-b842c88815d3" />
+        <range start1="305" end1="306" start2="376" end2="377" changelist="ad56987e-5068-499c-8f17-d361f4ac1c2d" />
       </ranges>
     </file>
   </component>
@@ -99,12 +104,14 @@
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Rasmus Almryd\Documents\GitHub\VanMorrison\provider" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Rasmus Almryd\Documents\GitHub\VanMorrison\src" />
       <recent name="C:\Users\Rasmus Almryd\Documents\GitHub\VanMorrison\src\styles" />
     </key>
   </component>
@@ -171,6 +178,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />

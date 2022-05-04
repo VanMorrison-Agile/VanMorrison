@@ -9,12 +9,10 @@ import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import Data.Parameter;
 
@@ -81,7 +79,7 @@ public class Server {
             generateMain();
         });
 
-        server.createContext("/search", (HttpExchange t) -> {
+        server.createContext("/searchTemp", (HttpExchange t) -> {
             HtmlParser html = new HtmlParser("src/searchForm.html");
             byte[] bytes = html.getString().getBytes();
             t.sendResponseHeaders(200, bytes.length);
@@ -221,6 +219,32 @@ public class Server {
             os.close();
         });
 
+        server.createContext("/search", (HttpExchange t) -> {
+            //Fetch the query
+            String queryParams = t.getRequestURI().getQuery();
+
+            //Get the queries as a map
+            Map<String,String> queries = queryToMap(queryParams);
+            System.out.println(queries.get("provider") + " och " + queries.get("query"));
+
+            CSVReader csvTest = new CSVReader("provider/"+ queries.get("provider") + ".csv");
+            Search search = new Search(csvTest.getItemList());
+
+            List<Item> items = search.search(queries.get("query"));
+
+            String res = "";
+            for (Item item: items) {
+                res += item.toString() + "\n";
+            }
+
+            byte[] bytes = res.getBytes();
+            t.sendResponseHeaders(200, bytes.length);
+            OutputStream os = t.getResponseBody();
+            os.write(bytes);
+            os.close();
+
+        });
+
 
 
         server.createContext("/styles", (HttpExchange t) -> {
@@ -228,6 +252,37 @@ public class Server {
             //generate path to file from URI
             String file = t.getRequestURI().toString().substring(8);
             String path = "src/styles/"+file;
+
+            //Reads css file to string
+            StringBuilder html = new StringBuilder();
+            try {
+                FileReader reader = new FileReader(path);
+                while (reader.ready()) html.append((char)reader.read());
+            } catch (Exception e) {
+                String msg = "File cannot be found";
+                byte[] msgBytes = msg.getBytes();
+                System.out.println(e);
+                t.sendResponseHeaders(404, msgBytes.length);
+                OutputStream os = t.getResponseBody();
+                os.write(msgBytes);
+                os.close();
+                return;
+            }
+            String response =  html.toString();
+
+            //Sends file to client
+            byte[] bytes = response.getBytes();
+            t.sendResponseHeaders(200, bytes.length);
+            OutputStream os = t.getResponseBody();
+            os.write(bytes);
+            os.close();
+        });
+
+        server.createContext("/javascripts", (HttpExchange t) -> {
+
+            //generate path to file from URI
+            String file = t.getRequestURI().toString().substring(13);
+            String path = "src/javascripts/"+file;
 
             //Reads css file to string
             StringBuilder html = new StringBuilder();
@@ -291,8 +346,35 @@ public class Server {
         return readData.replace("#OPTIONS#", aa.toString());
     }
 
+    public Map<String, String> queryToMap(String query){
+        if(query == null){
+            return null;
+        }
+        Map<String, String> result = new HashMap<>();
+        for(String param : query.split("&")){
+            String[] entry = param.split("=");
+            if(entry.length > 1) {
+                result.put(entry[0], entry[1]);
+            }else{
+                result.put(entry[0], "");
+            }
+        }
+        return result;
+    }
+
+    private void searchTest() {
+        Scanner myObj = new Scanner(System.in);
+        CSVReader csvReader = new CSVReader("provider/IkeaTest.csv");
+        Search search = new Search(csv.getItemList());
+        List<Item> searchResult = new ArrayList<>(Search.search(myObj.nextLine()));
+        for (Item item : searchResult) {
+            System.out.println(item.getName());
+        }
+    }
+
     public void generateMain() {
         ///TODO: Add elements to the site by calling methods on s
+        //searchTest();
         body = "";
         header = "<meta charset=\"UTF-16\">";
         addStyle();
