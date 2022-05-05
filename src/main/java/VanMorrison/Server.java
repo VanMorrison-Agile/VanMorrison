@@ -134,7 +134,7 @@ public class Server {
 
             String response = t.getRequestURI().toString();
 
-            csv = new CSVReader("provider/" + response.substring(10) + ".csv");
+            /*csv = new CSVReader("provider/" + response.substring(10) + ".csv");
 
             response =
                     "<head>\n" +
@@ -146,8 +146,13 @@ public class Server {
                     "</header>" +
                     "<body>" +
                     csv.printToString() +
-                    "</body>";
+                    "</body>";*/
 
+
+            HtmlParser p = new HtmlParser("src/productView.html");
+            p.set("providerName" ,response.substring(10));
+
+            response = p.getString();
             byte[] bytes = response.getBytes();
             t.sendResponseHeaders(200, bytes.length);
             OutputStream os = t.getResponseBody();
