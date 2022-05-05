@@ -6,8 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import java.awt.Color;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -191,6 +192,17 @@ public class PDFExport {
                 List<String> buyerHeaders = new ArrayList<String>();
                 buyerHeaders.add("Uppgifter beställare");
                 addRow(true, buyerTable, buyerHeaders);
+
+                // Example 
+                Map<String, String> personalInfo = new HashMap<String, String>();
+                personalInfo.put("För- och efternamn", "Emil");
+                personalInfo.put("Enhet", "Adn");
+                personalInfo.put("Leveransadress", "Lindholmen");
+                personalInfo.put("TelefonNummer till verksamheten", "0046");
+                personalInfo.put("Ansvar", "None");
+                personalInfo.put("Verkkod", "666");
+
+                personalInfo.forEach((k,v) -> addRow(false, buyerTable, Arrays.asList(k, v)));
 
                 float newYPosition = buyerTable.draw();
                 
