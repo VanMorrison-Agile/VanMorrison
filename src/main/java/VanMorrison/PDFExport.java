@@ -146,6 +146,20 @@ public class PDFExport {
                 String orderOptions = "         Direktupphandling             Hämtköp";
                 cont.setFont(PDType1Font.HELVETICA, 12);
                 cont.showText(orderOptions);
+                
+                // Last bit of text
+                String pickUpDescription = "Namn på person som hämtar varan:";
+                cont.newLineAtOffset(0, 12);
+                cont.setFont(PDType1Font.HELVETICA_BOLD, 12);
+                cont.newLine();
+                cont.showText(pickUpDescription);
+
+                String space = " ";
+                // Replace with data from website
+                String pickUp = "Bemil";
+                cont.setFont(PDType1Font.HELVETICA, 12);
+                cont.showText(space);
+                cont.showText(pickUp);
                 cont.endText();
                 
             } catch (Exception e) {System.out.println(e);}
