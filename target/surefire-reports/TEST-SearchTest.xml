@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="6" failures="0" name="HtmlParseTest" time="0.004" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="SearchTest" time="0.001" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="java.vm.version" value="16+36-2231"/>
@@ -59,10 +59,5 @@
     <property name="sun.stdout.encoding" value="cp850"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="HtmlParseTest" name="testSet" time="0.003"/>
-  <testcase classname="HtmlParseTest" name="doubleKeysTest" time="0"/>
-  <testcase classname="HtmlParseTest" name="repeated" time="0"/>
-  <testcase classname="HtmlParseTest" name="noReplace" time="0.001"/>
-  <testcase classname="HtmlParseTest" name="manyRepeats" time="0"/>
-  <testcase classname="HtmlParseTest" name="settingNoneExisting" time="0"/>
+  <testcase classname="SearchTest" name="searchTest" time="0.001"/>
 </testsuite>
