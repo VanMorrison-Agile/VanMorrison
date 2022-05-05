@@ -182,6 +182,17 @@ public class PDFExport {
                     cont.stroke();
                 }
                 cont.close();
+
+                // Adding tables
+                BaseTable buyerTable = new BaseTable(yPosition, yStartNewPage,
+                    bottomMargin, tableWidth, margin, document, metadataPage, true, drawContent);
+
+                // Row for the headers for buyerTable
+                List<String> buyerHeaders = new ArrayList<String>();
+                buyerHeaders.add("Uppgifter beställare");
+                addRow(true, buyerTable, buyerHeaders);
+
+                float newYPosition = buyerTable.draw();
                 
             } catch (Exception e) {System.out.println(e);}
 
