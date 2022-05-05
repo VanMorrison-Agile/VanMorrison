@@ -95,6 +95,37 @@ public class PDFExport {
                 productTable.draw();
             }
 
+            
+            // For metadata page
+            try (PDPageContentStream cont = new PDPageContentStream(document,  metadataPage)) {
+                float margin = 50;
+                // starting y position is whole page height subtracted by top and bottom margin
+                float yStartNewPage = metadataPage.getMediaBox().getHeight() - (2 * margin);
+                // we want table across whole page width (subtracted by left and right margin ofcourse)
+                float tableWidth = metadataPage.getMediaBox().getWidth() - (2 * margin);
+
+                boolean drawContent = true;
+
+                float bottomMargin = 70;
+                // y position is your coordinate of top left corner of the table
+                float yPosition = yStartNewPage - 150;
+
+                // Initial text
+                cont.beginText();
+                cont.setFont(PDType1Font.HELVETICA_BOLD, 30);
+                cont.setLeading(30f);
+                
+                cont.newLineAtOffset(margin, yStartNewPage);
+                String title1 = "Direktupphandlingsblankett för";
+                String title2 = "inköp mellan 0kr - 10.000kr";
+                cont.showText(title1);
+                cont.newLine();
+                cont.showText(title2);
+                cont.endText();
+                
+            } catch (Exception e) {System.out.println(e);}
+
+
             // Saves pdf to an outputstream, which fills a byte array. Then returns byte array.
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             document.save(byteArrayOutputStream);
