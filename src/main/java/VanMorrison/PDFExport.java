@@ -213,6 +213,12 @@ public class PDFExport {
                 supplierHeaders.add("Uppgifter leverantör");
                 addRow(true, supplierTable, supplierHeaders);
 
+                Map<String, String> supplierInfo = new HashMap<String, String>();
+                supplierInfo.put("Namn", "Bemil");
+                supplierInfo.put("Organisationsnummer", "3");
+                supplierInfo.put("Mejladress", "Bemil@best");
+                supplierInfo.forEach((k,v) -> addRow(false, supplierTable, Arrays.asList(k, v)));
+
                 supplierTable.draw();
             } catch (Exception e) {System.out.println(e);}
 
