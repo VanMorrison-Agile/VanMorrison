@@ -392,7 +392,6 @@ public class Server {
             form2.addEventListener("submit", handleSubmit);
             """
         );
-
     }
 }
 
