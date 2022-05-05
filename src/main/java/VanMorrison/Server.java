@@ -134,33 +134,23 @@ public class Server {
             String provider = response.substring(10);
             csv = new CSVReader("provider/" + provider + ".csv");
 
-            response =
-                    "<head>\n" +
-                    "<meta charset=\"UTF-8\">\n" +
-                    "<link rel=\"stylesheet\" href=\"/styles/viewProvider.css\">" +
-                    "</head>"+
-                    "<header>" +
-                    response.substring(10) +
-                    "</header>" +
-                    "<body>" +
-                    csv.printToString() +
-                    generateCartDisplay() +
-                    readHTML("src/html/cartSubmitForm.html") +
-                    "</body>" +
-                    "<script>" +
-                    "var provider = '" + provider + "';" +
-                    generateCartScript() + 
-                    """
-                        var form = document.getElementById("sendOrderForm");
+            
+            String extraScript = generateCartScript() + 
+            """
+                var form = document.getElementById("sendOrderForm");
 
-                        var providerInput = document.createElement('input');
-                        providerInput.setAttribute('name', 'provider');
-                        providerInput.setAttribute('type', 'hidden');
-                        providerInput.setAttribute('value', '""" + provider + "');" +
-                        "form.appendChild(providerInput);" +
-                    "</script>";
+                var providerInput = document.createElement('input');
+                providerInput.setAttribute('name', 'provider');
+                providerInput.setAttribute('type', 'hidden');
+                providerInput.setAttribute('value', '""" + provider + "');" +
+                "form.appendChild(providerInput);";
 
-                    
+
+            HtmlParser p = new HtmlParser("src/productView.html");
+            p.set("providerName" ,response.substring(10));
+            p.set("extraScript", extraScript);
+
+            response = p.getString();
             byte[] bytes = response.getBytes();
             t.sendResponseHeaders(200, bytes.length);
             OutputStream os = t.getResponseBody();

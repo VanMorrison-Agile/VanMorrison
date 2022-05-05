@@ -2,17 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
     <link rel="stylesheet" href="/styles/viewProvider.css">
     <link rel="stylesheet" href="/styles/searchForm.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <style>
-
-    </style>
-</head>
+    </head>
 <body>
-
+    <div id="provider-name" style="display:none">${providerName}</div>
+    <header>
+        ${providerName}
+    </header>
     <div id="search-container">
         <form id="search-form">
             <input type="text" id="search-bar" name="query" placeholder="Sök">
@@ -23,4 +21,8 @@
 
     </div>
     <script src="/javascripts/test.js"></script>
+    <script>
+        ${extraScript}
+    </script>
 </body>
+<html>
