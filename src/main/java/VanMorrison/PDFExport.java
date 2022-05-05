@@ -205,7 +205,15 @@ public class PDFExport {
                 personalInfo.forEach((k,v) -> addRow(false, buyerTable, Arrays.asList(k, v)));
 
                 float newYPosition = buyerTable.draw();
-                
+
+                BaseTable supplierTable = new BaseTable(newYPosition - 20, yStartNewPage,
+                bottomMargin, tableWidth, margin, document, metadataPage, true, drawContent);
+
+                List<String> supplierHeaders = new ArrayList<String>();
+                supplierHeaders.add("Uppgifter leverantör");
+                addRow(true, supplierTable, supplierHeaders);
+
+                supplierTable.draw();
             } catch (Exception e) {System.out.println(e);}
 
 
