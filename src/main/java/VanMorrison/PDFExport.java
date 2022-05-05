@@ -136,6 +136,16 @@ public class PDFExport {
                 cont.newLine();
                 cont.newLineAtOffset(0, 12);
                 cont.showText(bulletPoint3);
+
+                // Adding checkboxes and the relevant text
+                String order = "Beställningen gäller:";
+                cont.newLineAtOffset(-0.5f*margin, 0);
+                cont.setFont(PDType1Font.HELVETICA_BOLD, 12);
+                cont.newLine();
+                cont.showText(order);
+                String orderOptions = "         Direktupphandling             Hämtköp";
+                cont.setFont(PDType1Font.HELVETICA, 12);
+                cont.showText(orderOptions);
                 cont.endText();
                 
             } catch (Exception e) {System.out.println(e);}
