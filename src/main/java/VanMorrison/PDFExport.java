@@ -161,6 +161,27 @@ public class PDFExport {
                 cont.showText(space);
                 cont.showText(pickUp);
                 cont.endText();
+
+                // Actual checkboxes
+                cont.addRect(180, 615, 15, 15);
+                // Replace true with boolean data from website
+                if (true) cont.fill();
+                else {
+                    cont.setLineWidth(1);
+                    cont.setNonStrokingColor(Color.WHITE);
+                    cont.setStrokingColor(Color.BLACK);
+                    cont.stroke();
+                }
+
+                cont.addRect(320, 615, 15, 15);
+                if (false) cont.fill();
+                else {
+                    cont.setLineWidth(1);
+                    cont.setNonStrokingColor(Color.WHITE);
+                    cont.setStrokingColor(Color.BLACK);
+                    cont.stroke();
+                }
+                cont.close();
                 
             } catch (Exception e) {System.out.println(e);}
 
