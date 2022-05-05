@@ -121,6 +121,21 @@ public class PDFExport {
                 cont.showText(title1);
                 cont.newLine();
                 cont.showText(title2);
+
+                // Bullet points
+                String bulletPoint1 = "\u2022 Ifylld blankett skickas till funktionsbrevlådan för ditt inköpsområde.";
+                String bulletPoint2 = "\u2022 När beställningen tagits emot hanteras den inom 5 arbetsdagar.";
+                String bulletPoint3 = "\u2022 Efter leverans av varorna mejla bekräftelse till inköp för leveranskvittens.";
+                cont.setFont(PDType1Font.HELVETICA, 12);
+                cont.newLineAtOffset(0.5f*margin, 0);
+                cont.newLine();
+                cont.showText(bulletPoint1);
+                cont.newLine();
+                cont.newLineAtOffset(0, 12);
+                cont.showText(bulletPoint2);
+                cont.newLine();
+                cont.newLineAtOffset(0, 12);
+                cont.showText(bulletPoint3);
                 cont.endText();
                 
             } catch (Exception e) {System.out.println(e);}
