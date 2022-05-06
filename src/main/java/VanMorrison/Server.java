@@ -6,7 +6,6 @@ import com.sun.net.httpserver.HttpServer;
 import org.apache.pdfbox.pdmodel.interactive.form.FieldUtils;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -120,8 +119,7 @@ public class Server {
 
             String response = t.getRequestURI().toString();
 
-            String provider = response.substring(10);
-            csv = new CSVReader("provider/" + provider + ".csv");
+            csv = new CSVReader("provider/" + response.substring(10) + ".csv");
 
             response =
                     "<head>\n" +
@@ -133,23 +131,8 @@ public class Server {
                     "</header>" +
                     "<body>" +
                     csv.printToString() +
-                    generateCartDisplay() +
-                    readHTML("src/html/cartSubmitForm.html") +
-                    "</body>" +
-                    "<script>" +
-                    "var provider = '" + provider + "';" +
-                    generateCartScript() + 
-                    """
-                        var form = document.getElementById("sendOrderForm");
+                    "</body>";
 
-                        var providerInput = document.createElement('input');
-                        providerInput.setAttribute('name', 'provider');
-                        providerInput.setAttribute('type', 'hidden');
-                        providerInput.setAttribute('value', '""" + provider + "');" +
-                        "form.appendChild(providerInput);" +
-                    "</script>";
-
-                    
             byte[] bytes = response.getBytes();
             t.sendResponseHeaders(200, bytes.length);
             OutputStream os = t.getResponseBody();
@@ -199,47 +182,20 @@ public class Server {
             }
         });
         
-        server.createContext("/getpdf", (HttpExchange t) -> {
+        server.createContext("/pdf", (HttpExchange t) -> {
             // Add the required response header for a PDF file
             Headers h = t.getResponseHeaders();
             h.add("Content-Type", "application/pdf");
 
-            Map<String, Parameter> params = HTMLUtility.getMimeParameters(t.getRequestBody());
-
-
-            String[] itemNr = params.get("itemNr").getDataAsStringArray();
-            String[] itemCount = params.get("itemCount").getDataAsStringArray();
-
-
-            CSVReader csvReader = new CSVReader("provider/" + params.get("provider").getDataAsString() + ".csv");
-
-
-            List<Item> sortiment = csvReader.getItemList();
-
+            // Example list of items, supposed to come from "cart". Used for pdf generator
+            Item item1 = new Item("1", "Bemil", "500");
+            Item item2 = new Item("2", "Emil", "5000");
             List<Item> items = new ArrayList<Item>();
-            List<Integer> amounts = new ArrayList<Integer>();
-            for (int i = 0; i < itemNr.length; i++) {
-
-                Item currentItem = null;
-                for (Item item : sortiment) {
-                    if (item.getArtNr().equals(itemNr[i])) {
-                        currentItem = item;
-                        break;
-                    }
-                }
-                
-                if (currentItem == null){
-                    System.out.println("Invalid item: " + itemNr[i]);
-                    items.add(new Item(itemNr[i], "Error: PDF generation aborted due to invalid item:", "0"));
-                    break;
-                }
-
-                items.add(currentItem);
-                amounts.add(Integer.parseInt(itemCount[i]));
-            }
+            items.add(item1);
+            items.add(item2);
 
             //Get byte array containing pdf
-            byte [] docBytes = PDFExport.getPdf(items, amounts);
+            byte [] docBytes = PDFExport.getPdf(items);
 
             // Send the response.
             t.sendResponseHeaders(200, docBytes.length);
@@ -321,7 +277,21 @@ public class Server {
     }
 
 
-    public String generateCartDisplay() {
+    public void generateMain() {
+        ///TODO: Add elements to the site by calling methods on s
+
+        body = "";
+        header = "<meta charset=\"UTF-16\">";
+        addStyle();
+        addBody("Hello world!");
+        addBody(addProviderForm());
+        addBody("<Br />");
+        addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
+
+        addBody(csv.printToString());
+
+        addBody(readHTML("src/html/cartSubmitForm.html"));
+
         String cartDisplay = "<div>";
 
         for (Item item:
@@ -333,18 +303,18 @@ public class Server {
         }
 
         cartDisplay += "</div>";
+        addBody(cartDisplay);
 
-        return cartDisplay;
-    }
-
-    public String generateCartScript() {
         String cartItemsContent = "";
         for (Item item:
              csv.items) {
             cartItemsContent += item.getArtNr() + " : 0 , "; //I think js is alright with a trailing comma
         }
         
-        return """
+        
+        
+        addScript(
+    """
             var cartItems = {
             """
                 + cartItemsContent +
@@ -388,7 +358,6 @@ public class Server {
 
             function addItemsToCartForm(){
                 var form = document.getElementById("sendOrderForm");
-                
                 for(const [artNr, count] of Object.entries(cartItems)){
                     if (count != 0){
                         var itemInput = document.createElement("input");
@@ -405,24 +374,8 @@ public class Server {
                     }
                 }
             }
-            """;
-    }
-
-    public void generateMain() {
-        ///TODO: Add elements to the site by calling methods on s
-
-        body = "";
-        header = "<meta charset=\"UTF-16\">";
-        addStyle();
-        addBody("Hello world!");
-        addBody(addProviderForm());
-        addBody("<Br />");
-        addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
-
-        addBody(csv.printToString());
-
-
-        
+            """
+        );
 
     }
 }
