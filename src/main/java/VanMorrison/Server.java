@@ -123,35 +123,17 @@ public class Server {
         });
 
         server.createContext("/products", (HttpExchange t) -> {
-            //String response = readHTML("src/viewProvider.html");
-//            System.out.println("test");
-//            HtmlParser h = new HtmlParser("src/viewProvider.html");
-//            h.set("hej", "inte hej");
-//            h.set("main", "main2");
-//            h.set("vad är den", "här");
-//
-//            System.out.println(h.getString());
 
+            //Gets the full query
             String response = t.getRequestURI().toString();
-
-            /*csv = new CSVReader("provider/" + response.substring(10) + ".csv");
-
-            response =
-                    "<head>\n" +
-                    "<meta charset=\"UTF-8\">\n" +
-                    "<link rel=\"stylesheet\" href=\"/styles/viewProvider.css\">" +
-                    "</head>"+
-                    "<header>" +
-                    response.substring(10) +
-                    "</header>" +
-                    "<body>" +
-                    csv.printToString() +
-                    "</body>";*/
 
 
             HtmlParser p = new HtmlParser("src/productView.html");
+            // Sets key ${providerName} in the html text to the part of
+            // the query that comes after /provider/...
             p.set("providerName" ,response.substring(10));
 
+            //Send html to web client
             response = p.getString();
             byte[] bytes = response.getBytes();
             t.sendResponseHeaders(200, bytes.length);
@@ -232,36 +214,29 @@ public class Server {
             Map<String,String> queries = queryToMap(queryParams);
             System.out.println(queries.get("provider") + " och " + queries.get("query"));
 
-            try {
-                CSVReader csvTest = new CSVReader("provider/"+ queries.get("provider") + ".csv");
-                Search search = new Search(csvTest.getItems());
+            //Retrieves products from the provider that is in the query
+            CSVReader csvTest = new CSVReader("provider/"+ queries.get("provider") + ".csv");
+            Search search = new Search(csvTest.getItems());
 
-                List<Item> items = search.search(queries.get("query"));
+            //Searching by the  key "query" that is in the URL query
+            List<Item> items = search.search(queries.get("query"));
 
-                CSVReader reader = new CSVReader(items);
-                String res = reader.printToString();
-//            String res = "";
-//            for (Item item: items) {
-//                res += item.toString() + "\n";
-//            }
+            //Transform the results from searching to html
+            CSVReader reader = new CSVReader(items);
+            String res = reader.printToString();
 
-                byte[] bytes = res.getBytes();
-                t.sendResponseHeaders(200, bytes.length);
-                OutputStream os = t.getResponseBody();
-                os.write(bytes);
-                os.close();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-
-
+            //Sends a response to web client
+            byte[] bytes = res.getBytes();
+            t.sendResponseHeaders(200, bytes.length);
+            OutputStream os = t.getResponseBody();
+            os.write(bytes);
+            os.close();
         });
 
 
 
 
-
+        //Handling request of .css files from web client
         server.createContext("/styles", (HttpExchange t) -> {
 
             //generate path to file from URI
@@ -271,9 +246,11 @@ public class Server {
             //Reads css file to string
             StringBuilder html = new StringBuilder();
             try {
+                //Appends context of file to string line by line
                 FileReader reader = new FileReader(path);
                 while (reader.ready()) html.append((char)reader.read());
             } catch (Exception e) {
+                //If file could not be found, send error message and code 404 (not found) to web client
                 String msg = "File cannot be found";
                 byte[] msgBytes = msg.getBytes();
                 System.out.println(e);
@@ -283,6 +260,7 @@ public class Server {
                 os.close();
                 return;
             }
+
             String response =  html.toString();
 
             //Sends file to client
@@ -293,6 +271,7 @@ public class Server {
             os.close();
         });
 
+        //Handling request of .js files from web client
         server.createContext("/javascripts", (HttpExchange t) -> {
 
             //generate path to file from URI
@@ -302,9 +281,11 @@ public class Server {
             //Reads css file to string
             StringBuilder html = new StringBuilder();
             try {
+                //Appends context of file to string line by line
                 FileReader reader = new FileReader(path);
                 while (reader.ready()) html.append((char)reader.read());
             } catch (Exception e) {
+                //If file could not be found, send error message and code 404 (not found) to web client
                 String msg = "File cannot be found";
                 byte[] msgBytes = msg.getBytes();
                 System.out.println(e);
