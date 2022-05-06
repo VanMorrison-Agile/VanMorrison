@@ -28,7 +28,7 @@ public class Search {
             }
         }
 
-        //Sorts the items in alphabetical order
+        //Sorts the items in alphabetical case-insensitive order
         Collections.sort(matches);
 
         return matches;
