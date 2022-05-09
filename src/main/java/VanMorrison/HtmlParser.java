@@ -11,9 +11,9 @@ import java.util.regex.Pattern;
 public class HtmlParser {
 
     private String rawHtml;
-    private List<String> matches;
-    private Map<String, String> keys;
-    private String[] htmlParts;
+    private List<String> matches; // All keys ( ${...} ) in order, even duplicates
+    private Map<String, String> keys; // Dictionary of what value keys map to
+    private String[] htmlParts; // The regular html parts that sits between the keys
     private String matchReg = "(?:(\\$\\{))(.*?)(?:\\})";
     // (?:\${)(.*?)(?:\})
 
@@ -25,8 +25,10 @@ public class HtmlParser {
     }
 
     private void parse(){
+        // Splits the raw html text on the regex pattern that match on the key format (${...}).
         htmlParts = rawHtml.split(matchReg);
 
+        // Retrieves all keys from the raw html
         Pattern pat = Pattern.compile(matchReg);
         Matcher mat = pat.matcher(rawHtml);
 
@@ -43,8 +45,10 @@ public class HtmlParser {
         }
     }
 
+    // Returns the string of the html document where the keys are replaced with their corresponding values
     public String getString(){
         StringBuilder sb = new StringBuilder();
+        // combining the html parts with the values
         for(int i = 0; i < Math.max(htmlParts.length, matches.size()); i++){
             if(i < htmlParts.length) sb.append(htmlParts[i]);
             if(i < matches.size()) sb.append(keys.get(matches.get(i)));

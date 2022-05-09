@@ -10,11 +10,10 @@ import java.lang.reflect.Array;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import Data.Parameter;
 
@@ -81,7 +80,19 @@ public class Server {
             generateMain();
         });
 
+        server.createContext("/searchTemp", (HttpExchange t) -> {
+            HtmlParser html = new HtmlParser("src/searchForm.html");
+            byte[] bytes = html.getString().getBytes();
+            t.sendResponseHeaders(200, bytes.length);
+            OutputStream os = t.getResponseBody();
+            os.write(bytes);
+            os.close();
+            generateMain();
+        });
+
+
         server.createContext("/", (HttpExchange t) -> {
+            //String response = readHTML("src/viewProvider.html");
             HtmlParser h = new HtmlParser("src/viewProvider.html");
             StringBuilder htmlProviders = new StringBuilder();
 
@@ -109,47 +120,35 @@ public class Server {
         });
 
         server.createContext("/products", (HttpExchange t) -> {
-            //String response = readHTML("src/viewProvider.html");
-//            System.out.println("test");
-//            HtmlParser h = new HtmlParser("src/viewProvider.html");
-//            h.set("hej", "inte hej");
-//            h.set("main", "main2");
-//            h.set("vad är den", "här");
-//
-//            System.out.println(h.getString());
 
+            //Gets the full query
             String response = t.getRequestURI().toString();
 
             String provider = response.substring(10);
             csv = new CSVReader("provider/" + provider + ".csv");
 
-            response =
-                    "<head>\n" +
-                    "<meta charset=\"UTF-8\">\n" +
-                    "<link rel=\"stylesheet\" href=\"/styles/viewProvider.css\">" +
-                    "</head>"+
-                    "<header>" +
-                    response.substring(10) +
-                    "</header>" +
-                    "<body>" +
-                    csv.printToString() +
-                    generateCartDisplay() +
-                    readHTML("src/html/cartSubmitForm.html") +
-                    "</body>" +
-                    "<script>" +
-                    "var provider = '" + provider + "';" +
-                    generateCartScript() + 
-                    """
-                        var form = document.getElementById("sendOrderForm");
+            
+            String extraScript = generateCartScript() + 
+            """
+                var form = document.getElementById("sendOrderForm");
 
-                        var providerInput = document.createElement('input');
-                        providerInput.setAttribute('name', 'provider');
-                        providerInput.setAttribute('type', 'hidden');
-                        providerInput.setAttribute('value', '""" + provider + "');" +
-                        "form.appendChild(providerInput);" +
-                    "</script>";
+                var providerInput = document.createElement('input');
+                providerInput.setAttribute('name', 'provider');
+                providerInput.setAttribute('type', 'hidden');
+                providerInput.setAttribute('value', '""" + provider + "');" +
+                "form.appendChild(providerInput);";
 
-                    
+
+            HtmlParser p = new HtmlParser("src/productView.html");
+            // Sets key ${providerName} in the html text to the part of
+            // the query that comes after /provider/...
+            p.set("providerName" ,response.substring(10));
+            p.set("extraScript", extraScript);
+            p.set("cartDisplay", generateCartDisplay());
+            //Adding cart submit form makes this not work. Figure out why later
+
+            //Send html to web client
+            response = p.getString();
             byte[] bytes = response.getBytes();
             t.sendResponseHeaders(200, bytes.length);
             OutputStream os = t.getResponseBody();
@@ -248,8 +247,37 @@ public class Server {
             os.close();
         });
 
+        server.createContext("/search", (HttpExchange t) -> {
+            //Fetch the query
+            String queryParams = t.getRequestURI().getQuery();
+
+            //Get the queries as a map
+            Map<String,String> queries = queryToMap(queryParams);
+            System.out.println(queries.get("provider") + " och " + queries.get("query"));
+
+            //Retrieves products from the provider that is in the query
+            CSVReader csvTest = new CSVReader("provider/"+ queries.get("provider") + ".csv");
+            Search search = new Search(csvTest.getItems());
+
+            //Searching by the  key "query" that is in the URL query
+            List<Item> items = search.search(queries.get("query"));
+
+            //Transform the results from searching to html
+            CSVReader reader = new CSVReader(items);
+            String res = reader.printToString();
+
+            //Sends a response to web client
+            byte[] bytes = res.getBytes();
+            t.sendResponseHeaders(200, bytes.length);
+            OutputStream os = t.getResponseBody();
+            os.write(bytes);
+            os.close();
+        });
 
 
+
+
+        //Handling request of .css files from web client
         server.createContext("/styles", (HttpExchange t) -> {
 
             //generate path to file from URI
@@ -259,9 +287,46 @@ public class Server {
             //Reads css file to string
             StringBuilder html = new StringBuilder();
             try {
+                //Appends context of file to string line by line
                 FileReader reader = new FileReader(path);
                 while (reader.ready()) html.append((char)reader.read());
             } catch (Exception e) {
+                //If file could not be found, send error message and code 404 (not found) to web client
+                String msg = "File cannot be found";
+                byte[] msgBytes = msg.getBytes();
+                System.out.println(e);
+                t.sendResponseHeaders(404, msgBytes.length);
+                OutputStream os = t.getResponseBody();
+                os.write(msgBytes);
+                os.close();
+                return;
+            }
+
+            String response =  html.toString();
+
+            //Sends file to client
+            byte[] bytes = response.getBytes();
+            t.sendResponseHeaders(200, bytes.length);
+            OutputStream os = t.getResponseBody();
+            os.write(bytes);
+            os.close();
+        });
+
+        //Handling request of .js files from web client
+        server.createContext("/javascripts", (HttpExchange t) -> {
+
+            //generate path to file from URI
+            String file = t.getRequestURI().toString().substring(13);
+            String path = "src/javascripts/"+file;
+
+            //Reads css file to string
+            StringBuilder html = new StringBuilder();
+            try {
+                //Appends context of file to string line by line
+                FileReader reader = new FileReader(path);
+                while (reader.ready()) html.append((char)reader.read());
+            } catch (Exception e) {
+                //If file could not be found, send error message and code 404 (not found) to web client
                 String msg = "File cannot be found";
                 byte[] msgBytes = msg.getBytes();
                 System.out.println(e);
@@ -281,8 +346,6 @@ public class Server {
             os.close();
         });
     }
-
-
 
 
 
@@ -318,6 +381,22 @@ public class Server {
         }
 
         return readData.replace("#OPTIONS#", aa.toString());
+    }
+
+    public Map<String, String> queryToMap(String query){
+        if(query == null){
+            return null;
+        }
+        Map<String, String> result = new HashMap<>();
+        for(String param : query.split("&")){
+            String[] entry = param.split("=");
+            if(entry.length > 1) {
+                result.put(entry[0], entry[1]);
+            }else{
+                result.put(entry[0], "");
+            }
+        }
+        return result;
     }
 
 
@@ -416,7 +495,6 @@ public class Server {
 
             const form2 = document.getElementById("form2");
             form2.addEventListener("submit", handleSubmit);
-        );
             """;
     }
 
@@ -435,6 +513,7 @@ public class Server {
 
          addBody(readHTML("src/personalInformation.html"));
         
+         addBody(readHTML("src/html/cartSubmitForm.html"));
 
     }
 }
