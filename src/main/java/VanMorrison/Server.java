@@ -321,6 +321,7 @@ public class Server {
     }
 
 
+
     public String generateCartDisplay() {
         String cartDisplay = "<div>";
 
@@ -405,6 +406,18 @@ public class Server {
                     }
                 }
             }
+
+            function handleSubmit(event) {
+                event.preventDefault();
+                const data = new FormData(event.target);
+                const value = Object.fromEntries(data.entries());
+                console.log({ value });
+            }
+
+            const form2 = document.getElementById("form2");
+            form2.addEventListener("submit", handleSubmit);
+            """
+        );
             """;
     }
 
@@ -421,7 +434,7 @@ public class Server {
 
         addBody(csv.printToString());
 
-
+         addBody(readHTML("src/personalInformation.html"));
         
 
     }
