@@ -398,7 +398,7 @@ public class Server {
         }
         return result;
     }
-    
+
 
 
     public String generateCartDisplay() {
