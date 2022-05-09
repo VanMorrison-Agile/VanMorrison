@@ -416,7 +416,6 @@ public class Server {
 
             const form2 = document.getElementById("form2");
             form2.addEventListener("submit", handleSubmit);
-            """
         );
             """;
     }
