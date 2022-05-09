@@ -91,7 +91,7 @@ public class Server {
         });
 
 
-        server.createContext("/viewProvider", (HttpExchange t) -> {
+        server.createContext("/", (HttpExchange t) -> {
             //String response = readHTML("src/viewProvider.html");
             HtmlParser h = new HtmlParser("src/viewProvider.html");
             StringBuilder htmlProviders = new StringBuilder();
