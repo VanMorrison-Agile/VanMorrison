@@ -144,6 +144,7 @@ public class Server {
             // the query that comes after /provider/...
             p.set("providerName" ,response.substring(10));
             p.set("extraScript", extraScript);
+            p.set("cartDisplay", generateCartDisplay());
 
             //Send html to web client
             response = p.getString();
@@ -502,7 +503,6 @@ public class Server {
 
             const form2 = document.getElementById("form2");
             form2.addEventListener("submit", handleSubmit);
-        );
             """;
     }
 
