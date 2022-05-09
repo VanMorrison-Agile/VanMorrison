@@ -145,6 +145,7 @@ public class Server {
             p.set("providerName" ,response.substring(10));
             p.set("extraScript", extraScript);
             p.set("cartDisplay", generateCartDisplay());
+            //Adding cart submit form makes this not work. Figure out why later
 
             //Send html to web client
             response = p.getString();
