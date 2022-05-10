@@ -362,16 +362,14 @@ public class Server {
      * Compiles a form for creating/updating product lists for the current providers or a new one.
      * @return A complete html form represented as a string
      */
-    public String addProviderForm(){
-        String readData = readHTML("src/form.html");
-
+    public String generateProviderOptions(){
         StringBuilder aa = new StringBuilder();
         File folder = new File("provider");
         File[] listOfFiles = folder.listFiles();
 
-        for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
-                String companyName = listOfFiles[i].getName();
+        for (File file : listOfFiles) {
+            if (file.isFile()) {
+                String companyName = file.getName();
                 if (companyName.contains(".")){
                     companyName = companyName.substring(0, companyName.lastIndexOf('.'));
                 }
@@ -380,7 +378,7 @@ public class Server {
             }
         }
 
-        return readData.replace("#OPTIONS#", aa.toString());
+        return aa.toString();
     }
 
     public Map<String, String> queryToMap(String query){
@@ -505,7 +503,6 @@ public class Server {
         header = "<meta charset=\"UTF-16\">";
         addStyle();
         addBody("Hello world!");
-        addBody(addProviderForm());
         addBody("<Br />");
         addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
 
