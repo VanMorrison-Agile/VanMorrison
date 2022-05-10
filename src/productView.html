@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css"> <!--Reset css-->
+    <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
+    <!--Reset css-->
+    <link href='https://fonts.googleapis.com/css?family=Krona One' rel='stylesheet'>
+    <!--Krona One font-->
     <link rel="stylesheet" href="/styles/viewProvider.css">
     <link rel="stylesheet" href="/styles/searchForm.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    </head>
-    <body>
-        <div id="provider-name" style="display:none">${providerName}</div>
-        <header>
-            ${providerName}
-        </header>
-        <div id="main-bit">
+</head>
+
+<body>
+    <div id="provider-name" style="display:none">${providerName}</div>
+    <header>
+        ${providerName}
+    </header>
+    <div id="main-bit">
         <div id="search-container">
             <form id="search-form">
                 <input type="text" id="search-bar" name="query" placeholder="Sök">
@@ -24,51 +29,39 @@
         </div>
     </div>
     <div id="side-bit">
-    ${cartDisplay}
-    <form id="form2">
-        <label for="name">Namn</label>
-        <input type="text" name="Namn" id="name" placeholder="Föramn"/> <br/>
+        ${cartDisplay}
+        <form id="form2">
+            <input type="text" name="Förnamn" id="name" placeholder="Föramn" /> <br />
 
-        <label for="name">Namn</label>
-        <input type="text" name="Namn" id="surname" placeholder="Efternamn"/><br/>
+            <input type="text" name="Efternamn" id="surname" placeholder="Efternamn" /><br />
 
-        <label for="Unit">Enhet</label>
-        <input type="text" name="Enhet" id="Unit" placeholder="Enhet"/><br/>
+            <input type="text" name="Enhet" id="Unit" placeholder="Enhet" /><br />
 
-        <label for="Deliveryadress">Leveransadress</label>
-        <input type="text" name="Leveransadress" id="Deliveryadress" placeholder="Enhet"/><br/>
+            <input type="text" name="Leveransadress" id="Deliveryadress" placeholder="Leveransadress" /><br />
 
-        <label for="Phone">Telefonnumer</label>
-        <input type="text" name="Telefonnummer" id="Phone" placeholder="Leveransadress"/><br/>
+            <input type="text" name="Telefonnummer" id="Phone" placeholder="Telefonnummer till verksamhet" /><br />
 
-        <label for="VerificationNumber">VerifikationsKod</label>
-        <input type="text" name="Verifikationskod" id="VerificationNumber" placeholder="Telefonnummer till verksamhet"/><br/>
+            <input type="text" name="Ansvarig" id="Responsibility" placeholder="Ansvar" /><br />
 
-        <label for="Responsibility">Ansvar</label>
-        <input type="text" name="Ansvarig" id="Responsibility" placeholder="Ansvar"/>
+            <input type="text" name="Verifikationskod" id="VerificationNumber" placeholder="Verifikationskod" /><br />
 
-        <label for="Verkkod">Verkkod</label>
-        <input type="text" name="Verkkod" id="Responsibility" placeholder="Verkkod"/>
+            <p>
 
-        <p>
+                <input id="Direktupphandling" name="inköpsform" type="radio" value="Direktupphandling" />
+                <label class="inline" for="Direktupphandling">Direktupphandling</label>
 
-            <input id="Direktupphandling" name="inköpsform" type="radio" value="Direktupphandling" />
-            <label class="inline" for="Direktupphandling">Direktupphandling</label>
+                <input id="Hämtköp" name="inköpsform" type="radio" value="Hämtköp" />
+                <label class="inline" for="Hämtköp">Hämtköp</label>
 
-            <input id="Hämtköp" name="inköpsform" type="radio" value="Hämtköp" />
-            <label class="inline" for="Hämtköp">Hämtköp</label>
-
-        </p>
-        <button type="submit">Submit</button>
-    </form>
-    <form onsubmit="addItemsToCartForm()" id="sendOrderForm"
-          action="/getpdf" method="post" enctype="multipart/form-data">
-        <input type="submit" value="Get Order!">
-    </form>
-</div>
+            </p>
+            <button type="submit">Submit</button>
+        </form>
+        <form onsubmit="addItemsToCartForm()" id="sendOrderForm" action="/getpdf" method="post"
+            enctype="multipart/form-data">
+            <input type="submit" value="Get Order!">
+        </form>
+    </div>
     <script src="/javascripts/searchBar.js"></script>
-    <script>
-        ${extraScript}
-    </script>
+    ${ extraScript }
 </body>
 <html>

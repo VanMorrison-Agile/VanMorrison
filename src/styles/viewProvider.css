@@ -111,3 +111,18 @@ ul{
     width: 25%;
     float:left;
 }
+
+
+table {
+    box-shadow: 0px 0px 5px rgb(109, 109, 109);
+}
+
+th {
+    background-color: #818181;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+
+tr {
+    background-color: rgb(212, 212, 212);
+}
