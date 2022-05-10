@@ -2,6 +2,7 @@ package VanMorrison;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import org.apache.pdfbox.pdmodel.interactive.form.FieldUtils;
 
@@ -90,8 +91,7 @@ public class Server {
             generateMain();
         });
 
-
-        server.createContext("/", (HttpExchange t) -> {
+        HttpHandler mainHandler = (HttpExchange t) -> {
             //String response = readHTML("src/viewProvider.html");
             HtmlParser h = new HtmlParser("src/viewProvider.html");
             StringBuilder htmlProviders = new StringBuilder();
@@ -120,7 +120,8 @@ public class Server {
             os.write(bytes);
             os.close();
 
-        });
+        };
+        server.createContext("/", mainHandler);
 
         server.createContext("/products", (HttpExchange t) -> {
 
@@ -161,7 +162,6 @@ public class Server {
         });
 
         server.createContext("/addProvider", (HttpExchange t) -> {
-            String response = readHTML("src/addProvider.html");
             Map<String, Parameter> params = HTMLUtility.getMimeParameters(t.getRequestBody());
 
             //DO BUSINESS LOGIC
@@ -188,17 +188,7 @@ public class Server {
                 e.getStackTrace();
             }
 
-
-            byte[] bytes = response.getBytes();
-            t.sendResponseHeaders(200, bytes.length);
-            OutputStream os = t.getResponseBody();
-            os.write(bytes);
-            os.close();
-            try {
-                generateMain();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            mainHandler.handle(t);
         });
         
         server.createContext("/getpdf", (HttpExchange t) -> {
