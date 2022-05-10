@@ -132,7 +132,8 @@ public class Server {
             csv = new CSVReader("provider/" + provider + ".csv");
 
             
-            String extraScript = generateCartScript() + 
+            String extraScript = "<script>" + 
+            generateCartScript() + 
             """
                 var form = document.getElementById("sendOrderForm");
 
@@ -140,7 +141,8 @@ public class Server {
                 providerInput.setAttribute('name', 'provider');
                 providerInput.setAttribute('type', 'hidden');
                 providerInput.setAttribute('value', '""" + provider + "');" +
-                "form.appendChild(providerInput);";
+                "form.appendChild(providerInput);" +
+                "</script>";
 
 
             HtmlParser p = new HtmlParser("src/productView.html");
@@ -392,7 +394,7 @@ public class Server {
 
 
     public String generateCartDisplay() {
-        String cartDisplay = "<div>";
+        String cartDisplay = "<div id ='cart'>";
 
         for (Item item:
                 csv.items) {
