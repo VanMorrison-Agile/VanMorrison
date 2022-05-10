@@ -2,43 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css"> <!--Reset css-->
     <link rel="stylesheet" href="/styles/viewProvider.css">
     <link rel="stylesheet" href="/styles/searchForm.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
-<body>
-    <div id="provider-name" style="display:none">${providerName}</div>
-    <header>
-        ${providerName}
-    </header>
-    <div id="search-container">
-        <form id="search-form">
-            <input type="text" id="search-bar" name="query" placeholder="Sök">
-            <button type="submit" id="search-button"><i class="fa fa-search"></i></button>
-        </form>
-    </div>
-    <div id="search-res">
+    <body>
+        <div id="provider-name" style="display:none">${providerName}</div>
+        <header>
+            ${providerName}
+        </header>
+        <div id="main-bit">
+        <div id="search-container">
+            <form id="search-form">
+                <input type="text" id="search-bar" name="query" placeholder="Sök">
+                <button type="submit" id="search-button"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <div id="search-res">
 
+        </div>
     </div>
+    <div id="side-bit">
     ${cartDisplay}
     <form id="form2">
         <label for="name">Namn</label>
-        <input type="text" name="Namn" id="name" />
+        <input type="text" name="Namn" id="name" placeholder="Föramn"/> <br/>
+
+        <label for="name">Namn</label>
+        <input type="text" name="Namn" id="surname" placeholder="Efternamn"/><br/>
 
         <label for="Unit">Enhet</label>
-        <input type="text" name="Enhet" id="Unit" />
+        <input type="text" name="Enhet" id="Unit" placeholder="Enhet"/><br/>
 
         <label for="Deliveryadress">Leveransadress</label>
-        <input type="text" name="Leveransadress" id="Deliveryadress" />
+        <input type="text" name="Leveransadress" id="Deliveryadress" placeholder="Enhet"/><br/>
 
         <label for="Phone">Telefonnumer</label>
-        <input type="text" name="Telefonnummer" id="Phone" />
+        <input type="text" name="Telefonnummer" id="Phone" placeholder="Leveransadress"/><br/>
 
         <label for="VerificationNumber">VerifikationsKod</label>
-        <input type="text" name="Verifikationskod" id="VerificationNumber" />
+        <input type="text" name="Verifikationskod" id="VerificationNumber" placeholder="Telefonnummer till verksamhet"/><br/>
 
         <label for="Responsibility">Ansvar</label>
-        <input type="text" name="Ansvarig" id="Responsibility" />
+        <input type="text" name="Ansvarig" id="Responsibility" placeholder="Ansvar"/>
+
+        <label for="Verkkod">Verkkod</label>
+        <input type="text" name="Verkkod" id="Responsibility" placeholder="Verkkod"/>
 
         <p>
 
@@ -55,6 +65,7 @@
           action="/getpdf" method="post" enctype="multipart/form-data">
         <input type="submit" value="Get Order!">
     </form>
+</div>
     <script src="/javascripts/searchBar.js"></script>
     <script>
         ${extraScript}

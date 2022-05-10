@@ -54,3 +54,13 @@ ul{
     padding: 0px;
     margin: 0px;
 }
+
+#main-bit{
+    width: 75%;
+    float:left;
+}
+
+#side-bit{
+    width: 25%;
+    float:left;
+}
