@@ -109,6 +109,9 @@ public class Server {
             }
 
             h.set("lis", htmlProviders.toString());
+
+            h.set("addProviderOptions", generateProviderOptions());
+
             String response = h.getString();
 
             byte[] bytes = response.getBytes();
