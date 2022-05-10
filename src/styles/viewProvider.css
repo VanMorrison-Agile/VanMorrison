@@ -7,12 +7,12 @@ html{
 body{
     margin: 0px;
     padding: 0px;
-    background: #ffffff;
+    background-color: white;
     display: block;
+    font-family: 'Krona One';
     font-weight: 100;
     font-family: 'Krona One', sans-serif;
     text-transform: uppercase;
-    color: ;
 }
 
 h1{
