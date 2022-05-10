@@ -174,8 +174,7 @@ public class Server {
                     prov = prov.substring(0,prov.lastIndexOf("."));
             }
 
-            String tempString = "provider/" + prov + ".csv";
-            File file = new File(tempString);
+            File file = new File("provider/" + prov + ".csv");
             file.delete();
             file.createNewFile();
             try {
