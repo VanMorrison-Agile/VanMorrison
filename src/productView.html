@@ -29,38 +29,6 @@
         </div>
     </div>
     <div id="side-bit">
-        ${cartDisplay}
-        <form id="form2" onsubmit="addItemsToCartForm()" id="sendOrderForm" action="/getpdf" method="post" enctype="multipart/form-data">
-
-            <input type="text" name="Förnamn" id="name" placeholder="Föramn" /> <br />
-
-            <input type="text" name="Efternamn" id="surname" placeholder="Efternamn" /><br />
-
-            <input type="text" name="Enhet" id="Unit" placeholder="Enhet" /><br />
-
-            <input type="text" name="Leveransadress" id="Deliveryadress" placeholder="Leveransadress" /><br />
-
-            <input type="text" name="Telefonnummer" id="Phone" placeholder="Telefonnummer till verksamhet" /><br />
-
-            <input type="text" name="Ansvarig" id="Responsibility" placeholder="Ansvar" /><br />
-
-            <input type="text" name="Verifikationskod" id="VerificationNumber" placeholder="Verifikationskod" /><br />
-
-            <p>
-
-                <input id="Direktupphandling" name="inköpsform" type="radio" value="Direktupphandling" />
-                <label class="inline" for="Direktupphandling">Direktupphandling</label> <br />
-
-                <input id="Hämtköp" name="inköpsform" type="radio" value="Hämtköp" />
-                <label class="inline" for="Hämtköp">Hämtköp</label>
-
-            </p>
-            <button type="submit">Submit</button>
-        </form>
-    </div>
-    <div id="search-res">
-
-    </div>
     ${cartDisplay}
     
     <form onsubmit="addItemsToCartForm()" id="sendOrderForm"
@@ -112,6 +80,7 @@
             
         <input type="submit" value="Get Order!">
     </form>
+</div>
     <script src="/javascripts/searchBar.js"></script>
     ${extraScript}
 </body>
