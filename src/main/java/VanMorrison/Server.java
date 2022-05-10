@@ -104,7 +104,7 @@ public class Server {
                 // Remove suffix if it exists
                 if (pathName.lastIndexOf(".") != -1) pathName = pathName.substring(0, pathName.lastIndexOf("."));
                 // Add a list item for provider
-                String listItem = "<li><a href=\"/products/%PROVIDER%\">%PROVIDER%</a></li>";
+                String listItem = "<li><a href=\"/products/%PROVIDER%\">%PROVIDER%<div class=\"i-wrapper\"><i class=\"fa fa-arrow-circle-right\"></i></div></a></li>";
                 htmlProviders.append(listItem.replaceAll("%PROVIDER%", pathName));
             }
 
