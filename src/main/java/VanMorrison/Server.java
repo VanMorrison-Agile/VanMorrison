@@ -196,7 +196,7 @@ public class Server {
             h.add("Content-Type", "application/pdf");
 
             Map<String, Parameter> params = HTMLUtility.getMimeParameters(t.getRequestBody());
-
+            Map<String, String> metadata = new HashMap<String, String>();
 
             String[] itemNr = params.get("itemNr").getDataAsStringArray();
             String[] itemCount = params.get("itemCount").getDataAsStringArray();
@@ -224,13 +224,13 @@ public class Server {
                     items.add(new Item(itemNr[i], "Error: PDF generation aborted due to invalid item:", "0"));
                     break;
                 }
-
+                
                 items.add(currentItem);
                 amounts.add(Integer.parseInt(itemCount[i]));
             }
 
             //Get byte array containing pdf
-            byte [] docBytes = PDFExport.getPdf(items, amounts);
+            byte [] docBytes = PDFExport.getPdf(items, amounts, metadata);
 
             // Send the response.
             t.sendResponseHeaders(200, docBytes.length);
@@ -458,7 +458,7 @@ public class Server {
 
             function addItemsToCartForm(){
                 var form = document.getElementById("sendOrderForm");
-                
+
                 for(const [artNr, count] of Object.entries(cartItems)){
                     if (count != 0){
                         var itemInput = document.createElement("input");
@@ -475,16 +475,7 @@ public class Server {
                     }
                 }
             }
-
-            function handleSubmit(event) {
-                event.preventDefault();
-                const data = new FormData(event.target);
-                const value = Object.fromEntries(data.entries());
-                console.log({ value });
-            }
-
-            const form2 = document.getElementById("form2");
-            form2.addEventListener("submit", handleSubmit);
+            
             """;
     }
 
