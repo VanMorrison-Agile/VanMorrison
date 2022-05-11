@@ -3,7 +3,7 @@ package VanMorrison;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Item {
+public class Item implements Comparable<Item> {
     private String artNr;
     private String name;
     private String price;
@@ -41,5 +41,13 @@ public class Item {
         return "Item [article number = " + artNr + ", name = " + name + ", price = " + price + "]";
     }
 
+    /**
+     * Compares the name of two items in case-insensitive alphabetical order
+     * @param o item that will be compared with
+     */
+    @Override
+    public int compareTo(Item o) {
+        return this.getName().compareToIgnoreCase(o.getName());
+    }
 }
 
