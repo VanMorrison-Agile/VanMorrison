@@ -1,3 +1,13 @@
+
+
+
+
+#search-form{
+    display: flex;
+    box-shadow: 0px 0px 5px rgb(109, 109, 109);
+    border-radius: 10px;
+}
+
 #search-container{
     display: block;
     margin: auto;
@@ -6,19 +16,18 @@
 }
 
 #search-bar{
-    float:left;
+    flex: 9;
+    border-radius: 7px 0px 0px 7px;
     width: 300px;
     padding: 12px 20px;
     display: block;
     border: none;
-    border-radius: 4px 0px 0px 4px;
-    margin-right: 8px;
 }
 
 #search-button{
-    float:left;
+    flex: 30px;
     padding: 12px 8px;
-    border-radius: 0px 4px 4px 0px;
+    border-radius: 0px 7px 7px 0px;
     border: none;
     background-color: white;
 }
@@ -26,5 +35,6 @@
 #search-button:hover{
     background-color: #eeeeee;
     transform: scale(1.1);
-    border-radius: 4px;
+    border-radius: 7px;
+    box-shadow: 0px 0px 5px rgb(109, 109, 109);
 }
