@@ -87,7 +87,7 @@ public class CSVReader {
     private String generateTableRows(){
         String s = "";
         for(int i = 1; i < getItemList().size(); i++){
-            s += "<tr onClick='addItem(\"" + getItemList().get(i).getArtNr() + "\")'><td>" + getItemList().get(i).getArtNr() + "</td><td>" + getItemList().get(i).getName() + "</td><td>" + getItemList().get(i).getPrice() + "</td><td>";
+            s += "<tr onClick='addItem(\"" + getItemList().get(i).getArtNr() + "\")'><td>" + getItemList().get(i).getArtNr() + "</td><td>" + getItemList().get(i).getName() + "</td><td>" + getItemList().get(i).getPrice();
         }
         return s;
     }
