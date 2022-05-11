@@ -248,7 +248,6 @@ public class Server {
 
             //Get the queries as a map
             Map<String,String> queries = queryToMap(queryParams);
-            System.out.println(queries.get("provider") + " och " + queries.get("query"));
 
             //Retrieves products from the provider that is in the query
             CSVReader csvTest = new CSVReader("provider/"+ queries.get("provider") + ".csv");
