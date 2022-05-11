@@ -1,0 +1,42 @@
+html{
+    height: 100%;
+}
+
+body{
+    margin: 0px;
+    padding: 0px;
+    background-color: white;
+    display: block;
+    font-family: 'Krona One';
+    font-weight: 100;
+    font-family: 'Krona One', sans-serif;
+    text-transform: uppercase;
+}
+
+#main-bit{
+    width: 75%;
+    float:left;
+}
+
+#side-bit{
+    width: 25%;
+    float:left;
+    position: absolute;
+    right: 0px;
+    background-color: white;
+}
+
+
+table {
+    box-shadow: 0px 0px 5px rgb(109, 109, 109);
+}
+
+th {
+    background-color: #818181;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+
+tr {
+    background-color: rgb(212, 212, 212);
+}
