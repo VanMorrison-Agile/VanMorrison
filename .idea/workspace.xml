@@ -23,7 +23,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad56987e-5068-499c-8f17-d361f4ac1c2d" name="Changes" comment="Added createItem method">
-      <change beforePath="$PROJECT_DIR$/src/main/java/VanMorrison/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/VanMorrison/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/VanMorrison/CSVReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/VanMorrison/CSVReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/viewProduct.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/viewProduct.css" afterDir="false" />
     </list>
     <list id="6a0cf783-fdb8-47c8-b885-3244ffbdfa4b" name="Changes by axelr" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -82,6 +84,7 @@
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -154,6 +157,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
