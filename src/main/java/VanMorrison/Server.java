@@ -440,14 +440,17 @@ public class Server {
             }
 
             function addItem(id) {
-                cartItems[id] ++;
+                if(cartItems[id] > 0)
+                    cartItems[id] ++;
+                else
+                    addToCart(id);
                 updateItem(id);
             }
             
             function removeItem(id) {
                 if(cartItems[id] > 0)
                     cartItems[id]--;
-                updateItem(id);
+                    updateItem(id);
             }
             
             function removeAll(id){
