@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.awt.Color;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -49,7 +50,7 @@ public class PDFExport {
         cell.setFontSize(15);
     }
 
-    public static byte [] getPdf(List<Item> items, List<Integer> amounts) throws IOException {
+    public static byte [] getPdf(List<Item> items, List<Integer> amounts, Map<String, String> metadata ) throws IOException {
 
         try (PDDocument document = new PDDocument()) {
             // Create a document and add a page to it (A4 for printing)
