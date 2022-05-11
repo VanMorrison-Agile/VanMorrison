@@ -30,7 +30,8 @@
     </div>
     <div id="side-bit">
         ${cartDisplay}
-        <form id="form2">
+        <form id="form2" onsubmit="addItemsToCartForm()" id="sendOrderForm" action="/getpdf" method="post" enctype="multipart/form-data">
+
             <input type="text" name="Förnamn" id="name" placeholder="Föramn" /> <br />
 
             <input type="text" name="Efternamn" id="surname" placeholder="Efternamn" /><br />
@@ -48,17 +49,13 @@
             <p>
 
                 <input id="Direktupphandling" name="inköpsform" type="radio" value="Direktupphandling" />
-                <label class="inline" for="Direktupphandling">Direktupphandling</label>
+                <label class="inline" for="Direktupphandling">Direktupphandling</label> <br />
 
                 <input id="Hämtköp" name="inköpsform" type="radio" value="Hämtköp" />
                 <label class="inline" for="Hämtköp">Hämtköp</label>
 
             </p>
             <button type="submit">Submit</button>
-        </form>
-        <form onsubmit="addItemsToCartForm()" id="sendOrderForm" action="/getpdf" method="post"
-            enctype="multipart/form-data">
-            <input type="submit" value="Get Order!">
         </form>
     </div>
     <div id="search-res">
