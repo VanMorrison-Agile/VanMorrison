@@ -26,7 +26,6 @@ body{
     background-color: white;
 }
 
-
 table {
     box-shadow: 0px 0px 5px rgb(109, 109, 109);
 }
@@ -35,8 +34,16 @@ th {
     background-color: #818181;
     font-family: Arial, Helvetica, sans-serif;
     color: white;
+    width: 15vw;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 tr {
     background-color: rgb(212, 212, 212);
+    cursor: pointer;
+}
+
+tr:hover {
+    background-color: #e2e2e2;
 }
