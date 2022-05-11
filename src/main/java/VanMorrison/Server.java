@@ -262,7 +262,8 @@ public class Server {
             String res = reader.printToString();
 
             //Sends a response to web client
-            byte[] bytes = res.getBytes();
+            byte[] bytes = res.getBytes(StandardCharsets.UTF_8);
+
             t.sendResponseHeaders(200, bytes.length);
             OutputStream os = t.getResponseBody();
             os.write(bytes);
