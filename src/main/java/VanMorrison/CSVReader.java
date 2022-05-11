@@ -75,12 +75,12 @@ public class CSVReader {
 
     private String generateList(){
         String s = "<br />" +
-                "<div class='container'><caption>Tillg&auml;ngliga produkter</caption><table>" +
+                    " <table>" +
                 "<thead><tr>" +
                 generateTableHead() +
                 "</tr></thead><tbody>" +
                 generateTableRows() +
-                "</tbody></table></div>";
+                "</tbody></table>";
         return s;
     }
 
