@@ -110,4 +110,7 @@ ul{
 #side-bit{
     width: 25%;
     float:left;
+    position: absolute;
+    right: 0px;
+    background-color: white;
 }
