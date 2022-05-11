@@ -33,7 +33,6 @@ public class Item {
         List<String> values = new ArrayList<String>();
         values.add(name);
         values.add(artNr);
-        values.add(price);
         return values;
     }
 

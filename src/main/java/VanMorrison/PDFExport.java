@@ -40,27 +40,6 @@ public class PDFExport {
         }
     }
 
-    // public static byte [] getPdf(List<Item> items) throws IOException {
-
-    //     try (PDDocument document = new PDDocument()) {
-
-    //         // Create a document and add all pages to it (A4 for printing)
-    //         PDPage productPage = new PDPage(PDRectangle.A4);
-    //         PDPage metadataPage = new PDPage(PDRectangle.A4);
-    //         document.addPage(productPage);
-    //         document.addPage(metadataPage);
-   
-    //         // Function adding 3 cells/columns to provided row with values of provided item 
-    //     // private static void addItemRow(BaseTable table, Item item, Integer amount) {
-    //     //     Row<PDPage> row = table.createRow(20);
-    //     //     Cell<PDPage> cell = row.createCell(34, item.getName());
-    //     //     cell.setFontSize(15);
-    //     //     cell = row.createCell(33, item.getArtNr());
-    //     //     cell.setFontSize(15);
-    //     //     cell = row.createCell(33, amount.toString());
-    //     //     cell.setFontSize(15);
-        // }
-
     public static byte [] getPdf(List<Item> items, List<Integer> amounts) throws IOException {
 
         try (PDDocument document = new PDDocument()) {
@@ -93,37 +72,26 @@ public class PDFExport {
                 headers.addAll(Arrays.asList("Vara", "Artikelnummer", "Antal"));
 
                 addRow(true, productTable, headers);
-
-                // Add all products/items  from provided list
-                // items.forEach((item, index) -> addRow(false, productTable, item.getValues()));
-
                 
                 // Add all products/items  from provided list
-
-                // List<String> hej = new ArrayList<String>();
-                // List<String> e = items.get(1).getValues();
-                // String amount = amounts.get(1).toString();
-                // e.add(amount);
-                // hej.addAll(e);
-                // for (int i = 0; i < items.size(); i++) {
-                //     List<String> values = items.get(i).getValues(); 
-                //     String amount = amounts.get(i).toString();
-                //     values.add(amount);
-                //     // amounts.get(i);
-                //     addRow(false, productTable, values);
-                // }
+                for (int i = 0; i < items.size(); i++) {
+                    List<String> values = items.get(i).getValues(); 
+                    String amount = amounts.get(i).toString();
+                    values.add(amount);
+                    addRow(false, productTable, values);
+                }
                 Integer totalPrice = 0;
                 
-                // try {
-                //     for (int i = 0; i < items.size(); i++) {
-                //         totalPrice += Integer.parseInt(items.get(i).getPrice().replace(" ", "")) * amounts.get(i);
-                //     }
-                // } catch (Exception e) {
-                //     System.out.println("Oh no, a price value is invalid! Throwing an exception, let's hope it doesn't disappear :thinking:");
-                //     System.out.print("In all seriousness, I have no idea where this exception ends up, so I'm just gonna print the error here: " + e.getMessage());
-                //     throw new IllegalArgumentException("One price value is in wrong format");
-                // }
-                            
+                try {
+                    for (int i = 0; i < items.size(); i++) {
+                        totalPrice += Integer.parseInt(items.get(i).getPrice().replace(" ", "")) * amounts.get(i);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Oh no, a price value is invalid! Throwing an exception, let's hope it doesn't disappear :thinking:");
+                    System.out.print("In all seriousness, I have no idea where this exception ends up, so I'm just gonna print the error here: " + e.getMessage());
+                    throw new IllegalArgumentException("One price value is in wrong format");
+                }
+
                 // Add last row for the total sum of prices
                 Row<PDPage> totalPriceRow = productTable.createRow(20);
                 Cell<PDPage> cell = totalPriceRow.createCell(100/1.5f, "Total summa exkl. moms:");
