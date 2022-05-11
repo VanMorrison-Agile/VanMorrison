@@ -14,9 +14,9 @@
 
 <body>
     <div id="provider-name" style="display:none">${providerName}</div>
-    <header>
-        ${providerName}
-    </header>
+    <h1>
+        PRODUKTER
+    </h1>
     <div id="main-bit">
         <div id="search-container">
             <form id="search-form">
@@ -30,53 +30,6 @@
     </div>
     <div id="side-bit">
     ${cartDisplay}
-    
-    <form onsubmit="addItemsToCartForm()" id="sendOrderForm"
-          action="/getpdf" method="post" enctype="multipart/form-data">
-
-        <fieldset id="personalInfo">
-            <label for="personalName">Namn</label>
-            <input type="text" name="personalName" id="personalName" />
-    
-            <label for="unit">Enhet</label>
-            <input type="text" name="unit" id="unit" />
-            
-            <label for="deliveryAdress">Leveransadress</label>
-            <input type="text" name="deliveryAdress" id="deliveryAdress" />
-            
-            <label for="phone">Telefonnumer</label>
-            <input type="text" name="phone" id="phone" />
-            
-            <label for="verificationNumber">VerifikationsKod</label>
-            <input type="text" name="verificationNumber" id="verificationNumber" />
-            
-            <label for="responsibility">Ansvar</label>
-            <input type="text" name="responsibility" id="responsibility" />
-            
-            <p>
-    
-                <input id="direktupphandling" name="orderApplies" type="radio" value="direktupphandling" />
-                <label class="inline" for="direktupphandling">Direktupphandling</label>
-                
-                <input id="hämtköp" name="orderApplies" type="radio" value="hämtköp" />
-                <label class="inline" for="hämtköp">Hämtköp</label>
-                
-            </p>
-
-            <label for="pickUp">Namn på person som hämtar varan: </label>
-            <input type="text" name="pickUp" id="pickUp" />
-        </fieldset>
-        
-        <fieldset id="supplierInfo">
-            <label for="supplierName">Namn</label>
-            <input type="text" name="supplierName" id="supplierName" />
-
-            <label for="organisationNumber">Organisationsnummer</label>
-            <input type="text" name="organisationNumber" id="organisationNumber" />
-
-            <label for="mail">Mejladress</label>
-            <input type="text" name="mail" id="mail" />
-        </fieldset>
             
         <input type="submit" value="Get Order!">
     </form>
