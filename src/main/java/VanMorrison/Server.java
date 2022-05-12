@@ -444,19 +444,14 @@ public class Server {
                 }
             }
             
-            function addToCart(id){
-                cartItems[id] = 1;
-                updateItem(id);
-            }
-
             function addItem(id) {
                 if(cartItems[id] > 0) {
                     cartItems[id] ++;
                     updateItem(id);
                 }
                 else
-                    addToCart(id);
-                
+                    cartItems[id] = 1;
+                    updateItem(id);
             }
             
             function removeItem(id) {
