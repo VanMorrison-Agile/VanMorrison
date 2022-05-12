@@ -2,6 +2,7 @@ package VanMorrison;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import org.apache.pdfbox.pdmodel.interactive.form.FieldUtils;
 
@@ -90,8 +91,7 @@ public class Server {
             generateMain();
         });
 
-
-        server.createContext("/", (HttpExchange t) -> {
+        HttpHandler mainHandler = (HttpExchange t) -> {
             //String response = readHTML("src/viewProvider.html");
             HtmlParser h = new HtmlParser("src/viewProvider.html");
             StringBuilder htmlProviders = new StringBuilder();
@@ -109,6 +109,9 @@ public class Server {
             }
 
             h.set("lis", htmlProviders.toString());
+
+            h.set("addProviderOptions", generateProviderOptions());
+
             String response = h.getString();
 
             byte[] bytes = response.getBytes();
@@ -117,7 +120,8 @@ public class Server {
             os.write(bytes);
             os.close();
 
-        });
+        };
+        server.createContext("/", mainHandler);
 
         server.createContext("/products", (HttpExchange t) -> {
 
@@ -158,7 +162,6 @@ public class Server {
         });
 
         server.createContext("/addProvider", (HttpExchange t) -> {
-            String response = readHTML("src/addProvider.html");
             Map<String, Parameter> params = HTMLUtility.getMimeParameters(t.getRequestBody());
 
             //DO BUSINESS LOGIC
@@ -171,8 +174,7 @@ public class Server {
                     prov = prov.substring(0,prov.lastIndexOf("."));
             }
 
-            String tempString = "provider/" + prov + ".csv";
-            File file = new File(tempString);
+            File file = new File("provider/" + prov + ".csv");
             file.delete();
             file.createNewFile();
             try {
@@ -185,17 +187,7 @@ public class Server {
                 e.getStackTrace();
             }
 
-
-            byte[] bytes = response.getBytes();
-            t.sendResponseHeaders(200, bytes.length);
-            OutputStream os = t.getResponseBody();
-            os.write(bytes);
-            os.close();
-            try {
-                generateMain();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            mainHandler.handle(t);
         });
         
         server.createContext("/getpdf", (HttpExchange t) -> {
@@ -204,7 +196,7 @@ public class Server {
             h.add("Content-Type", "application/pdf");
 
             Map<String, Parameter> params = HTMLUtility.getMimeParameters(t.getRequestBody());
-
+            Map<String, String> metadata = new HashMap<String, String>();
 
             String[] itemNr = params.get("itemNr").getDataAsStringArray();
             String[] itemCount = params.get("itemCount").getDataAsStringArray();
@@ -232,13 +224,13 @@ public class Server {
                     items.add(new Item(itemNr[i], "Error: PDF generation aborted due to invalid item:", "0"));
                     break;
                 }
-
+                
                 items.add(currentItem);
                 amounts.add(Integer.parseInt(itemCount[i]));
             }
 
             //Get byte array containing pdf
-            byte [] docBytes = PDFExport.getPdf(items, amounts);
+            byte [] docBytes = PDFExport.getPdf(items, amounts, metadata);
 
             // Send the response.
             t.sendResponseHeaders(200, docBytes.length);
@@ -362,16 +354,14 @@ public class Server {
      * Compiles a form for creating/updating product lists for the current providers or a new one.
      * @return A complete html form represented as a string
      */
-    public String addProviderForm(){
-        String readData = readHTML("src/form.html");
-
+    public String generateProviderOptions(){
         StringBuilder aa = new StringBuilder();
         File folder = new File("provider");
         File[] listOfFiles = folder.listFiles();
 
-        for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
-                String companyName = listOfFiles[i].getName();
+        for (File file : listOfFiles) {
+            if (file.isFile()) {
+                String companyName = file.getName();
                 if (companyName.contains(".")){
                     companyName = companyName.substring(0, companyName.lastIndexOf('.'));
                 }
@@ -380,7 +370,7 @@ public class Server {
             }
         }
 
-        return readData.replace("#OPTIONS#", aa.toString());
+        return aa.toString();
     }
 
     public Map<String, String> queryToMap(String query){
@@ -468,7 +458,7 @@ public class Server {
 
             function addItemsToCartForm(){
                 var form = document.getElementById("sendOrderForm");
-                
+
                 for(const [artNr, count] of Object.entries(cartItems)){
                     if (count != 0){
                         var itemInput = document.createElement("input");
@@ -485,16 +475,7 @@ public class Server {
                     }
                 }
             }
-
-            function handleSubmit(event) {
-                event.preventDefault();
-                const data = new FormData(event.target);
-                const value = Object.fromEntries(data.entries());
-                console.log({ value });
-            }
-
-            const form2 = document.getElementById("form2");
-            form2.addEventListener("submit", handleSubmit);
+            
             """;
     }
 
@@ -505,7 +486,6 @@ public class Server {
         header = "<meta charset=\"UTF-16\">";
         addStyle();
         addBody("Hello world!");
-        addBody(addProviderForm());
         addBody("<Br />");
         addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
 
