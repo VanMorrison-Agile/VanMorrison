@@ -1,5 +1,6 @@
 package VanMorrison;
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -40,10 +41,10 @@ public class CSVReader {
     private static List<Item> readItemsFromCSV(String fileName){
         List<Item> items = new ArrayList<Item>();
         Path pathToFile = Paths.get(fileName);
-
-        try(BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)){
+        
+        try(BufferedReader br = new BufferedReader(new FileReader(fileName));){
             String line = br.readLine();
-
+            System.out.println(line);
             while(line != null){
                 String[] attributes = line.split(",");
 
@@ -87,7 +88,7 @@ public class CSVReader {
     private String generateTableRows(){
         String s = "";
         for(int i = 1; i < getItemList().size(); i++){
-            s += "<tr onClick='addItem(\"" + getItemList().get(i).getArtNr() + "\")'><td>" + getItemList().get(i).getArtNr() + "</td><td>" + getItemList().get(i).getName() + "</td><td>" + getItemList().get(i).getPrice() + "<td></td>";
+            s += "<tr onClick='addItem(\"" + getItemList().get(i).getArtNr() + "\")'><td>" + getItemList().get(i).getArtNr() + "</td><td>" + getItemList().get(i).getName() + "</td><td>" + getItemList().get(i).getPrice() + "<td><button class='add-button' type='button' onclick='addItem(\"" + getItemList().get(i).getArtNr() + "\")'><i class='fa fa-shopping-cart' aria-hidden='true'></i></button></td>";
         }
         return s;
     }
