@@ -40,7 +40,7 @@ body{
     width:100%;
 }
 
-#side-bit button{
+#side-bit button[type=submit]{
     width:100%;
     background-color:#4CAF50;
     border:none;
@@ -50,9 +50,10 @@ body{
     text-decoration:none;
     font-size:16px;
     transition-duration:0.5s;
+    cursor:pointer;
 }
 
-#side-bit button:hover{
+#side-bit button[type=submit]:hover{
     background-color:#2a612c;
 }
 
@@ -96,14 +97,11 @@ th {
     
 }
 
-thead{
-    
-}
-
 
 tr {
     background-color: rgb(212, 212, 212);
     cursor: pointer;
+    user-select: none;
     display:flex;
     padding: 4px 20px;
 }
@@ -172,5 +170,47 @@ th:nth-child(4){
 }
 
 
+.cartItem {
+    float:left;
+    width:100%;
+    font-size: small;
+    background-color:grey;
+}
 
+.cartItemName {
+    float:left;
+    width:40%;
+}
+
+.cartItemAdd, .cartItemRemove {
+    float:left;
+    width:10%;
+    background-color:lightgrey;
+    cursor: pointer;
+    user-select: none;
+}
+
+.cartItemAdd:hover, .cartItemRemove:hover {
+    background-color: rgb(226, 226, 226);
+}
+
+.cartItemNumber {
+    float:left;
+    width:10%;
+    background-color:white;
+}
+
+.cartItemPriceArea {
+    float:left;
+    width:30%;
+}
+
+.cartitem button {
+    float:left;
+    cursor:pointer;
+}
+
+.cartItemPrice {
+    float:left;
+}
 
