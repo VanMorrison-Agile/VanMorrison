@@ -3,7 +3,6 @@ window.onload = () =>{
     fetch("/search?provider="+provider+"&query=")
         .then(response => response.text())
         .then(text => {
-            console.log(text)
             document.getElementById("search-res").innerHTML = text;
         });
     document.getElementById("search-form").addEventListener("submit", function(event){
@@ -13,7 +12,6 @@ window.onload = () =>{
       fetch("/search?provider="+provider+"&query="+query)
         .then(response => response.text())
         .then(text => {
-            console.log(text)
             document.getElementById("search-res").innerHTML = text;
         });
     });
