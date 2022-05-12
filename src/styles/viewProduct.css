@@ -34,7 +34,7 @@ body{
     position:absolute;
     right:0px;
     top:0px;
-    height:75%
+    height:75%;
     width:100%;
 }
 
@@ -45,7 +45,7 @@ body{
     bottom:0px;
     right:0px;
     height:25%;
-    width:100%
+    width:100%;
 }
 
 #side-bit button{
@@ -63,6 +63,11 @@ body{
 #side-bit button:hover{
     background-color:#2a612c;
 }
+
+input[type=text]{
+    padding:5px;
+}
+
 
 h1 {
     width: 100%;
