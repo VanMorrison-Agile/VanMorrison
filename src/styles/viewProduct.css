@@ -36,9 +36,12 @@ body{
     text-align:center;
     text-decoration:none;
     font-size:16px;
-
+    transition-duration:0.5s;
 }
 
+#side-bit button:hover{
+    background-color:#2a612c;
+}
 
 h1 {
     width: 100%;
