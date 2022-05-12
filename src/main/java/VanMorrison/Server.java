@@ -340,7 +340,11 @@ public class Server {
     }
 
 
-
+    /**
+     * Reads a file
+     * @param filename the file 
+     * @return a complete html file as a string 
+     */
     public String readHTML(String filename){
         StringBuilder html = new StringBuilder();
         try {
@@ -390,7 +394,10 @@ public class Server {
     }
 
 
-
+    /**
+     * displays products that is placed in the cart.
+     * @return a complete html div as a string
+     */
     public String generateCartDisplay() {
         String cartDisplay = "<div>";
 
@@ -406,7 +413,10 @@ public class Server {
 
         return cartDisplay;
     }
-
+    /**
+     * generates a JavaScript containing methods for addind and removing products from cart
+     * @return a string with the complete JS-script
+     */
     public String generateCartScript() {
         String cartItemsContent = "";
         for (Item item:
