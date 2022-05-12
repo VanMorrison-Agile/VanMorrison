@@ -165,12 +165,13 @@ public class PDFExport {
                 cont.showText(pickUp);
                 cont.endText();
 
-                
+                // Checks if there is a selected option for order applies, if not sets to empty to avoid comparing with null
+                String orderApplies = metadata.get("orderApplies");
+                if (orderApplies == null) orderApplies = "";
                 
                 // Actual checkboxes
                 cont.addRect(180, 615, 15, 15);
-                // Replace true with boolean data from website
-                if (true) cont.fill();
+                if (orderApplies.equals("direktupphandling")) cont.fill();
                 else {
                     cont.setLineWidth(1);
                     cont.setNonStrokingColor(Color.WHITE);
@@ -178,9 +179,12 @@ public class PDFExport {
                     cont.stroke();
                 }
                 
+                // Resetting color for drawing next checkbox
+                cont.setNonStrokingColor(Color.BLACK);
+                cont.setStrokingColor(Color.BLACK);
 
                 cont.addRect(320, 615, 15, 15);
-                if (false) cont.fill();
+                if (orderApplies.equals("hämtköp")) cont.fill();
                 else {
                     cont.setLineWidth(1);
                     cont.setNonStrokingColor(Color.WHITE);
