@@ -473,18 +473,28 @@ public class Server {
 
 
             function addItemsToCartForm(){
+                var cartContents = document.getElementsByClassName("cartInput");               
                 var form = document.getElementById("sendOrderForm");
 
+                while(cartContents.length > 0){
+                    var cartItem = cartContents[0];
+                    console.log("DELETE");
+                    console.log(cartItem);
+                    cartItem.parentNode.removeChild(cartItem);
+                }
+                
                 for(const [artNr, count] of Object.entries(cartItems)){
                     if (count != 0){
                         var itemInput = document.createElement("input");
                         itemInput.setAttribute("name", "itemNr[]");
+                        itemInput.setAttribute("class", "cartInput");
                         itemInput.setAttribute("type", "hidden");
                         itemInput.setAttribute("value", artNr);
                         form.appendChild(itemInput);
                         
                         itemInput = document.createElement("input");
                         itemInput.setAttribute("name", "itemCount[]");
+                        itemInput.setAttribute("class", "cartInput");
                         itemInput.setAttribute("type", "hidden");
                         itemInput.setAttribute("value", count);
                         form.appendChild(itemInput);
