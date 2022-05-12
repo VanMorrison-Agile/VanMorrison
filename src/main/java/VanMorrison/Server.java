@@ -340,7 +340,11 @@ public class Server {
     }
 
 
-
+    /**
+     * Reads a file
+     * @param filename the file 
+     * @return a complete html file as a string 
+     */
     public String readHTML(String filename){
         StringBuilder html = new StringBuilder();
         try {
@@ -390,7 +394,10 @@ public class Server {
     }
 
 
-
+    /**
+     * displays products that is placed in the cart.
+     * @return a complete html div as a string
+     */
     public String generateCartDisplay() {
         String cartDisplay = "<div>";
 
@@ -406,7 +413,10 @@ public class Server {
 
         return cartDisplay;
     }
-
+    /**
+     * generates a JavaScript containing methods for addind and removing products from cart
+     * @return a string with the complete JS-script
+     */
     public String generateCartScript() {
         String cartItemsContent = "";
         for (Item item:
@@ -434,11 +444,6 @@ public class Server {
                 }
             }
             
-            function addToCart(id){
-                cartItems[id] = 1;
-                updateItem(id);
-            }
-
             function addItem(id) {
                 if (cartItems[id] == null){
                     cartItems[id] = 0;
@@ -448,9 +453,10 @@ public class Server {
             }
             
             function removeItem(id) {
-                if(cartItems[id] > 0)
+                if(cartItems[id] > 0) {
                     cartItems[id]--;
-                updateItem(id);
+                    updateItem(id);
+                }
             }
             
             function removeAll(id){
@@ -460,18 +466,28 @@ public class Server {
 
 
             function addItemsToCartForm(){
+                var cartContents = document.getElementsByClassName("cartInput");               
                 var form = document.getElementById("sendOrderForm");
 
+                while(cartContents.length > 0){
+                    var cartItem = cartContents[0];
+                    console.log("DELETE");
+                    console.log(cartItem);
+                    cartItem.parentNode.removeChild(cartItem);
+                }
+                
                 for(const [artNr, count] of Object.entries(cartItems)){
                     if (count != 0){
                         var itemInput = document.createElement("input");
                         itemInput.setAttribute("name", "itemNr[]");
+                        itemInput.setAttribute("class", "cartInput");
                         itemInput.setAttribute("type", "hidden");
                         itemInput.setAttribute("value", artNr);
                         form.appendChild(itemInput);
                         
                         itemInput = document.createElement("input");
                         itemInput.setAttribute("name", "itemCount[]");
+                        itemInput.setAttribute("class", "cartInput");
                         itemInput.setAttribute("type", "hidden");
                         itemInput.setAttribute("value", count);
                         form.appendChild(itemInput);

@@ -45,7 +45,10 @@ public class HtmlParser {
         }
     }
 
-    // Returns the string of the html document where the keys are replaced with their corresponding values
+    /**
+     * 
+     * @return the string of the html document where the keys are replaced with their corresponding values
+     */
     public String getString(){
         StringBuilder sb = new StringBuilder();
         // combining the html parts with the values
@@ -55,6 +58,12 @@ public class HtmlParser {
         }
         return sb.toString();
     }
+
+    /**
+     * Reads a file
+     * @param filename the file 
+     * @return a complete html file as a string 
+     */
 
     private String readHTML(String filename){
         StringBuilder html = new StringBuilder();
