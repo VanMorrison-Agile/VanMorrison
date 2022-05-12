@@ -440,6 +440,9 @@ public class Server {
             }
 
             function addItem(id) {
+                if (cartItems[id] == null){
+                    cartItems[id] = 0;
+                }
                 cartItems[id] ++;
                 updateItem(id);
             }
