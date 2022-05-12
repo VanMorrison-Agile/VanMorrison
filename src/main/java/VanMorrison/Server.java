@@ -406,10 +406,12 @@ public class Server {
 
         for (Item item:
                 csv.items) {
-            cartDisplay += "<div id='cart" + item.getArtNr() + "' style ='display:none;'>";
-            cartDisplay += item.getName();
-            cartDisplay += "<p id='cart"+ item.getArtNr()+ "Number'> </p>";
-            cartDisplay += "</div>";
+            if (item.getArtNr().equals("artNr")) continue; //Skip header, couldn't come up with a better method
+            HtmlParser p = new HtmlParser("src/html/cartItem.html");
+            p.set("id", item.getArtNr());
+            p.set("name", item.getName());
+
+            cartDisplay += p.getString();
         }
 
         cartDisplay += "</div>";
@@ -422,9 +424,12 @@ public class Server {
      */
     public String generateCartScript() {
         String cartItemsContent = "";
+        String cartPricesContent = "";
         for (Item item:
              csv.items) {
-            cartItemsContent += item.getArtNr() + " : 0 , "; //I think js is alright with a trailing comma
+            if (item.getArtNr().equals("artNr")) continue; //Skip header, couldn't come up with a better method
+            cartItemsContent += "'" + item.getArtNr() + "' : 0, "; //I think js is alright with a trailing comma
+            cartPricesContent += "'" + item.getArtNr() + "' : "+ item.getPrice() +", ";
         }
         
         return """
@@ -434,11 +439,16 @@ public class Server {
             """
             };
             
-            
+            var cartPrices = {
+                """
+                    + cartPricesContent +
+                """
+                };
             
             
             function updateItem(id) {   
                 document.getElementById('cart' + id + 'Number').innerHTML = cartItems[id];
+                document.getElementById(id + 'Price').innerHTML = cartItems[id] * cartPrices[id];
                 var cartItemDisplay = document.getElementById('cart' + id);
                 if (cartItems[id] == 0) {
                     cartItemDisplay.style.display="none";
@@ -448,9 +458,6 @@ public class Server {
             }
             
             function addItem(id) {
-                if (cartItems[id] == null){
-                    cartItems[id] = 0;
-                }
                 cartItems[id] ++;
                 updateItem(id);
             }
