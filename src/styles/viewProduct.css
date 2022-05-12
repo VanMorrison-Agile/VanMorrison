@@ -25,6 +25,27 @@ body{
     right: 0px;
     top:0px;
     background-color: white;
+    height:100%;
+}
+
+.upper-bit{
+    display:block;
+    float:left;
+    position:absolute;
+    right:0px;
+    top:0px;
+    height:75%
+    width:100%;
+}
+
+.lower-bit{
+    display:block;
+    float:left;
+    position:absolute;
+    bottom:0px;
+    right:0px;
+    height:25%;
+    width:100%
 }
 
 #side-bit button{
