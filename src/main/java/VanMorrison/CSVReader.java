@@ -1,6 +1,5 @@
 package VanMorrison;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -41,10 +40,10 @@ public class CSVReader {
     private static List<Item> readItemsFromCSV(String fileName){
         List<Item> items = new ArrayList<Item>();
         Path pathToFile = Paths.get(fileName);
-        
-        try(BufferedReader br = new BufferedReader(new FileReader(fileName));){
+
+        try(BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)){
             String line = br.readLine();
-            System.out.println(line);
+
             while(line != null){
                 String[] attributes = line.split(",");
 
@@ -76,26 +75,26 @@ public class CSVReader {
 
     private String generateList(){
         String s = "<br />" +
-                    " <table>" +
+                "<div class='container'><caption>Tillg&auml;ngliga produkter</caption><table>" +
                 "<thead><tr>" +
                 generateTableHead() +
                 "</tr></thead><tbody>" +
                 generateTableRows() +
-                "</tbody></table>";
+                "</tbody></table></div>";
         return s;
     }
 
     private String generateTableRows(){
         String s = "";
         for(int i = 1; i < getItemList().size(); i++){
-            s += "<tr onClick='addItem(\"" + getItemList().get(i).getArtNr() + "\")'><td>" + getItemList().get(i).getArtNr() + "</td><td>" + getItemList().get(i).getName() + "</td><td>" + getItemList().get(i).getPrice() + "<td><button class='add-button' type='button' onclick='addItem(\"" + getItemList().get(i).getArtNr() + "\")'><i class='fa fa-shopping-cart' aria-hidden='true'></i></button></td>";
+            s += "<tr><td>" + getItemList().get(i).getArtNr() + "</td><td>" + getItemList().get(i).getName() + "</td><td>" + getItemList().get(i).getPrice() + "</td><td>" + "<button onClick='addItem(\"" + getItemList().get(i).getArtNr() + "\")'>Lägg till</button>" + "<button onClick='removeAll(\"" + getItemList().get(i).getArtNr() + "\")'>Ta bort från varukorg</button>" + "<button onClick='removeItem(\"" + getItemList().get(i).getArtNr() + "\")'>−</button>" + "<button onClick=' addItem(\"" + getItemList().get(i).getArtNr() + "\")'>+</button>" + "</td></tr>";
         }
         return s;
     }
 
     private String generateTableHead(){
         String s = "<th>";
-        s += getItemList().get(0).getArtNr() + "</th><th>" + getItemList().get(0).getName() + "</th><th>" + getItemList().get(0).getPrice() + "</th><th></th>";
+        s += getItemList().get(0).getArtNr() + "</th><th>" + getItemList().get(0).getName() + "</th><th>" + getItemList().get(0).getPrice() + "</th>";
         return s;
     }
 
