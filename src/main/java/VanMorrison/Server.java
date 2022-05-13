@@ -197,6 +197,7 @@ public class Server {
 
             Map<String, Parameter> params = HTMLUtility.getMimeParameters(t.getRequestBody());
             Map<String, String> metadata = new HashMap<String, String>();
+            params.forEach((k, v) -> metadata.put(k, v.getDataAsString()));
 
             String[] itemNr = params.get("itemNr").getDataAsStringArray();
             String[] itemCount = params.get("itemCount").getDataAsStringArray();
