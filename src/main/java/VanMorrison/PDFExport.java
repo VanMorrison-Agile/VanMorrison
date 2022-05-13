@@ -41,7 +41,7 @@ public class PDFExport {
     }
 
     public static byte [] getPdf(List<Item> items, List<Integer> amounts, Map<String, String> metadata ) throws IOException {
-
+        
         try (PDDocument document = new PDDocument()) {
              // Create a document and add all pages to it (A4 for printing)
              PDPage productPage = new PDPage(PDRectangle.A4);
@@ -68,10 +68,7 @@ public class PDFExport {
                     bottomMargin, tableWidth, margin, document, productPage, true, drawContent);
 
                 // Row for the headers
-                List<String> headers = new ArrayList<String>();
-                headers.addAll(Arrays.asList("Vara", "Artikelnummer", "Antal"));
-
-                addRow(true, productTable, headers);
+                addRow(true, productTable, Arrays.asList("Vara", "Artikelnummer", "Antal"));
                 
                 // Add all products/items  from provided list
                 for (int i = 0; i < items.size(); i++) {
@@ -100,9 +97,7 @@ public class PDFExport {
                 cell.setFontSize(15);
 
                 productTable.draw();
-            } catch (Exception e) {
-                throw e;
-            }
+            } catch (Exception e) {throw e;}
 
             
             // For metadata page
@@ -164,26 +159,32 @@ public class PDFExport {
                 cont.showText(pickUpDescription);
 
                 String space = " ";
-                // Replace with data from website
-                String pickUp = "Bemil";
+                String pickUp = metadata.get("pickUp");
                 cont.setFont(PDType1Font.HELVETICA, 12);
                 cont.showText(space);
                 cont.showText(pickUp);
                 cont.endText();
 
+                // Checks if there is a selected option for order applies, if not sets to empty to avoid comparing with null
+                String orderApplies = metadata.get("orderApplies");
+                if (orderApplies == null) orderApplies = "";
+                
                 // Actual checkboxes
                 cont.addRect(180, 615, 15, 15);
-                // Replace true with boolean data from website
-                if (true) cont.fill();
+                if (orderApplies.equals("direktupphandling")) cont.fill();
                 else {
                     cont.setLineWidth(1);
                     cont.setNonStrokingColor(Color.WHITE);
                     cont.setStrokingColor(Color.BLACK);
                     cont.stroke();
                 }
+                
+                // Resetting color for drawing next checkbox
+                cont.setNonStrokingColor(Color.BLACK);
+                cont.setStrokingColor(Color.BLACK);
 
                 cont.addRect(320, 615, 15, 15);
-                if (false) cont.fill();
+                if (orderApplies.equals("hämtköp")) cont.fill();
                 else {
                     cont.setLineWidth(1);
                     cont.setNonStrokingColor(Color.WHITE);
@@ -191,26 +192,21 @@ public class PDFExport {
                     cont.stroke();
                 }
                 cont.close();
+                
 
                 // Adding tables
                 BaseTable buyerTable = new BaseTable(yPosition, yStartNewPage,
                     bottomMargin, tableWidth, margin, document, metadataPage, true, drawContent);
 
                 // Row for the headers for buyerTable
-                List<String> buyerHeaders = new ArrayList<String>();
-                buyerHeaders.add("Uppgifter beställare");
-                addRow(true, buyerTable, buyerHeaders);
+                addRow(true, buyerTable, Arrays.asList("Uppgifter beställare"));
 
-                // Example 
-                Map<String, String> personalInfo = new HashMap<String, String>();
-                personalInfo.put("För- och efternamn", "Emil");
-                personalInfo.put("Enhet", "Adn");
-                personalInfo.put("Leveransadress", "Lindholmen");
-                personalInfo.put("TelefonNummer till verksamheten", "0046");
-                personalInfo.put("Ansvar", "None");
-                personalInfo.put("Verkkod", "666");
-
-                personalInfo.forEach((k,v) -> addRow(false, buyerTable, Arrays.asList(k, v)));
+                addRow(false, buyerTable, Arrays.asList("För- och efternamn", metadata.get("personalName")));
+                addRow(false, buyerTable, Arrays.asList("Enhet", metadata.get("unit")));
+                addRow(false, buyerTable, Arrays.asList("Leveransadress", metadata.get("deliveryAdress")));
+                addRow(false, buyerTable, Arrays.asList("Telefonnummer till verksamheten", metadata.get("phone")));
+                addRow(false, buyerTable, Arrays.asList("Ansvar", metadata.get("responsibility")));
+                addRow(false, buyerTable, Arrays.asList("Verkkod", metadata.get("verificationNumber")));
 
                 float newYPosition = buyerTable.draw();
 
@@ -221,14 +217,12 @@ public class PDFExport {
                 supplierHeaders.add("Uppgifter leverantör");
                 addRow(true, supplierTable, supplierHeaders);
 
-                Map<String, String> supplierInfo = new HashMap<String, String>();
-                supplierInfo.put("Namn", "Bemil");
-                supplierInfo.put("Organisationsnummer", "3");
-                supplierInfo.put("Mejladress", "Bemil@best");
-                supplierInfo.forEach((k,v) -> addRow(false, supplierTable, Arrays.asList(k, v)));
+                addRow(false, supplierTable, Arrays.asList("Namn", metadata.get("supplierName")));
+                addRow(false, supplierTable, Arrays.asList("Organisationsnummer", metadata.get("organisationNumber")));
+                addRow(false, supplierTable, Arrays.asList("Mejladress", metadata.get("mail")));
 
                 supplierTable.draw();
-            } catch (Exception e) {System.out.println(e);}
+            } catch (Exception e) {throw e;}
 
 
             // Saves pdf to an outputstream, which fills a byte array. Then returns byte array.
