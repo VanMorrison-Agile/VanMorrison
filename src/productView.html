@@ -1,79 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/styles/viewProvider.css">
+    <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
+    <!--Reset css-->
+    <link href='https://fonts.googleapis.com/css?family=Krona One' rel='stylesheet'>
+    <!--Krona One font-->
+    <link rel="stylesheet" href="/styles/viewProduct.css">
     <link rel="stylesheet" href="/styles/searchForm.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    </head>
+</head>
+
 <body>
     <div id="provider-name" style="display:none">${providerName}</div>
-    <header>
-        ${providerName}
-    </header>
-    <div id="search-container">
-        <form id="search-form">
-            <input type="text" id="search-bar" name="query" placeholder="Sök">
-            <button type="submit" id="search-button"><i class="fa fa-search"></i></button>
-        </form>
-    </div>
-    <div id="search-res">
-
-    </div>
-    ${cartDisplay}
     
-    <form onsubmit="addItemsToCartForm()" id="sendOrderForm"
-          action="/getpdf" method="post" enctype="multipart/form-data">
+    <div id="main-bit">
+        <h1>PRODUKTER</h1>
+        
+        <div id="search-container">
+            <form id="search-form">
+                <input type="text" id="search-bar" name="query" placeholder="Sök">
+                <button type="submit" id="search-button"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <div id="search-res">
 
-        <fieldset id="personalInfo">
-            <label for="personalName">Namn</label>
-            <input type="text" name="personalName" id="personalName" />
-    
-            <label for="unit">Enhet</label>
-            <input type="text" name="unit" id="unit" />
-            
-            <label for="deliveryAdress">Leveransadress</label>
-            <input type="text" name="deliveryAdress" id="deliveryAdress" />
-            
-            <label for="phone">Telefonnumer</label>
-            <input type="text" name="phone" id="phone" />
-            
-            <label for="verificationNumber">VerifikationsKod</label>
-            <input type="text" name="verificationNumber" id="verificationNumber" />
-            
-            <label for="responsibility">Ansvar</label>
-            <input type="text" name="responsibility" id="responsibility" />
-            
+        </div>
+    </div>
+    <div id="side-bit">
+        <div class="upper-bit">
+        ${cartDisplay}
+        </div>
+        <div class="lower-bit">
+        <form onsubmit="addItemsToCartForm()" id="sendOrderForm" action="/getpdf" method="post" enctype="multipart/form-data" id>
+
+            <input type="text" name="Förnamn" id="name" placeholder="Föramn" /> <br />
+
+            <input type="text" name="Efternamn" id="surname" placeholder="Efternamn" /><br />
+
+            <input type="text" name="Enhet" id="Unit" placeholder="Enhet" /><br />
+
+            <input type="text" name="Leveransadress" id="Deliveryadress" placeholder="Leveransadress" /><br />
+
+            <input type="text" name="Telefonnummer" id="Phone" placeholder="Telefonnummer till verksamhet" /><br />
+
+            <input type="text" name="Ansvarig" id="Responsibility" placeholder="Ansvar" /><br />
+
+            <input type="text" name="Verifikationskod" id="VerificationNumber" placeholder="Verifikationskod" /><br />
+
+            <input type="text" name="pickUp" id="pickUp" placeholder="Upphämtares namn" />
+
             <p>
-    
-                <input id="direktupphandling" name="orderApplies" type="radio" value="direktupphandling" />
-                <label class="inline" for="direktupphandling">Direktupphandling</label>
-                
-                <input id="hämtköp" name="orderApplies" type="radio" value="hämtköp" />
-                <label class="inline" for="hämtköp">Hämtköp</label>
-                
+
+                <input id="Direktupphandling" name="inköpsform" type="radio" value="Direktupphandling" />
+                <label class="inline" for="Direktupphandling">Direktupphandling</label> <br />
+
+                <input id="Hämtköp" name="inköpsform" type="radio" value="Hämtköp" />
+                <label class="inline" for="Hämtköp">Hämtköp</label>
+
             </p>
 
-            <label for="pickUp">Namn på person som hämtar varan: </label>
-            <input type="text" name="pickUp" id="pickUp" />
-        </fieldset>
-        
-        <fieldset id="supplierInfo">
-            <label for="supplierName">Namn</label>
-            <input type="text" name="supplierName" id="supplierName" />
 
-            <label for="organisationNumber">Organisationsnummer</label>
-            <input type="text" name="organisationNumber" id="organisationNumber" />
-
-            <label for="mail">Mejladress</label>
-            <input type="text" name="mail" id="mail" />
-        </fieldset>
-            
-        <input type="submit" value="Get Order!">
+            <button type="submit">GENERERA PDF</button>
+        </form>
+        </div>
+    </div>
     </form>
+</div>
     <script src="/javascripts/searchBar.js"></script>
-    <script>
-        ${extraScript}
-    </script>
+    ${extraScript}
 </body>
 <html>

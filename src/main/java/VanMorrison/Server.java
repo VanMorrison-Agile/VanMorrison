@@ -104,7 +104,7 @@ public class Server {
                 // Remove suffix if it exists
                 if (pathName.lastIndexOf(".") != -1) pathName = pathName.substring(0, pathName.lastIndexOf("."));
                 // Add a list item for provider
-                String listItem = "<li><a href=\"/products/%PROVIDER%\">%PROVIDER%</a></li>";
+                String listItem = "<li><a href=\"/products/%PROVIDER%\">%PROVIDER%<div class=\"i-wrapper\"><i class=\"fa fa-arrow-circle-right\"></i></div></a></li>";
                 htmlProviders.append(listItem.replaceAll("%PROVIDER%", pathName));
             }
 
@@ -132,7 +132,8 @@ public class Server {
             csv = new CSVReader("provider/" + provider + ".csv");
 
             
-            String extraScript = generateCartScript() + 
+            String extraScript = "<script>" + 
+            generateCartScript() + 
             """
                 var form = document.getElementById("sendOrderForm");
 
@@ -140,7 +141,8 @@ public class Server {
                 providerInput.setAttribute('name', 'provider');
                 providerInput.setAttribute('type', 'hidden');
                 providerInput.setAttribute('value', '""" + provider + "');" +
-                "form.appendChild(providerInput);";
+                "form.appendChild(providerInput);" +
+                "</script>";
 
 
             HtmlParser p = new HtmlParser("src/productView.html");
@@ -246,7 +248,6 @@ public class Server {
 
             //Get the queries as a map
             Map<String,String> queries = queryToMap(queryParams);
-            System.out.println(queries.get("provider") + " och " + queries.get("query"));
 
             //Retrieves products from the provider that is in the query
             CSVReader csvTest = new CSVReader("provider/"+ queries.get("provider") + ".csv");
@@ -260,7 +261,8 @@ public class Server {
             String res = reader.printToString();
 
             //Sends a response to web client
-            byte[] bytes = res.getBytes();
+            byte[] bytes = res.getBytes(StandardCharsets.UTF_8);
+
             t.sendResponseHeaders(200, bytes.length);
             OutputStream os = t.getResponseBody();
             os.write(bytes);
@@ -400,14 +402,16 @@ public class Server {
      * @return a complete html div as a string
      */
     public String generateCartDisplay() {
-        String cartDisplay = "<div>";
+        String cartDisplay = "<div id ='cart'>";
 
         for (Item item:
                 csv.items) {
-            cartDisplay += "<div id='cart" + item.getArtNr() + "' style ='display:none;'>";
-            cartDisplay += item.getName();
-            cartDisplay += "<p id='cart"+ item.getArtNr()+ "Number'> </p>";
-            cartDisplay += "</div>";
+            if (item.getArtNr().equals("artNr")) continue; //Skip header, couldn't come up with a better method
+            HtmlParser p = new HtmlParser("src/html/cartItem.html");
+            p.set("id", item.getArtNr());
+            p.set("name", item.getName());
+
+            cartDisplay += p.getString();
         }
 
         cartDisplay += "</div>";
@@ -420,9 +424,12 @@ public class Server {
      */
     public String generateCartScript() {
         String cartItemsContent = "";
+        String cartPricesContent = "";
         for (Item item:
              csv.items) {
-            cartItemsContent += item.getArtNr() + " : 0 , "; //I think js is alright with a trailing comma
+            if (item.getArtNr().equals("artNr")) continue; //Skip header, couldn't come up with a better method
+            cartItemsContent += "'" + item.getArtNr() + "' : 0, "; //I think js is alright with a trailing comma
+            cartPricesContent += "'" + item.getArtNr() + "' : "+ item.getPrice() +", ";
         }
         
         return """
@@ -432,11 +439,16 @@ public class Server {
             """
             };
             
-            
+            var cartPrices = {
+                """
+                    + cartPricesContent +
+                """
+                };
             
             
             function updateItem(id) {   
                 document.getElementById('cart' + id + 'Number').innerHTML = cartItems[id];
+                document.getElementById(id + 'Price').innerHTML = cartItems[id] * cartPrices[id];
                 var cartItemDisplay = document.getElementById('cart' + id);
                 if (cartItems[id] == 0) {
                     cartItemDisplay.style.display="none";
@@ -446,9 +458,6 @@ public class Server {
             }
             
             function addItem(id) {
-                if (cartItems[id] == null){
-                    cartItems[id] = 0;
-                }
                 cartItems[id] ++;
                 updateItem(id);
             }
