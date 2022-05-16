@@ -18,6 +18,19 @@
                 ${lis}
             </ul>
         </div>
+        <!-- TEMP STYLE/ALIGN PLEASE CHANGE -->
+        <div align="center" style="margin-top:50px">
+            <form action="/addProvider" method="post" enctype="multipart/form-data">
+                <label for="uploadButton">Välj leverantörfil:</label>
+                <input id="uploadButton" type="file" name="uploadedFile">
+                <select name="provider" required>
+                    <option value="" disabled selected>Klicka för att välja leverantör</option>
+                    ${addProviderOptions}
+                    <option value="new">NY LEVERANTÖR</option>
+                </select>
+                <input type="submit" value="Ladda upp!">
+            </form>
+        </div>
     </div>
     </div>
 
