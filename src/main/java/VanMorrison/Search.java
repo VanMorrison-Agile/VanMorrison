@@ -1,7 +1,6 @@
 package VanMorrison;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -27,10 +26,9 @@ public class Search {
                 matches.add(item);
             }
         }
-
         //Sorts the items in alphabetical case-insensitive order
-        Collections.sort(matches);
-
+        matches.sort(Item.compare(term));
+        
         return matches;
     }
 }
