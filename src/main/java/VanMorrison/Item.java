@@ -42,8 +42,20 @@ public class Item {
         return "Item [article number = " + artNr + ", name = " + name + ", price = " + price + "]";
     }
 
+    /**
+     * Compares items in alphabetical case-insensitive order.
+     */
     public static final Comparator<Item> byLexicographicOrder = (o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName());
 
+    /**
+     * compare the name of two items by how similar they are to term.
+     * This is done by determining the index of which the term appears in the item name.
+     * If the starting index for the term is identical for the two items,
+     * then compare byLexicographicOrder.
+     *
+     * @param term the string which is contained in both of the item names.
+     * @return returns whether o1 is more "similar" to term than o2 or not.
+     */
     public static Comparator<Item> compare(String term) {
         return (o1, o2) -> {
             int i1 = o1.getName().indexOf(term);

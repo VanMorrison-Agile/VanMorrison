@@ -15,7 +15,7 @@ public class Search {
     /**
      * A function to search a list of items with a string.
      * @param term The term for which we are searching.
-     * @return a list of matching items to the given search term.
+     * @return a sorted list of items matching the searched term.
      */
     public static List<Item> search(String term){
         List<Item> matches = new ArrayList<>();
@@ -26,7 +26,7 @@ public class Search {
                 matches.add(item);
             }
         }
-        //Sorts the items in alphabetical case-insensitive order
+        //Sorts the matches, see JavaDoc for details.
         matches.sort(Item.compare(term));
         
         return matches;
