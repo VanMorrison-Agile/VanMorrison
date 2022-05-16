@@ -425,14 +425,20 @@ public class Server {
     public String generateCartScript() {
         String cartItemsContent = "";
         String cartPricesContent = "";
+        boolean skippedHeader = false; //Set to true once the header has been skipped
         for (Item item:
              csv.items) {
-            if (item.getArtNr().equals("artNr")) continue; //Skip header, couldn't come up with a better method
+            if (!skippedHeader) {
+                skippedHeader = true;
+                continue; //Skip header
+            }
             cartItemsContent += "'" + item.getArtNr() + "' : 0, "; //I think js is alright with a trailing comma
             cartPricesContent += "'" + item.getArtNr() + "' : "+ item.getPrice() +", ";
         }
         
         return """
+            var totalPrice = 0;
+
             var cartItems = {
             """
                 + cartItemsContent +
@@ -449,6 +455,7 @@ public class Server {
             function updateItem(id) {   
                 document.getElementById('cart' + id + 'Number').innerHTML = cartItems[id];
                 document.getElementById(id + 'Price').innerHTML = cartItems[id] * cartPrices[id];
+                document.getElementById('totalPrice').innerHTML = totalPrice;
                 var cartItemDisplay = document.getElementById('cart' + id);
                 if (cartItems[id] == 0) {
                     cartItemDisplay.style.display="none";
@@ -459,17 +466,20 @@ public class Server {
             
             function addItem(id) {
                 cartItems[id] ++;
+                totalPrice += cartPrices[id];
                 updateItem(id);
             }
             
             function removeItem(id) {
                 if(cartItems[id] > 0) {
                     cartItems[id]--;
+                    totalPrice -= cartPrices[id];
                     updateItem(id);
                 }
             }
             
             function removeAll(id){
+                totalPrice -= cartPrices[id] * cartItems[id];
                 cartItems[id] = 0;
                 updateItem(id);
             }
