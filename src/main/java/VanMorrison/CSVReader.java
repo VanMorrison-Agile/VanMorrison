@@ -88,7 +88,7 @@ public class CSVReader {
     private String generateTableRows(){
         String s = "";
         for(int i = 1; i < getItemList().size(); i++){
-            s += "<tr onClick='addItem(\"" + getItemList().get(i).getArtNr() + "\")'><td>" + getItemList().get(i).getArtNr() + "</td><td>" + getItemList().get(i).getName() + "</td><td>" + getItemList().get(i).getPrice() + "<td><button class='add-button' type='button' onclick='addItem(\"" + getItemList().get(i).getArtNr() + "\")'><i class='fa fa-shopping-cart' aria-hidden='true'></i></button></td>";
+            s += "<tr onClick='addItem(\"" + getItemList().get(i).getArtNr() + "\")'><td>" + getItemList().get(i).getArtNr() + "</td><td>" + getItemList().get(i).getName() + "</td><td>" + getItemList().get(i).getPrice() + "<td><button class='add-button' type='button'><i class='fa fa-shopping-cart' aria-hidden='true'></i></button></td>";
         }
         return s;
     }
