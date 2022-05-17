@@ -30,6 +30,7 @@
     border-radius: 0px 7px 7px 0px;
     border: none;
     background-color: white;
+    transition-duration:0.5s;
 }
 
 #search-button:hover{
