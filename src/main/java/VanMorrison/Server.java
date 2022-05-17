@@ -104,6 +104,7 @@ public class Server {
 
             //Send html to web client
             response = p.getString();
+            System.out.println(response);
             byte[] bytes = response.getBytes();
             t.sendResponseHeaders(200, bytes.length);
             OutputStream os = t.getResponseBody();
@@ -338,16 +339,15 @@ public class Server {
      * @return a complete html div as a string
      */
     public String generateCartDisplay() {
-        String cartDisplay = "<div id ='cart'>";
+        String cartDisplay = "<div id ='cart'>\n";
 
-        for (Item item:
-                csv.items) {
+        for (Item item: csv.items) {
             if (item.getArtNr().equals("artNr")) continue; //Skip header, couldn't come up with a better method
             HtmlParser p = new HtmlParser("src/html/cartItem.html");
             p.set("id", item.getArtNr());
             p.set("name", item.getName());
 
-            cartDisplay += p.getString();
+            cartDisplay += (p.getString()+"\n");
         }
 
         cartDisplay += "</div>";
