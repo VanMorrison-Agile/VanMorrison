@@ -108,7 +108,7 @@ input[type=submit]{
     border:1px solid #ccc;
     dispaly:inline-block !important;
     padding:6px 12px;
-    height:34px;
+    height:32px;
     background-color:white;
     font-family: 'Krona One', sans-serif;
     transition-duration:0.5s;
@@ -124,10 +124,13 @@ input[type="file"]{
 
 .inputFile{
     float:left;
+    height:22px;
+    display:block;
     border:1px solid #ccc;
     dispaly:inline-block;
-    padding:6px 12px;
+    padding:8px 12px 0 12px;
     transition-duration:0.5s;
+    font-size:12px;
 }
 
 .inputFile:hover{
@@ -138,7 +141,7 @@ input[type="file"]{
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    height: 34px;
+    height: 32px;
     padding: 5px 38px 5px 16px;
     /*background: #fff url(...) no-repeat right 16px center;*/
     background-size: 10px;
@@ -146,6 +149,7 @@ input[type="file"]{
     border: 1px solid #ddd;
     border-radius: 3px;
     font-family: 'Krona One', sans-serif;
+    font-size:12px;
 }
 
 .upSelector:hover{
