@@ -1,9 +1,10 @@
 package VanMorrison;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-public class Item implements Comparable<Item> {
+public class Item {
     private String artNr;
     private String name;
     private String price;
@@ -42,12 +43,30 @@ public class Item implements Comparable<Item> {
     }
 
     /**
-     * Compares the name of two items in case-insensitive alphabetical order
-     * @param o item that will be compared with
+     * Compares items in alphabetical case-insensitive order.
      */
-    @Override
-    public int compareTo(Item o) {
-        return this.getName().compareToIgnoreCase(o.getName());
+    public static final Comparator<Item> byLexicographicOrder = (o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName());
+
+    /**
+     * compare the name of two items by how similar they are to term.
+     * This is done by determining the index of which the term appears in the item name.
+     * If the starting index for the term is identical for the two items,
+     * then compare byLexicographicOrder.
+     *
+     * @param term the string which is contained in both of the item names.
+     * @return returns whether o1 is more "similar" to term than o2 or not.
+     */
+    public static Comparator<Item> compare(String term) {
+        return (o1, o2) -> {
+            int i1 = o1.getName().indexOf(term);
+            int i2 = o2.getName().indexOf(term);
+
+            if(i1 == i2) {
+                return byLexicographicOrder.compare(o1,o2);
+            }
+
+            return Integer.compare(i1, i2);
+        };
     }
 }
 
