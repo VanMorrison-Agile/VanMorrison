@@ -28,6 +28,12 @@ public class Server {
 
     private static Server s;
 
+    
+    /** 
+     * Runs the "VanMorrison" web server on port 80
+     * @param args command-line arguments, unused
+     * @throws Exception An exception thrown by the program
+     */
     public static void main(String[] args) throws Exception {
         s = new Server();
         s.generateMain();
@@ -42,6 +48,8 @@ public class Server {
         body += html;
     }
 
+    
+    //TODO remove oldmain code
     public void addScript(String javascript) {
         script += javascript;
     }
@@ -380,6 +388,12 @@ public class Server {
         return aa.toString();
     }
 
+    //TODO document this, I don't understand it well enough to get the terminology right
+    /** 
+     * 
+     * @param query
+     * @return Map<String, String>
+     */
     public Map<String, String> queryToMap(String query){
         if(query == null){
             return null;
