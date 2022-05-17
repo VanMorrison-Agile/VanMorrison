@@ -225,3 +225,19 @@ th:nth-child(4){
     float:left;
 }
 
+
+#totalArea{
+    font-size: 16px;
+    display:flex;
+    padding: 8px 16px;
+    background-color: rgb(216, 216, 216);
+}
+
+#totalArea #totalLabel{
+    display: block;
+}
+
+#totalArea #total{
+    flex-grow: 1;
+    text-align: right;
+}
