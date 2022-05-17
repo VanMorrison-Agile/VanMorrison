@@ -161,12 +161,14 @@ th:nth-child(4){
     height: 100%;
     border-radius: 10px;
     font-size: 26px;
+    transition-duration:0.5s;
 }
 
 .add-button:hover {
     background-color: rgb(110, 110, 110);
     transform: scale(1.1);
     color: white;
+    cursor:pointer;
 }
 
 
