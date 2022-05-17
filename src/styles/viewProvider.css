@@ -150,6 +150,7 @@ input[type="file"]{
 
 .upSelector:hover{
     border:1px solid #999;
+    background-color:#fafafa;
 }
 
 .upSelector:focus{
