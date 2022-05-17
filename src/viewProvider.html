@@ -20,15 +20,20 @@
         </div>
         <!-- TEMP STYLE/ALIGN PLEASE CHANGE -->
         <div align="center" style="margin-top:50px">
+            <h3>Uppladdning av leverantörsfiler</h3>
             <form action="/addProvider" method="post" enctype="multipart/form-data">
-                <label for="uploadButton">Välj leverantörfil:</label>
-                <input id="uploadButton" type="file" name="uploadedFile">
-                <select name="provider" required>
-                    <option value="" disabled selected>Klicka för att välja leverantör</option>
-                    ${addProviderOptions}
-                    <option value="new">NY LEVERANTÖR</option>
-                </select>
-                <input type="submit" value="Ladda upp!">
+                <label for="uploadButton" class="inputFile">
+                    <i class="fa fa-cloud-upload"></i>Välj leverantörsfil
+                </label>
+                <input id="uploadButton" type="file" name="uploadedFile" class="inputFile">
+                <div class="uploadRight">
+                    <select class="upSelector" name="provider" required>
+                        <option value="" disabled selected>Klicka för att välja leverantör</option>
+                        ${addProviderOptions}
+                        <option value="new">NY LEVERANTÖR</option>
+                    </select>
+                    <input type="submit" value="Ladda upp!" class="upButton">
+                </div>
             </form>
         </div>
     </div>
