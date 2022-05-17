@@ -100,7 +100,6 @@ th {
 
 tr {
     background-color: rgb(212, 212, 212);
-    cursor: pointer;
     user-select: none;
     display:flex;
     padding: 4px 20px;
