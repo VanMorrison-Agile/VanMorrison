@@ -102,4 +102,67 @@ ul{
     margin: 0px;
 }
 
+/* UPLOAD STYLING */
 
+input[type=submit]{
+    border:1px solid #ccc;
+    dispaly:inline-block !important;
+    padding:6px 12px;
+    height:34px;
+    background-color:white;
+    font-family: 'Krona One', sans-serif;
+    transition-duration:0.5s;
+}
+
+input[type=submit]:hover{
+    background-color:#ddd;
+}
+
+input[type="file"]{
+    display:none;
+}
+
+.inputFile{
+    float:left;
+    border:1px solid #ccc;
+    dispaly:inline-block;
+    padding:6px 12px;
+    transition-duration:0.5s;
+}
+
+.inputFile:hover{
+    background-color:#ddd;
+}
+
+.upSelector{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    height: 34px;
+    padding: 5px 38px 5px 16px;
+    /*background: #fff url(...) no-repeat right 16px center;*/
+    background-size: 10px;
+    transition: border-color .1s ease-in-out,box-shadow .1s ease-in-out;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-family: 'Krona One', sans-serif;
+}
+
+.upSelector:hover{
+    border:1px solid #999;
+}
+
+.upSelector:focus{
+    border:1px solid #999;
+    box-shadow: 0 3px 5px 0 rgba(0,0,0,.2);
+    outline:none;
+}
+
+/* remove default arrow in IE */
+select::-ms-expand {
+    display:none;
+}
+
+.uploadRight{
+    float:right;
+}
