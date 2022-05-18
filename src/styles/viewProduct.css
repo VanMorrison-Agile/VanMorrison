@@ -15,11 +15,12 @@ body{
 
 #main-bit{
     width: 75%;
-
+    
 }
 
 #side-bit{
     width: 25%;
+   /*  min-width: 360px; */
     float:left;
     position: absolute;
     right: 0px;
@@ -191,23 +192,38 @@ th:nth-child(4){
 .cartItemName {
     /* float:left; */
     flex-grow: 1;
+    position: relative;
 }
 
 .cartItemName p{
-    text-align: center;
-    height: 100%;
+    text-align: left;
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    margin: auto;
+    transform: translate(0%,-50%);
+    margin-left: 5px;
 }
 
 .edit-amount{
-    width: 60px;
     
+    z-index: 10;
+    word-spacing: -1;
 }
 
 .cartItemAdd, .cartItemRemove {
-    width:20%;
-    display:inline-block;
+    width: 20px;
+    height: 20px;
+    /* display:inline-block; */
+    background-color:rgb(230, 230, 230);
+    margin: -4px;
+    padding: 0px;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+    
     /* width:10%;
-    background-color:lightgrey;
+    
     cursor: pointer;
     user-select: none; */
 } 
@@ -217,23 +233,42 @@ th:nth-child(4){
 }
 
 .cartItemNumber {
-    width:40%;
+    width:30px;
+    height:20px;
     background-color:white;
     text-align: center;
     display:inline-block;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+    margin: 0px;
+    padding: 0px;
 }
 
 .cartItemPriceArea {
     /* float:left; */
+    position: relative;
     width: 80px;
 }
 
-.cartitem button {
+.cartItem button {
     /* float:left; */
     cursor:pointer;
+    border: none;
+    background-color: #fff0;
+    font-size: 16px;
+    margin: 0px 2px;
+    color:rgb(92, 92, 92)
 }
 
 .cartItemPrice {
+    text-align: right;
+    position: absolute;
+    top: 50%;
+    right: 0px;
+    margin: auto;
+    transform: translate(0%,-50%);
+    margin-right: 7px;
     /* float:left; */
 }
 
@@ -243,6 +278,7 @@ th:nth-child(4){
     display:flex;
     padding: 8px 16px;
     background-color: rgb(216, 216, 216);
+    
 }
 
 #totalArea #totalLabel{
