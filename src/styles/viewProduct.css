@@ -279,6 +279,7 @@ th:nth-child(4){
     display:flex;
     padding: 8px 16px;
     background-color: rgb(216, 216, 216);
+    
 }
 
 #totalArea #totalLabel{
