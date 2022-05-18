@@ -347,7 +347,7 @@ public class Server {
             p.set("id", item.getArtNr());
             p.set("name", item.getName());
 
-            cartDisplay += (p.getString()+"\n");
+            cartDisplay += (p.getString().substring(1)+"\n");
         }
 
         cartDisplay += "</div>";
