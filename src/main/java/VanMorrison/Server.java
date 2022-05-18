@@ -155,7 +155,6 @@ public class Server {
 
             //Send html to web client
             response = p.getString();
-            System.out.println(response);
             byte[] bytes = response.getBytes();
             t.sendResponseHeaders(200, bytes.length);
             OutputStream os = t.getResponseBody();

@@ -44,7 +44,6 @@ public class CSVReader {
         
         try(BufferedReader br = new BufferedReader(new FileReader(fileName));){
             String line = br.readLine();
-            System.out.println(line);
             while(line != null){
                 String[] attributes = line.split(",");
 
