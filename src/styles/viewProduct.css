@@ -17,24 +17,21 @@ body{
     display:flex;
     justify-content: space-between;
     height:100%;
+    position:relative;
 }
 
 #main-bit{
     width: 75%;
-    
 }
 
 #side-bit{
     width: 25%;
-   /*  min-width: 360px; */
-    position: sticky;
-    position: -webkit-sticky;
+    position:fixed;
     right: 0;
     top:0;
     background-color: white;
-    height:100%;
-    display:block;
-    /*display: flex;*/
+    height:100vh;
+    display: flex;
     flex-direction: column;
 }
 
@@ -48,15 +45,12 @@ body{
 .upper-bit{
     flex-grow: 1;
     overflow-y: scroll;
-    max-height:586px; /* NEEDS FIXING */
     width:100%;
     margin-top:36px;
 }
 
 .lower-bit{
     width:100%;
-    position:fixed;
-    bottom:0;
 }
 
 #side-bit button[type=submit]{
@@ -200,7 +194,6 @@ th:nth-child(4){
 
 
 .cartItem {
-    /* float:left; */
     width:100%;
     font-size: small;
     background-color: rgb(204, 204, 204)
@@ -208,7 +201,6 @@ th:nth-child(4){
 
 
 .cartItemName {
-    /* float:left; */
     flex-grow: 1;
     position: relative;
 }
@@ -232,18 +224,12 @@ th:nth-child(4){
 .cartItemAdd, .cartItemRemove {
     width: 20px;
     height: 20px;
-    /* display:inline-block; */
     background-color:rgb(230, 230, 230);
     margin: -4px;
     padding: 0px;
     text-align: center;
     vertical-align: middle;
     display: table-cell;
-    
-    /* width:10%;
-    
-    cursor: pointer;
-    user-select: none; */
 } 
 
 .cartItemAdd:hover, .cartItemRemove:hover {
@@ -264,13 +250,11 @@ th:nth-child(4){
 }
 
 .cartItemPriceArea {
-    /* float:left; */
     position: relative;
     width: 80px;
 }
 
 .cartItem button {
-    /* float:left; */
     cursor:pointer;
     border: none;
     background-color: #fff0;
@@ -287,7 +271,6 @@ th:nth-child(4){
     margin: auto;
     transform: translate(0%,-50%);
     margin-right: 7px;
-    /* float:left; */
 }
 
 
