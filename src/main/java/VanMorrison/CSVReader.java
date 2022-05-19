@@ -46,7 +46,7 @@ public class CSVReader {
             String line = br.readLine();
             System.out.println(line);
             while(line != null){
-                String[] attributes = line.split(",");
+                String[] attributes = line.split("[,;]");
 
                 Item item = createItem(attributes);
 
