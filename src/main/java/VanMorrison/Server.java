@@ -293,21 +293,6 @@ public class Server {
         });
     }
 
-
-    /**
-     * Reads a file
-     * @param filename the file 
-     * @return a complete html file as a string 
-     */
-    public String readHTML(String filename){
-        StringBuilder html = new StringBuilder();
-        try {
-            FileReader reader = new FileReader(filename);
-            while (reader.ready()) html.append((char)reader.read());
-        } catch (Exception e) {System.out.println(e);}
-        return html.toString();
-    }
-
     /**
      * Compiles a form for creating/updating product lists for the current providers or a new one.
      * @return A complete html form represented as a string
