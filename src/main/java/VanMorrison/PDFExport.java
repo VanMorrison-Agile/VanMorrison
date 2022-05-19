@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.awt.Color;
@@ -21,10 +20,17 @@ import be.quodlibet.boxable.BaseTable;
 import be.quodlibet.boxable.Cell;
 import be.quodlibet.boxable.Row;
 
-
+/**
+* PDFExport is used to create a pdf and export it in an array of bytes 
+*/
 public class PDFExport {
 
-    // Function adding evenly split cells/columns to provided row with provided names  
+    /**
+     * Adds evenly split cells/columns to provided row with provided names
+     * @param isHeader - if this row is supposed to be styled as header
+     * @param table - table to insert row to
+     * @param names - list if names/strings to evenly put in row, from left to right
+     */
     private static void addRow(Boolean isHeader, BaseTable table, List<String> names) {
         Row<PDPage> row = table.createRow(20);
         int size = names.size();
@@ -40,6 +46,13 @@ public class PDFExport {
         }
     }
 
+    /**
+     * Creates a pdf with the specified items, their amounts and the metadata
+     * @param items - list of products to put in the pdf
+     * @param amounts - list of amount, in the same order as the respective item in item parameter
+     * @param metadata - map of each metadata key with respective value
+     * @return byte array containing pdf
+     */
     public static byte [] getPdf(List<Item> items, List<Integer> amounts, Map<String, String> metadata ) throws IOException {
         
         try (PDDocument document = new PDDocument()) {
@@ -49,7 +62,9 @@ public class PDFExport {
              document.addPage(productPage);
              document.addPage(metadataPage);
 
-            // For product page
+            /**
+            * Manipulates product page in document
+            */
             try (PDPageContentStream cont = new PDPageContentStream(document, productPage)) {
 
                 float margin = 50;
@@ -100,7 +115,9 @@ public class PDFExport {
             } catch (Exception e) {throw e;}
 
             
-            // For metadata page
+            /**
+            * Manipulates metadata page in document
+            */
             try (PDPageContentStream cont = new PDPageContentStream(document,  metadataPage)) {
                 float margin = 50;
                 // starting y position is whole page height subtracted by top and bottom margin
