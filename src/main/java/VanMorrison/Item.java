@@ -58,8 +58,9 @@ public class Item {
      */
     public static Comparator<Item> compare(String term) {
         return (o1, o2) -> {
-            int i1 = o1.getName().indexOf(term);
-            int i2 = o2.getName().indexOf(term);
+            String termLower = term.toLowerCase();
+            int i1 = o1.getName().toLowerCase().indexOf(termLower);
+            int i2 = o2.getName().toLowerCase().indexOf(termLower);
 
             if(i1 == i2) {
                 return byLexicographicOrder.compare(o1,o2);
