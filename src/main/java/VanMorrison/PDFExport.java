@@ -234,7 +234,7 @@ public class PDFExport {
                 supplierHeaders.add("Uppgifter leverantör");
                 addRow(true, supplierTable, supplierHeaders);
 
-                addRow(false, supplierTable, Arrays.asList("Namn", metadata.get("supplierName")));
+                addRow(false, supplierTable, Arrays.asList("Namn", metadata.get("provider")));
                 addRow(false, supplierTable, Arrays.asList("Organisationsnummer", metadata.get("organisationNumber")));
                 addRow(false, supplierTable, Arrays.asList("Mejladress", metadata.get("mail")));
 
