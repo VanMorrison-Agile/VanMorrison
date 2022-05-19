@@ -36,32 +36,35 @@
             <div id="totalArea"><p id="totalLabel">Totalt:</p><p id="totalPrice">0</p><p id="totalUnit">:-</p></div>
         <form onsubmit="addItemsToCartForm()" id="sendOrderForm" action="/getpdf" method="post" enctype="multipart/form-data" id>
 
-            <input type="text" name="Förnamn" id="name" placeholder="Föramn" /> <br />
+            <input type="text" name="firstName" id="firstName" placeholder="Förnamn" /> <br />
 
-            <input type="text" name="Efternamn" id="surname" placeholder="Efternamn" /><br />
+            <input type="text" name="surname" id="surname" placeholder="Efternamn" /><br />
 
-            <input type="text" name="Enhet" id="Unit" placeholder="Enhet" /><br />
+            <input type="text" name="unit" id="unit" placeholder="Enhet" /><br />
 
-            <input type="text" name="Leveransadress" id="Deliveryadress" placeholder="Leveransadress" /><br />
+            <input type="text" name="deliveryAdress" id="deliveryAdress" placeholder="Leveransadress" /><br />
 
-            <input type="text" name="Telefonnummer" id="Phone" placeholder="Telefonnummer till verksamhet" /><br />
+            <input type="text" name="phone" id="phone" placeholder="Telefonnummer till verksamhet" /><br />
 
-            <input type="text" name="Ansvarig" id="Responsibility" placeholder="Ansvar" /><br />
+            <input type="text" name="responsibility" id="responsibility" placeholder="Ansvar" /><br />
 
-            <input type="text" name="Verifikationskod" id="VerificationNumber" placeholder="Verifikationskod" /><br />
+            <input type="text" name="verificationNumber" id="verificationNumber" placeholder="Verifikationskod" /><br />
 
             <input type="text" name="pickUp" id="pickUp" placeholder="Upphämtares namn" />
 
+            <input type="text" name="organisationNumber" id="organisationNumber" placeholder="Organisationsnummer" />
+
+            <input type="text" name="mail" id="mail" placeholder="Mejladress" />
+
             <p>
 
-                <input id="Direktupphandling" name="inköpsform" type="radio" value="Direktupphandling" />
-                <label class="inline" for="Direktupphandling">Direktupphandling</label> <br />
+                <input id="direktupphandling" name="orderApplies" type="radio" value="direktupphandling" />
+                <label class="inline" for="direktupphandling">Direktupphandling</label> <br />
 
-                <input id="Hämtköp" name="inköpsform" type="radio" value="Hämtköp" />
-                <label class="inline" for="Hämtköp">Hämtköp</label>
+                <input id="hämtköp" name="orderApplies" type="radio" value="hämtköp" />
+                <label class="inline" for="hämtköp">Hämtköp</label>
 
             </p>
-
 
             <button type="submit">GENERERA PDF</button>
         </form>
