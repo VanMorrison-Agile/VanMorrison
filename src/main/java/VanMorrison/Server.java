@@ -55,43 +55,6 @@ public class Server {
     public Server() throws Exception {
         this.server = HttpServer.create(new InetSocketAddress(PORT), 0);
 
-        server.createContext("/oldMain", (HttpExchange t) -> {
-            String response =
-                "<!doctype html>" +
-                        "<head>\n" +
-                        "<meta charset=\"UTF-8\">\n" +
-                        "</head>"+
-                "<header>" +
-                    header +
-                "</header>" +
-                "<body>" +
-                    body +
-                "</body>" +
-                "<footer>" +
-                    footer +
-                "</footer>" +
-                        "<script>" +
-                        script +
-                        "</script>" +
-                        "</html>";
-            byte[] bytes = response.getBytes();
-            t.sendResponseHeaders(200, bytes.length);
-            OutputStream os = t.getResponseBody();
-            os.write(bytes);
-            os.close();
-            generateMain();
-        });
-
-        server.createContext("/searchTemp", (HttpExchange t) -> {
-            HtmlParser html = new HtmlParser("src/searchForm.html");
-            byte[] bytes = html.getString().getBytes();
-            t.sendResponseHeaders(200, bytes.length);
-            OutputStream os = t.getResponseBody();
-            os.write(bytes);
-            os.close();
-            generateMain();
-        });
-
         HttpHandler mainHandler = (HttpExchange t) -> {
             //String response = readHTML("src/viewProvider.html");
             HtmlParser h = new HtmlParser("src/viewProvider.html");
