@@ -22,13 +22,10 @@ public class Server {
 
     public static final int PORT = 80;
 
-    private String header = "",style ="", body = "", footer = "", script = "";
-
     CSVReader csv = new CSVReader("src/main/resources/exampleList.csv");
 
     private static Server s;
 
-    
     /** 
      * Runs the "VanMorrison" web server on port 80
      * @param args command-line arguments, unused
@@ -36,22 +33,7 @@ public class Server {
      */
     public static void main(String[] args) throws Exception {
         s = new Server();
-        s.generateMain();
         s.server.start();
-    }
-
-    /**
-     * Adds the input html code to the end of the website's body.
-     * @param html The code to add
-     */
-    public void addBody(String html) {
-        body += html;
-    }
-
-    
-    //TODO remove oldmain code
-    public void addScript(String javascript) {
-        script += javascript;
     }
 
     HttpServer server;
@@ -59,46 +41,8 @@ public class Server {
     public Server() throws Exception {
         this.server = HttpServer.create(new InetSocketAddress(PORT), 0);
 
-        server.createContext("/oldMain", (HttpExchange t) -> {
-            String response =
-                "<!doctype html>" +
-                        "<head>\n" +
-                        "<meta charset=\"UTF-8\">\n" +
-                        "</head>"+
-                "<header>" +
-                    header +
-                "</header>" +
-                "<body>" +
-                    body +
-                "</body>" +
-                "<footer>" +
-                    footer +
-                "</footer>" +
-                        "<script>" +
-                        script +
-                        "</script>" +
-                        "</html>";
-            byte[] bytes = response.getBytes();
-            t.sendResponseHeaders(200, bytes.length);
-            OutputStream os = t.getResponseBody();
-            os.write(bytes);
-            os.close();
-            generateMain();
-        });
-
-        server.createContext("/searchTemp", (HttpExchange t) -> {
-            HtmlParser html = new HtmlParser("src/searchForm.html");
-            byte[] bytes = html.getString().getBytes();
-            t.sendResponseHeaders(200, bytes.length);
-            OutputStream os = t.getResponseBody();
-            os.write(bytes);
-            os.close();
-            generateMain();
-        });
-
         HttpHandler mainHandler = (HttpExchange t) -> {
-            //String response = readHTML("src/viewProvider.html");
-            HtmlParser h = new HtmlParser("src/viewProvider.html");
+            HtmlParser h = new HtmlParser("src/html/viewProvider.html");
             StringBuilder htmlProviders = new StringBuilder();
 
             // Populates an array with names of files and directories in provider directory
@@ -150,7 +94,7 @@ public class Server {
                 "</script>";
 
 
-            HtmlParser p = new HtmlParser("src/productView.html");
+            HtmlParser p = new HtmlParser("src/html/productView.html");
             // Sets key ${providerName} in the html text to the part of
             // the query that comes after /provider/...
             p.set("providerName" ,response.substring(10));
@@ -274,9 +218,6 @@ public class Server {
             os.close();
         });
 
-
-
-
         //Handling request of .css files from web client
         server.createContext("/styles", (HttpExchange t) -> {
 
@@ -347,21 +288,6 @@ public class Server {
         });
     }
 
-
-    /**
-     * Reads a file
-     * @param filename the file 
-     * @return a complete html file as a string 
-     */
-    public String readHTML(String filename){
-        StringBuilder html = new StringBuilder();
-        try {
-            FileReader reader = new FileReader(filename);
-            while (reader.ready()) html.append((char)reader.read());
-        } catch (Exception e) {System.out.println(e);}
-        return html.toString();
-    }
-
     /**
      * Compiles a form for creating/updating product lists for the current providers or a new one.
      * @return A complete html form represented as a string
@@ -407,7 +333,6 @@ public class Server {
         return result;
     }
 
-
     /**
      * displays products that is placed in the cart.
      * @return a complete html div as a string
@@ -446,104 +371,12 @@ public class Server {
             cartItemsContent += "'" + item.getArtNr() + "' : 0, "; //I think js is alright with a trailing comma
             cartPricesContent += "'" + item.getArtNr() + "' : "+ item.getPrice() +", ";
         }
-        
-        return """
-            var totalPrice = 0;
 
-            var cartItems = {
-            """
-                + cartItemsContent +
-            """
-            };
-            
-            var cartPrices = {
-                """
-                    + cartPricesContent +
-                """
-                };
-            
-            
-            function updateItem(id) {   
-                document.getElementById('cart' + id + 'Number').innerHTML = cartItems[id];
-                document.getElementById(id + 'Price').innerHTML = cartItems[id] * cartPrices[id];
-                document.getElementById('totalPrice').innerHTML = totalPrice;
-                var cartItemDisplay = document.getElementById('cart' + id);
-                if (cartItems[id] == 0) {
-                    cartItemDisplay.style.display="none";
-                } else {
-                    cartItemDisplay.style.display="block"
-                }
-            }
-            
-            function addItem(id) {
-                cartItems[id] ++;
-                totalPrice += cartPrices[id];
-                updateItem(id);
-            }
-            
-            function removeItem(id) {
-                if(cartItems[id] > 0) {
-                    cartItems[id]--;
-                    totalPrice -= cartPrices[id];
-                    updateItem(id);
-                }
-            }
-            
-            function removeAll(id){
-                totalPrice -= cartPrices[id] * cartItems[id];
-                cartItems[id] = 0;
-                updateItem(id);
-            }
+        HtmlParser cartReader = new HtmlParser("src/javascripts/cartScript.js");
 
+        cartReader.set("cartItemsContent", cartItemsContent);
+        cartReader.set("cartPricesContent", cartPricesContent);
 
-            function addItemsToCartForm(){
-                var cartContents = document.getElementsByClassName("cartInput");               
-                var form = document.getElementById("sendOrderForm");
-
-                while(cartContents.length > 0){
-                    var cartItem = cartContents[0];
-                    console.log("DELETE");
-                    console.log(cartItem);
-                    cartItem.parentNode.removeChild(cartItem);
-                }
-                
-                for(const [artNr, count] of Object.entries(cartItems)){
-                    if (count != 0){
-                        var itemInput = document.createElement("input");
-                        itemInput.setAttribute("name", "itemNr[]");
-                        itemInput.setAttribute("class", "cartInput");
-                        itemInput.setAttribute("type", "hidden");
-                        itemInput.setAttribute("value", artNr);
-                        form.appendChild(itemInput);
-                        
-                        itemInput = document.createElement("input");
-                        itemInput.setAttribute("name", "itemCount[]");
-                        itemInput.setAttribute("class", "cartInput");
-                        itemInput.setAttribute("type", "hidden");
-                        itemInput.setAttribute("value", count);
-                        form.appendChild(itemInput);
-                    }
-                }
-            }
-            
-            """;
-    }
-
-    public void generateMain() {
-        ///TODO: Add elements to the site by calling methods on s
-
-        body = "";
-        header = "<meta charset=\"UTF-16\">";
-        addBody("Hello world!");
-        addBody("<Br />");
-        addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
-
-        addBody(csv.printToString());
-
-         addBody(readHTML("src/personalInformation.html"));
-        
-         addBody(readHTML("src/html/cartSubmitForm.html"));
-
+        return cartReader.getString();
     }
 }
-
