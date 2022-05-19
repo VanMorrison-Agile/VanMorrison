@@ -48,11 +48,7 @@ public class Server {
         body += html;
     }
 
-    
-    //TODO remove oldmain code
-    public void addScript(String javascript) {
-        script += javascript;
-    }
+    private void addStyle(){ style += csv.getStyle(); }
 
     HttpServer server;
 
