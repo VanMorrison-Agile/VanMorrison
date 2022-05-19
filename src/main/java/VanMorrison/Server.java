@@ -26,7 +26,6 @@ public class Server {
 
     private static Server s;
 
-    
     /** 
      * Runs the "VanMorrison" web server on port 80
      * @param args command-line arguments, unused
@@ -220,9 +219,6 @@ public class Server {
             os.close();
         });
 
-
-
-
         //Handling request of .css files from web client
         server.createContext("/styles", (HttpExchange t) -> {
 
@@ -337,7 +333,6 @@ public class Server {
         }
         return result;
     }
-
 
     /**
      * displays products that is placed in the cart.
@@ -460,4 +455,3 @@ public class Server {
             """;
     }
 }
-
