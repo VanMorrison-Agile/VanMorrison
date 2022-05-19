@@ -45,7 +45,7 @@ body{
 .upper-bit{
     flex-grow: 1;
     overflow-y: scroll;
-    max-height:622px; /* NEEDS FIXING */
+    max-height:586px; /* NEEDS FIXING */
     width:100%;
     margin-top:36px;
 }
