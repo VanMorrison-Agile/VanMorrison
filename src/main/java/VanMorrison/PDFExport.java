@@ -201,7 +201,7 @@ public class PDFExport {
                 // Row for the headers for buyerTable
                 addRow(true, buyerTable, Arrays.asList("Uppgifter beställare"));
 
-                addRow(false, buyerTable, Arrays.asList("För- och efternamn", metadata.get("personalName")));
+                addRow(false, buyerTable, Arrays.asList("För- och efternamn", metadata.get("firstName") + " " + metadata.get("surname")));
                 addRow(false, buyerTable, Arrays.asList("Enhet", metadata.get("unit")));
                 addRow(false, buyerTable, Arrays.asList("Leveransadress", metadata.get("deliveryAdress")));
                 addRow(false, buyerTable, Arrays.asList("Telefonnummer till verksamheten", metadata.get("phone")));

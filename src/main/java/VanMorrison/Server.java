@@ -54,8 +54,6 @@ public class Server {
         script += javascript;
     }
 
-    private void addStyle(){ style += csv.getStyle(); }
-
     HttpServer server;
 
     public Server() throws Exception {
@@ -68,7 +66,6 @@ public class Server {
                         "<meta charset=\"UTF-8\">\n" +
                         "</head>"+
                 "<header>" +
-                    style +
                     header +
                 "</header>" +
                 "<body>" +
@@ -536,7 +533,6 @@ public class Server {
 
         body = "";
         header = "<meta charset=\"UTF-16\">";
-        addStyle();
         addBody("Hello world!");
         addBody("<Br />");
         addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
