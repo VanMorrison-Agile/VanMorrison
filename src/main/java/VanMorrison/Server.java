@@ -22,8 +22,6 @@ public class Server {
 
     public static final int PORT = 80;
 
-    private String header = "",style ="", body = "", footer = "", script = "";
-
     CSVReader csv = new CSVReader("src/main/resources/exampleList.csv");
 
     private static Server s;
@@ -36,19 +34,8 @@ public class Server {
      */
     public static void main(String[] args) throws Exception {
         s = new Server();
-        s.generateMain();
         s.server.start();
     }
-
-    /**
-     * Adds the input html code to the end of the website's body.
-     * @param html The code to add
-     */
-    public void addBody(String html) {
-        body += html;
-    }
-
-    private void addStyle(){ style += csv.getStyle(); }
 
     HttpServer server;
 
@@ -486,23 +473,6 @@ public class Server {
             }
             
             """;
-    }
-
-    public void generateMain() {
-        ///TODO: Add elements to the site by calling methods on s
-
-        body = "";
-        header = "<meta charset=\"UTF-16\">";
-        addBody("Hello world!");
-        addBody("<Br />");
-        addBody("<a href=\"/pdf\" download=\"perfectOrder.pdf\">Download PDF</a>");
-
-        addBody(csv.printToString());
-
-         addBody(readHTML("src/personalInformation.html"));
-        
-         addBody(readHTML("src/html/cartSubmitForm.html"));
-
     }
 }
 
