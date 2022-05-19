@@ -42,8 +42,7 @@ public class Server {
         this.server = HttpServer.create(new InetSocketAddress(PORT), 0);
 
         HttpHandler mainHandler = (HttpExchange t) -> {
-            //String response = readHTML("src/viewProvider.html");
-            HtmlParser h = new HtmlParser("src/viewProvider.html");
+            HtmlParser h = new HtmlParser("src/html/viewProvider.html");
             StringBuilder htmlProviders = new StringBuilder();
 
             // Populates an array with names of files and directories in provider directory
@@ -95,7 +94,7 @@ public class Server {
                 "</script>";
 
 
-            HtmlParser p = new HtmlParser("src/productView.html");
+            HtmlParser p = new HtmlParser("src/html/productView.html");
             // Sets key ${providerName} in the html text to the part of
             // the query that comes after /provider/...
             p.set("providerName" ,response.substring(10));
