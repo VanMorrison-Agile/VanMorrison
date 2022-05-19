@@ -13,6 +13,12 @@ body{
     text-transform: uppercase;
 }
 
+.wrapper{
+    display:flex;
+    justify-content: space-between;
+    height:100%;
+}
+
 #main-bit{
     width: 75%;
     
@@ -21,24 +27,28 @@ body{
 #side-bit{
     width: 25%;
    /*  min-width: 360px; */
-    float:left;
-    position: absolute;
-    right: 0px;
-    top:0px;
+    position: sticky;
+    position: -webkit-sticky;
+    right: 0;
+    top:0;
     background-color: white;
     height:100%;
-    display: flex;
+    display:block;
+    /*display: flex;*/
     flex-direction: column;
 }
 
 .upper-bit{
     flex-grow: 1;
     overflow-y: scroll;
+    max-height:622px; /* NEEDS FIXING */
     width:100%;
 }
 
 .lower-bit{
     width:100%;
+    position:fixed;
+    bottom:0;
 }
 
 #side-bit button[type=submit]{
