@@ -13,27 +13,40 @@ body{
     text-transform: uppercase;
 }
 
+.wrapper{
+    display:flex;
+    justify-content: space-between;
+    height:100%;
+    position:relative;
+}
+
 #main-bit{
     width: 75%;
-
 }
 
 #side-bit{
     width: 25%;
-    float:left;
-    position: absolute;
-    right: 0px;
-    top:0px;
+    position:fixed;
+    right: 0;
+    top:0;
     background-color: white;
-    height:100%;
+    height:100vh;
     display: flex;
     flex-direction: column;
+}
+
+.top-bit{
+    position:absolute;
+    top:0;
+    right:0;
+    width:100%;
 }
 
 .upper-bit{
     flex-grow: 1;
     overflow-y: scroll;
     width:100%;
+    margin-top:36px;
 }
 
 .lower-bit{
@@ -55,6 +68,15 @@ body{
 
 #side-bit button[type=submit]:hover{
     background-color:#2a612c;
+}
+
+.top-bit h2{
+    text-transform: uppercase;
+    background-color: rgb(152 152 152);
+    color:white;
+    font-size: 20px;
+    padding: 8px;
+    text-align: center;
 }
 
 input[type=text]{
@@ -100,7 +122,6 @@ th {
 
 tr {
     background-color: rgb(212, 212, 212);
-    cursor: pointer;
     user-select: none;
     display:flex;
     padding: 4px 20px;
@@ -161,56 +182,139 @@ th:nth-child(4){
     height: 100%;
     border-radius: 10px;
     font-size: 26px;
+    transition-duration:0.5s;
 }
 
 .add-button:hover {
     background-color: rgb(110, 110, 110);
     transform: scale(1.1);
     color: white;
+    cursor:pointer;
 }
 
 
 .cartItem {
-    float:left;
     width:100%;
     font-size: small;
-    background-color:grey;
+    background-color: rgb(204, 204, 204);
+    display:flex;
 }
 
+
 .cartItemName {
-    float:left;
-    width:40%;
+    flex-grow: 1;
+    position: relative;
+}
+
+.cartItemName p{
+    text-align: left;
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    margin: auto;
+    transform: translate(0%,-50%);
+    margin-left: 5px;
+}
+
+.edit-amount{
+    
+    z-index: 10;
+    word-spacing: -1;
 }
 
 .cartItemAdd, .cartItemRemove {
-    float:left;
-    width:10%;
-    background-color:lightgrey;
-    cursor: pointer;
-    user-select: none;
-}
+    width: 20px;
+    height: 20px;
+    background-color:rgb(230, 230, 230);
+    margin: -4px;
+    padding: 0px;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+} 
 
 .cartItemAdd:hover, .cartItemRemove:hover {
     background-color: rgb(226, 226, 226);
 }
 
 .cartItemNumber {
-    float:left;
-    width:10%;
+    width:30px;
+    height:20px;
     background-color:white;
+    text-align: center;
+    display:inline-block;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+    margin: 0px;
+    padding: 0px;
 }
 
 .cartItemPriceArea {
-    float:left;
-    width:30%;
+    position: relative;
+    width: 80px;
 }
 
-.cartitem button {
-    float:left;
+.cartItem button {
     cursor:pointer;
+    border: none;
+    background-color: #fff0;
+    font-size: 16px;
+    margin: 0px 2px;
+    color:rgb(92, 92, 92)
 }
 
 .cartItemPrice {
-    float:left;
+    text-align: right;
+    position: absolute;
+    top: 50%;
+    right: 0px;
+    margin: auto;
+    transform: translate(0%,-50%);
+    margin-right: 7px;
+}
+
+
+#totalArea{
+    font-size: 16px;
+    display:flex;
+    padding: 8px 16px;
+    background-color: rgb(216, 216, 216);
+    
+}
+
+#totalArea #totalLabel{
+    display: block;
+}
+
+#totalArea #total{
+    flex-grow: 1;
+    text-align: right;
+}
+
+.inputContainer{
+    padding:10px;
+    width:90%;
+    display:block;
+}
+
+.inputForm input[type=text]{
+    width:100%;
+    margin-top:5px;
+    border:1px solid #777;
+    border-radius:3px;
+    transition-duration:0.5s;
+}
+
+.inputForm input[type=text]:hover{
+    border:1px solid green;
+}
+
+.inputForm input[type=text]:focus{
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.5);
+}
+
+.inputForm .lastInput {
+    margin-bottom:10px;
 }
 

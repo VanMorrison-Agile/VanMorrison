@@ -17,7 +17,7 @@ function updateItem(id) {
     if (cartItems[id] == 0) {
         cartItemDisplay.style.display="none";
     } else {
-        cartItemDisplay.style.display="block"
+        cartItemDisplay.style.display="flex"
     }
 }
 
