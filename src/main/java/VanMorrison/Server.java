@@ -149,37 +149,39 @@ public class Server {
             Map<String, Parameter> params = HTMLUtility.getMimeParameters(t.getRequestBody());
             Map<String, String> metadata = new HashMap<String, String>();
             params.forEach((k, v) -> metadata.put(k, v.getDataAsString()));
-
-            String[] itemNr = params.get("itemNr").getDataAsStringArray();
-            String[] itemCount = params.get("itemCount").getDataAsStringArray();
-
-
-            CSVReader csvReader = new CSVReader("provider/" + params.get("provider").getDataAsString() + ".csv");
-
-
-            List<Item> sortiment = csvReader.getItemList();
-
             List<Item> items = new ArrayList<Item>();
             List<Integer> amounts = new ArrayList<Integer>();
-            for (int i = 0; i < itemNr.length; i++) {
 
-                Item currentItem = null;
-                for (Item item : sortiment) {
-                    if (item.getArtNr().equals(itemNr[i])) {
-                        currentItem = item;
+            // If there is no itemNr parameter, there are no products
+            if (params.get("itemNr") != null) {
+                String[] itemNr = params.get("itemNr").getDataAsStringArray();
+                String[] itemCount = params.get("itemCount").getDataAsStringArray();
+                
+                CSVReader csvReader = new CSVReader("provider/" + params.get("provider").getDataAsString() + ".csv");
+    
+                List<Item> sortiment = csvReader.getItemList();
+    
+                for (int i = 0; i < itemNr.length; i++) {
+    
+                    Item currentItem = null;
+                    for (Item item : sortiment) {
+                        if (item.getArtNr().equals(itemNr[i])) {
+                            currentItem = item;
+                            break;
+                        }
+                    }
+                    
+                    if (currentItem == null){
+                        System.out.println("Invalid item: " + itemNr[i]);
+                        items.add(new Item(itemNr[i], "Error: PDF generation aborted due to invalid item:", "0"));
                         break;
                     }
+                    
+                    items.add(currentItem);
+                    amounts.add(Integer.parseInt(itemCount[i]));
                 }
-                
-                if (currentItem == null){
-                    System.out.println("Invalid item: " + itemNr[i]);
-                    items.add(new Item(itemNr[i], "Error: PDF generation aborted due to invalid item:", "0"));
-                    break;
-                }
-                
-                items.add(currentItem);
-                amounts.add(Integer.parseInt(itemCount[i]));
             }
+
 
             //Get byte array containing pdf
             byte [] docBytes = PDFExport.getPdf(items, amounts, metadata);
