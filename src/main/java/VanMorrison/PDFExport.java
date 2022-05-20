@@ -40,7 +40,6 @@ public class PDFExport {
             if (isHeader) {
                 cell.setFillColor(new Color(164, 152, 138));
                 cell.setFont(PDType1Font.HELVETICA_BOLD);
-                table.addHeaderRow(row);
             };
             cell.setFontSize(15);
         }
@@ -58,30 +57,28 @@ public class PDFExport {
         try (PDDocument document = new PDDocument()) {
              // Create a document and add all pages to it (A4 for printing)
              PDPage productPage = new PDPage(PDRectangle.A4);
-             PDPage metadataPage = new PDPage(PDRectangle.A4);
              document.addPage(productPage);
-             document.addPage(metadataPage);
-
-            /**
-            * Manipulates product page in document
-            */
-            try (PDPageContentStream cont = new PDPageContentStream(document, productPage)) {
-
-                float margin = 50;
-                // starting y position is whole page height subtracted by top and bottom margin
-                float yStartNewPage = productPage.getMediaBox().getHeight() - (2 * margin);
-                // we want table across whole page width (subtracted by left and right margin ofcourse)
-                float tableWidth = productPage.getMediaBox().getWidth() - (2 * margin);
-
-                boolean drawContent = true;
-
-                float bottomMargin = 70;
-                // y position is your coordinate of top left corner of the table
-                float yPosition = yStartNewPage;
-
+             
+             /**
+              * Manipulates product page in document
+              */
+              try (PDPageContentStream cont = new PDPageContentStream(document, productPage)) {
+                  
+                  float margin = 50;
+                  // starting y position is whole page height subtracted by top and bottom margin
+                  float yStartNewPage = productPage.getMediaBox().getHeight() - (2 * margin);
+                  // we want table across whole page width (subtracted by left and right margin ofcourse)
+                  float tableWidth = productPage.getMediaBox().getWidth() - (2 * margin);
+                  
+                  boolean drawContent = true;
+                  
+                  float bottomMargin = 70;
+                  // y position is your coordinate of top left corner of the table
+                  float yPosition = yStartNewPage;
+                  
                 BaseTable productTable = new BaseTable(yPosition, yStartNewPage,
-                    bottomMargin, tableWidth, margin, document, productPage, true, drawContent);
-
+                bottomMargin, tableWidth, margin, document, productPage, true, drawContent);
+                
                 // Row for the headers
                 addRow(true, productTable, Arrays.asList("Vara", "Artikelnummer", "Antal"));
                 
@@ -110,10 +107,12 @@ public class PDFExport {
                 cell.setFontSize(15);
                 cell = totalPriceRow.createCell(100f/3, totalPrice.toString());
                 cell.setFontSize(15);
-
+                
                 productTable.draw();
             } catch (Exception e) {throw e;}
-
+            
+            PDPage metadataPage = new PDPage(PDRectangle.A4);
+            document.addPage(metadataPage);
             
             /**
             * Manipulates metadata page in document
@@ -124,9 +123,9 @@ public class PDFExport {
                 float yStartNewPage = metadataPage.getMediaBox().getHeight() - (2 * margin);
                 // we want table across whole page width (subtracted by left and right margin ofcourse)
                 float tableWidth = metadataPage.getMediaBox().getWidth() - (2 * margin);
-
+                
                 boolean drawContent = true;
-
+                
                 float bottomMargin = 70;
                 // y position is your coordinate of top left corner of the table
                 float yPosition = yStartNewPage - 150;
