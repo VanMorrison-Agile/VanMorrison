@@ -196,7 +196,8 @@ th:nth-child(4){
 .cartItem {
     width:100%;
     font-size: small;
-    background-color: rgb(204, 204, 204)
+    background-color: rgb(204, 204, 204);
+    display:flex;
 }
 
 
